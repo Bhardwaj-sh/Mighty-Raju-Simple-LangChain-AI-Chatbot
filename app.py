@@ -305,14 +305,25 @@ st.markdown("""
         box-sizing: border-box !important;
     }
 
-    /* Profile Brand Header - Pinned at top */
+    [data-testid="stSidebarHeader"] {
+        display: none !important;
+        height: 0 !important;
+        min-height: 0 !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+    [data-testid="stSidebarUserContent"] {
+        padding-top: 0.65rem !important;
+    }
+
+    /* Profile Brand Header - Moved up cleanly */
     .brand-header {
         display: flex;
         align-items: center;
         gap: var(--space-md, 12px);
-        padding: 0;
-        margin-top: 0;
-        margin-bottom: var(--space-sm, 8px);
+        padding: 0 2px;
+        margin-top: 0 !important;
+        margin-bottom: 8px !important;
     }
     .brand-avatar-img {
         width: 44px;
