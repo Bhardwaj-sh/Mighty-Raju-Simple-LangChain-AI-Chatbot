@@ -1,11 +1,38 @@
 import os
 import base64
+from datetime import datetime, timedelta
 import streamlit as st
 from dotenv import load_dotenv
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.messages import HumanMessage, AIMessage, SystemMessage
 
 import database as db
+
+def format_relative_time(timestamp_str):
+    if not timestamp_str:
+        return ""
+    try:
+        clean = timestamp_str.replace("Z", "")
+        if "T" in clean:
+            dt = datetime.fromisoformat(clean)
+        else:
+            dt = datetime.strptime(clean, "%Y-%m-%d %H:%M:%S")
+        diff = datetime.now() - dt
+        seconds = int(diff.total_seconds())
+        if seconds < 60:
+            return "just now"
+        minutes = seconds // 60
+        if minutes < 60:
+            return f"{minutes}m ago"
+        hours = minutes // 60
+        if hours < 24:
+            return f"{hours}h ago"
+        days = hours // 24
+        if days < 7:
+            return f"{days}d ago"
+        return dt.strftime("%b %d")
+    except Exception:
+        return "recently"
 
 # ---------------------------------------------------------
 # Environment & Configuration
@@ -123,51 +150,56 @@ st.markdown("""
         margin: 0 !important;
     }
 
-    /* Sidebar Styling */
+    /* Sidebar Styling - Soft Lavender, Light Purple & Clean White Palette matching Reference */
     section[data-testid="stSidebar"] {
-        background: rgba(255, 252, 252, 0.96) !important;
-        backdrop-filter: blur(20px) !important;
-        -webkit-backdrop-filter: blur(20px) !important;
-        border-right: 1.5px solid rgba(254, 226, 226, 0.85) !important;
+        background: #faf9fe !important;
+        border-right: 1.5px solid #ede9fe !important;
     }
     section[data-testid="stSidebar"] .block-container {
         background: transparent !important;
         backdrop-filter: none !important;
         box-shadow: none !important;
         border: none !important;
-        padding: 0.75rem 0.85rem !important;
+        padding: 0.35rem 0.8rem 0.15rem 0.8rem !important;
         margin: 0 !important;
+    }
+    section[data-testid="stSidebar"] div[data-testid="stVerticalBlock"] {
+        gap: 0.22rem !important;
+    }
+    section[data-testid="stSidebar"] div[data-testid="stElementContainer"] {
+        margin-bottom: 0px !important;
     }
 
     /* Sidebar Branding */
     .brand-header {
         display: flex;
         align-items: center;
-        gap: 10px;
-        padding: 0 0.1rem 0.4rem 0.1rem;
+        gap: 8px;
+        padding: 0 0.1rem 0.25rem 0.1rem;
+        margin-top: -0.2rem;
     }
     .brand-avatar-img {
-        width: 40px;
-        height: 40px;
+        width: 32px;
+        height: 32px;
         border-radius: 50%;
         object-fit: contain;
         background: #ffffff !important;
         padding: 2px;
         border: 2px solid #BA0001 !important;
-        box-shadow: 0 3px 10px rgba(186, 0, 1, 0.3) !important;
+        box-shadow: 0 2px 6px rgba(186, 0, 1, 0.2) !important;
     }
     .brand-name {
-        font-size: 1.15rem;
+        font-size: 1.0rem;
         font-weight: 800;
-        letter-spacing: 0.5px;
+        letter-spacing: 0.3px;
         color: #0f172a;
-        line-height: 1.2;
+        line-height: 1.15;
     }
     .brand-name span {
         color: #BA0001;
     }
     .brand-sub {
-        font-size: 0.72rem;
+        font-size: 0.68rem;
         color: #991b1b;
         font-weight: 600;
     }
@@ -179,17 +211,16 @@ st.markdown("""
         border: none !important;
         font-weight: 700 !important;
         border-radius: 10px !important;
-        min-height: 38px !important;
-        height: 38px !important;
-        padding: 0 8px !important;
-        font-size: 0.84rem !important;
-        box-shadow: 0 3px 10px rgba(186, 0, 1, 0.3) !important;
+        min-height: 32px !important;
+        height: 32px !important;
+        padding: 0 6px !important;
+        font-size: 0.78rem !important;
+        box-shadow: 0 2px 6px rgba(186, 0, 1, 0.2) !important;
         transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
     }
     div.st-key-sb_btn_new button:hover {
         transform: translateY(-1px) !important;
-        box-shadow: 0 5px 15px rgba(186, 0, 1, 0.4) !important;
-        background: linear-gradient(135deg, #FF4545 0%, #F02828 50%, #C70001 100%) !important;
+        box-shadow: 0 4px 12px rgba(186, 0, 1, 0.35) !important;
         color: #ffffff !important;
     }
     div.st-key-sb_btn_clear button {
@@ -197,10 +228,10 @@ st.markdown("""
         color: #475569 !important;
         border: 1px solid #e2e8f0 !important;
         border-radius: 10px !important;
-        min-height: 38px !important;
-        height: 38px !important;
-        padding: 0 8px !important;
-        font-size: 0.84rem !important;
+        min-height: 32px !important;
+        height: 32px !important;
+        padding: 0 6px !important;
+        font-size: 0.78rem !important;
         font-weight: 600 !important;
         transition: all 0.2s ease !important;
     }
@@ -210,62 +241,328 @@ st.markdown("""
         background: #fff5f5 !important;
     }
 
-    /* Sidebar Navigation Buttons */
-    div.st-key-nav_btn_search button,
-    div.st-key-nav_btn_saved button,
-    div.st-key-nav_btn_projects button {
-        background: #ffffff !important;
-        border: 1px solid #fee2e2 !important;
-        border-radius: 10px !important;
-        color: #334155 !important;
+    /* 1. Saved Chats & Projects Buttons (Clean rounded rect with subtle pastel backgrounds) */
+    div.st-key-nav_btn_saved button {
+        background: #f4effe !important;
+        color: #1e1b4b !important;
+        border: none !important;
+        border-radius: 14px !important;
         font-weight: 600 !important;
+        font-size: 0.86rem !important;
+        min-height: 38px !important;
+        height: 38px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 8px !important;
+        box-shadow: none !important;
+        margin-bottom: 4px !important;
+        transition: all 0.18s ease !important;
+    }
+    div.st-key-nav_btn_saved button:hover {
+        background: #ede5fd !important;
+        color: #312e81 !important;
+        transform: translateY(-1px) !important;
+    }
+
+    div.st-key-nav_btn_projects button {
+        background: #edf3fe !important;
+        color: #1e1b4b !important;
+        border: none !important;
+        border-radius: 14px !important;
+        font-weight: 600 !important;
+        font-size: 0.86rem !important;
+        min-height: 38px !important;
+        height: 38px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        padding: 0 14px !important;
+        box-shadow: none !important;
+        margin-bottom: 4px !important;
+        transition: all 0.18s ease !important;
+    }
+    div.st-key-nav_btn_projects button:hover {
+        background: #e2edfd !important;
+        color: #1e3a8a !important;
+        transform: translateY(-1px) !important;
+    }
+
+    /* 2. Recent Chats Section Header */
+    .recent-header-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0.4rem 0.2rem 0.35rem 0.2rem;
+        margin-top: 0.2rem;
+        border-bottom: 1.5px solid #f3f4f6;
+        margin-bottom: 0.4rem;
+    }
+    .recent-header-left {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    .recent-header-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #6366f1;
+    }
+    .recent-header-title {
+        font-size: 0.98rem;
+        font-weight: 800;
+        color: #0f172a;
+        letter-spacing: -0.2px;
+    }
+    .recent-header-clock {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #0f172a;
+    }
+
+    /* 3. Individual Chat Items matching reference image */
+    div[data-testid="stHorizontalBlock"]:has(.chat-row-item) {
+        align-items: center !important;
+        margin-bottom: 2px !important;
+        border-radius: 14px !important;
+        padding: 2px 6px !important;
+        transition: all 0.18s ease !important;
+    }
+
+    /* Highlighted active conversation in soft lavender/purple background */
+    div[data-testid="stHorizontalBlock"]:has(.chat-row-active) {
+        background: #ede9fe !important;
+    }
+
+    /* Clean, minimal inactive conversations without borders */
+    div[data-testid="stHorizontalBlock"]:has(.chat-row-inactive) {
+        background: transparent !important;
+    }
+    div[data-testid="stHorizontalBlock"]:has(.chat-row-inactive):hover {
+        background: #f1f0f8 !important;
+    }
+
+    .chat-row-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        padding: 3px 0;
+        box-sizing: border-box;
+        user-select: none;
+    }
+
+    .chat-row-left {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        overflow: hidden;
+        flex: 1 1 auto;
+        min-width: 0;
+    }
+
+    .chat-icon-badge {
+        width: 24px;
+        height: 24px;
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+
+    .badge-active {
+        background: #6366f1;
+        color: #ffffff;
+    }
+
+    .badge-inactive {
+        background: #e2e8f0;
+        color: #64748b;
+    }
+
+    .chat-row-title {
+        font-size: 0.84rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 125px;
+    }
+
+    .title-active {
+        font-weight: 700;
+        color: #1e1b4b;
+    }
+
+    .title-inactive {
+        font-weight: 500;
+        color: #334155;
+    }
+
+    .chat-row-time {
+        font-size: 0.72rem;
+        color: #64748b;
+        font-weight: 500;
+        white-space: nowrap;
+        margin-left: 4px;
+        flex-shrink: 0;
+    }
+
+    /* Invisible overlay button covering the chat item column */
+    div[data-testid="stColumn"]:has(.chat-row-item),
+    div[data-testid="column"]:has(.chat-row-item) {
+        position: relative !important;
+    }
+    div[data-testid="stColumn"]:has(.chat-row-item) div[data-testid="stButton"],
+    div[data-testid="column"]:has(.chat-row-item) div[data-testid="stButton"] {
+        position: absolute !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+        z-index: 5 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+    div[data-testid="stColumn"]:has(.chat-row-item) div[data-testid="stButton"] > button,
+    div[data-testid="column"]:has(.chat-row-item) div[data-testid="stButton"] > button {
+        width: 100% !important;
+        height: 100% !important;
+        opacity: 0 !important;
+        cursor: pointer !important;
+        border: none !important;
+        background: transparent !important;
+    }
+
+    /* Three-dot popover menu styling matching reference */
+    div[data-testid="stColumn"]:has(.chat-dots-menu),
+    div[data-testid="column"]:has(.chat-dots-menu) {
+        position: relative !important;
+        z-index: 10 !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: flex-end !important;
+    }
+    section[data-testid="stSidebar"] div[data-testid="stPopover"] {
+        width: 100% !important;
+        display: flex !important;
+        justify-content: flex-end !important;
+        align-items: center !important;
+    }
+    section[data-testid="stSidebar"] div[data-testid="stPopover"] button,
+    section[data-testid="stSidebar"] button[data-testid="stPopoverButton"] {
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+        color: #7c3aed !important;
+        font-size: 1.2rem !important;
+        font-weight: 700 !important;
+        padding: 0 !important;
+        min-height: 24px !important;
+        height: 24px !important;
+        width: 20px !important;
+        line-height: 1 !important;
+        cursor: pointer !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+    section[data-testid="stSidebar"] div[data-testid="stPopover"] button p,
+    section[data-testid="stSidebar"] button[data-testid="stPopoverButton"] p {
+        margin: 0 !important;
+        color: #7c3aed !important;
+        font-size: 1.2rem !important;
+        font-weight: 800 !important;
+        line-height: 1 !important;
+    }
+    section[data-testid="stSidebar"] div[data-testid="stPopover"] button:hover,
+    section[data-testid="stSidebar"] button[data-testid="stPopoverButton"]:hover {
+        background: rgba(124, 58, 237, 0.12) !important;
+        border-radius: 6px !important;
+    }
+
+    /* Hide the default Streamlit expand_more caret arrow */
+    section[data-testid="stSidebar"] div[data-testid="stPopover"] button div[aria-hidden="true"],
+    section[data-testid="stSidebar"] button[data-testid="stPopoverButton"] div[aria-hidden="true"],
+    section[data-testid="stSidebar"] div[data-testid="stPopover"] button [data-testid="stIconMaterial"],
+    section[data-testid="stSidebar"] button[data-testid="stPopoverButton"] [data-testid="stIconMaterial"] {
+        display: none !important;
+    }
+
+    /* Inactive chat items: hide 3-dot menu until hover */
+    div[data-testid="stHorizontalBlock"]:has(.chat-row-inactive) div[data-testid="stPopover"] button,
+    div[data-testid="stHorizontalBlock"]:has(.chat-row-inactive) button[data-testid="stPopoverButton"] {
+        opacity: 0 !important;
+        transition: opacity 0.15s ease !important;
+    }
+    div[data-testid="stHorizontalBlock"]:has(.chat-row-inactive):hover div[data-testid="stPopover"] button,
+    div[data-testid="stHorizontalBlock"]:has(.chat-row-inactive):hover button[data-testid="stPopoverButton"] {
+        opacity: 0.8 !important;
+    }
+
+    /* Active chat item: always show 3-dot button in purple */
+    div[data-testid="stHorizontalBlock"]:has(.chat-row-active) div[data-testid="stPopover"] button,
+    div[data-testid="stHorizontalBlock"]:has(.chat-row-active) button[data-testid="stPopoverButton"] {
+        opacity: 1 !important;
+        color: #7c3aed !important;
+    }
+
+    /* 4. View All Chats Pill Button matching reference image */
+    div.st-key-btn_view_all_chats button {
+        background: #f1edfe !important;
+        color: #4338ca !important;
+        border: none !important;
+        border-radius: 16px !important;
+        font-weight: 600 !important;
+        font-size: 0.82rem !important;
         min-height: 35px !important;
         height: 35px !important;
-        padding: 0 12px !important;
-        font-size: 0.82rem !important;
-        margin-bottom: 2px !important;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.02) !important;
+        padding: 0 14px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        box-shadow: none !important;
+        margin-top: 6px !important;
+        margin-bottom: 4px !important;
         transition: all 0.2s ease !important;
     }
-    div.st-key-btn_view_all_chats button {
-        background: #ffffff !important;
-        border: 1px solid #fee2e2 !important;
-        border-radius: 10px !important;
-        color: #334155 !important;
-        font-weight: 600 !important;
-        min-height: 30px !important;
-        height: 30px !important;
-        padding: 0 10px !important;
-        font-size: 0.76rem !important;
-        margin-top: 2px !important;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.02) !important;
-        transition: all 0.2s ease !important;
-    }
-    div.st-key-nav_btn_search button:hover,
-    div.st-key-nav_btn_saved button:hover,
-    div.st-key-nav_btn_projects button:hover,
     div.st-key-btn_view_all_chats button:hover {
-        border-color: #f87171 !important;
-        color: #BA0001 !important;
-        background: #fff5f5 !important;
+        background: #e7defd !important;
+        color: #3730a3 !important;
         transform: translateY(-1px) !important;
-        box-shadow: 0 4px 12px rgba(186, 0, 1, 0.1) !important;
     }
 
-    /* Sidebar Section Divider & Header */
-    .sidebar-section-title {
-        font-size: 0.7rem;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 0.8px;
-        color: #991b1b;
-        margin: 0.6rem 0.2rem 0.3rem 0.2rem;
+    /* Sidebar Footer matching reference */
+    .sidebar-footer-container {
+        margin-top: 0.5rem;
+        padding-top: 0;
+        text-align: center;
+    }
+    .sidebar-footer-card {
+        border-top: 1px solid #f1f5f9;
+        padding-top: 0.4rem;
+        text-align: center;
+        color: #64748b;
+        font-size: 0.74rem;
         display: flex;
-        justify-content: space-between;
         align-items: center;
+        justify-content: center;
+        gap: 6px;
+        font-weight: 500;
+        margin-bottom: 0.2rem;
+    }
+    .sidebar-footer-card span {
+        color: #475569;
+    }
+    .sidebar-wavy-banner {
+        width: 100%;
+        overflow: hidden;
+        margin-top: 2px;
     }
 
-    /* Sidebar View Header */
+    /* Sidebar Views (Search, Saved, Projects headers) */
     .view-header {
         display: flex;
         align-items: center;
@@ -296,27 +593,6 @@ st.markdown("""
     .sidebar-card:hover {
         border-color: #fca5a5;
         background: #fff5f5;
-    }
-
-    /* Recent chat buttons - more compact and smaller */
-    div[class*="st-key-rc_btn_"] button {
-        border-radius: 8px !important;
-        border: 1px solid #f1f5f9 !important;
-        background: #ffffff !important;
-        color: #334155 !important;
-        font-size: 0.78rem !important;
-        min-height: 32px !important;
-        height: 32px !important;
-        padding: 0 10px !important;
-        margin-bottom: 2px !important;
-        transition: all 0.15s ease !important;
-        text-align: left !important;
-        justify-content: flex-start !important;
-    }
-    div[class*="st-key-rc_btn_"] button:hover {
-        border-color: #fca5a5 !important;
-        color: #BA0001 !important;
-        background: #fff5f5 !important;
     }
 
     /* Empty state info */
@@ -772,7 +1048,7 @@ with st.sidebar:
             st.session_state.pending_prompt = None
             st.rerun()
 
-    st.markdown("<hr style='margin: 0.4rem 0 0.45rem 0; border: none; border-top: 1px solid #fee2e2;'>", unsafe_allow_html=True)
+    st.markdown("<div style='margin-bottom: 0.25rem;'></div>", unsafe_allow_html=True)
 
     # =========================================================
     # SIDEBAR MODE: SEARCH CHATS
@@ -988,51 +1264,103 @@ with st.sidebar:
     # SIDEBAR MODE: DEFAULT MAIN VIEW
     # =========================================================
     else:
-        # A. Search Chats
-        if st.button("🔍 Search Chats", key="nav_btn_search", use_container_width=True):
-            st.session_state.sidebar_mode = "search"
-            st.rerun()
-
-        # B. Saved Chats (shows count)
+        # 1. Saved Chats & Projects Buttons (Matching reference pastel design)
         saved_count = len(db.get_saved_conversations())
-        saved_label = f"🔖 Saved Chats ({saved_count})" if saved_count > 0 else "🔖 Saved Chats"
+        saved_label = "🔖 Saved Chats" if saved_count == 0 else f"🔖 Saved Chats ({saved_count})"
         if st.button(saved_label, key="nav_btn_saved", use_container_width=True):
             st.session_state.sidebar_mode = "saved"
             st.rerun()
 
-        # C. Projects (shows count)
+        nbsp = "\u00a0"
         proj_count = len(db.get_all_projects())
-        proj_label = f"📁 Projects ({proj_count})" if proj_count > 0 else "📁 Projects"
+        proj_label = f"📁 Projects ({proj_count}){nbsp*14}›" if proj_count > 0 else f"📁 Projects{nbsp*18}›"
         if st.button(proj_label, key="nav_btn_projects", use_container_width=True):
             st.session_state.sidebar_mode = "projects"
             st.rerun()
 
         # -----------------------------------------------------
-        # RECENT CHATS (Real, Functional History)
+        # 2. RECENT CHATS SECTION HEADER (Matching Reference)
         # -----------------------------------------------------
         st.markdown("""
-        <div class="sidebar-section-title">
-            <span>Recent Chats</span>
-            <span style="font-size: 0.9rem;">🕒</span>
+        <div class="recent-header-container">
+            <div class="recent-header-left">
+                <div class="recent-header-icon">
+                    <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#6366f1" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                        <line x1="8" y1="9" x2="16" y2="9"></line>
+                        <line x1="8" y1="13" x2="13" y2="13"></line>
+                    </svg>
+                </div>
+                <span class="recent-header-title">Recent Chats</span>
+            </div>
+            <div class="recent-header-clock">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <polyline points="12 6 12 12 16 14"></polyline>
+                </svg>
+            </div>
         </div>
         """, unsafe_allow_html=True)
 
-        recent_chats = db.get_recent_conversations(5)
+        recent_chats = db.get_recent_conversations(4)
 
         if recent_chats:
             for rc in recent_chats:
                 is_active = (rc["id"] == st.session_state.active_chat_id)
-                star = "⭐ " if rc["is_saved"] else ""
-                display_title = f"{'👉 ' if is_active else ''}{star}{rc['title']}"
+                rel_time = format_relative_time(rc.get("updated_at") or rc.get("created_at"))
+                active_class = "chat-row-active" if is_active else "chat-row-inactive"
+                badge_class = "badge-active" if is_active else "badge-inactive"
+                title_class = "title-active" if is_active else "title-inactive"
                 
-                if st.button(display_title, key=f"rc_btn_{rc['id']}", use_container_width=True):
-                    st.session_state.active_chat_id = rc["id"]
-                    st.session_state.messages = db.get_messages(rc["id"])
-                    st.rerun()
+                col_c, col_d = st.columns([5.2, 0.8], gap="small")
+                with col_c:
+                    st.markdown(f"""
+                    <div class="chat-row-item {active_class}">
+                        <div class="chat-row-left">
+                            <div class="chat-icon-badge {badge_class}">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                                    <line x1="8" y1="9" x2="16" y2="9"></line>
+                                    <line x1="8" y1="13" x2="13" y2="13"></line>
+                                </svg>
+                            </div>
+                            <span class="chat-row-title {title_class}" title="{rc['title']}">{rc['title']}</span>
+                        </div>
+                        <span class="chat-row-time">{rel_time}</span>
+                    </div>
+                    """, unsafe_allow_html=True)
+                    if st.button("Open", key=f"rc_open_{rc['id']}", use_container_width=True):
+                        st.session_state.active_chat_id = rc["id"]
+                        st.session_state.messages = db.get_messages(rc["id"])
+                        st.rerun()
+
+                with col_d:
+                    st.markdown('<div class="chat-dots-menu"></div>', unsafe_allow_html=True)
+                    with st.popover("⋮", help="Options"):
+                        st.markdown(f"<div style='font-weight: 700; font-size: 0.82rem; color: #1e1b4b; margin-bottom: 6px;'>{rc['title'][:26]}</div>", unsafe_allow_html=True)
+                        is_saved = bool(rc.get("is_saved", 0))
+                        if is_saved:
+                            if st.button("⭐ Remove Bookmark", key=f"pop_unsave_{rc['id']}", use_container_width=True):
+                                db.set_conversation_saved(rc['id'], False)
+                                st.rerun()
+                        else:
+                            if st.button("☆ Bookmark Chat", key=f"pop_save_{rc['id']}", use_container_width=True):
+                                db.set_conversation_saved(rc['id'], True)
+                                st.rerun()
+                        if st.button("📁 Move to Project", key=f"pop_proj_{rc['id']}", use_container_width=True):
+                            st.session_state.sidebar_mode = "projects"
+                            st.rerun()
+                        if st.button("🗑️ Delete Chat", key=f"pop_del_{rc['id']}", use_container_width=True):
+                            db.delete_conversation(rc['id'])
+                            if st.session_state.active_chat_id == rc['id']:
+                                st.session_state.active_chat_id = None
+                                st.session_state.messages = []
+                            st.rerun()
             
-            # View All Chats Button
+            # 4. View All Chats Pill Button (Matching reference)
             all_count = len(db.get_all_conversations())
-            if st.button(f"📜 View All Chats ({all_count})", key="btn_view_all_chats", use_container_width=True):
+            all_label = f"☰  View All Chats ({all_count}){nbsp*10}›"
+            if st.button(all_label, key="btn_view_all_chats", use_container_width=True):
                 st.session_state.sidebar_mode = "all_chats"
                 st.rerun()
         else:
@@ -1042,13 +1370,22 @@ with st.sidebar:
             </div>
             """, unsafe_allow_html=True)
 
-    # Sidebar Bottom Tech Stack Footer
-    st.markdown("""
-    <div style="margin-top: 0.8rem; padding: 8px 10px; background: #ffffff; border-radius: 10px; border: 1px solid #fee2e2; font-size: 0.72rem; color: #64748b; line-height: 1.45;">
-        <strong style="color: #334155;">⚡ Engine:</strong> Gemini 3.5 Flash-Lite<br>
-        <strong style="color: #334155;">🔗 LangChain:</strong> v1.5.0 • <strong style="color: #334155;">💾 Storage:</strong> SQLite
-    </div>
-    """, unsafe_allow_html=True)
+        # 5. Sidebar Bottom Tech Stack Footer (Matching reference)
+        st.markdown("""
+        <div class="sidebar-footer-container">
+            <div class="sidebar-footer-card">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="#7c3aed" stroke="#7c3aed" stroke-width="1"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+                <span>Engine: Gemini 1.5 Flash Lite</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+            </div>
+            <div class="sidebar-wavy-banner">
+                <svg viewBox="0 0 280 20" fill="none" preserveAspectRatio="none" style="width: 100%; height: 18px; display: block;">
+                    <path d="M0 10 C 60 2, 110 18, 170 8 C 220 0, 250 16, 280 6 L 280 20 L 0 20 Z" fill="#ede9fe" opacity="0.6"/>
+                    <path d="M0 14 C 70 6, 120 18, 180 10 C 230 4, 260 16, 280 10 L 280 20 L 0 20 Z" fill="#ddd6fe" opacity="0.5"/>
+                </svg>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
 
 # ---------------------------------------------------------
 # Top Navigation Toolbar (Inside Main Glass Card)
