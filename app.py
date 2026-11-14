@@ -1,5 +1,6 @@
 import os
 import base64
+import html
 from datetime import datetime, timedelta
 import streamlit as st
 from dotenv import load_dotenv
@@ -33,6 +34,26 @@ def format_relative_time(timestamp_str):
         return dt.strftime("%b %d")
     except Exception:
         return "recently"
+
+def get_date_group(timestamp_str):
+    """Group conversations into 'Today', 'Yesterday', or 'Earlier'."""
+    if not timestamp_str:
+        return "Earlier"
+    try:
+        clean = timestamp_str.replace("Z", "")
+        if "T" in clean:
+            dt = datetime.fromisoformat(clean)
+        else:
+            dt = datetime.strptime(clean, "%Y-%m-%d %H:%M:%S")
+        now = datetime.now()
+        if dt.date() == now.date():
+            return "Today"
+        elif dt.date() == (now - timedelta(days=1)).date():
+            return "Yesterday"
+        else:
+            return "Earlier"
+    except Exception:
+        return "Earlier"
 
 # ---------------------------------------------------------
 # Environment & Configuration
@@ -150,158 +171,333 @@ st.markdown("""
         margin: 0 !important;
     }
 
-    /* Sidebar Styling - Clean White & Mighty Raju Superhero Red Palette */
-    section[data-testid="stSidebar"] {
-        background: #ffffff !important;
-        border-right: 1.5px solid #fee2e2 !important;
+    /* =========================================================
+       Design Tokens & CSS Variables
+       ========================================================= */
+    :root {
+        --brand-red: #BA0001;
+        --brand-red-hover: #990001;
+        --brand-red-light: #FFF1F1;
+        --brand-red-border: #FCA5A5;
+        --brand-gradient: linear-gradient(135deg, #FF2E2E 0%, #E51D1D 50%, #BA0001 100%);
+        --brand-gradient-hover: linear-gradient(135deg, #FF4545 0%, #F02828 50%, #C70001 100%);
+        --text-primary: #0F172A;
+        --text-secondary: #334155;
+        --text-muted: #64748B;
+        --border-subtle: #FEE2E2;
+        --bg-sidebar: #FFFFFF;
+        --bg-hover: #FFF5F5;
+        --space-xs: 4px;
+        --space-sm: 8px;
+        --space-md: 12px;
+        --space-lg: 16px;
+        --space-xl: 24px;
+        --radius-sm: 8px;
+        --radius-md: 10px;
+        --radius-lg: 12px;
+        --radius-pill: 9999px;
+        --font-size-title: 16px;
+        --font-size-item: 14px;
+        --font-size-meta: 12px;
     }
+
+    /* Accessibility & Focus-Visible States */
+    button:focus-visible, input:focus-visible, [tabindex]:focus-visible {
+        outline: 2px solid var(--brand-red, #BA0001) !important;
+        outline-offset: 2px !important;
+    }
+
+    /* Collapse button transition and brand color */
+    [data-testid="stSidebarCollapseButton"] button,
+    [data-testid="collapsedControl"] button {
+        color: var(--brand-red, #BA0001) !important;
+        border-radius: var(--radius-sm, 8px) !important;
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    }
+    [data-testid="stSidebarCollapseButton"] button:hover,
+    [data-testid="collapsedControl"] button:hover {
+        background: var(--bg-hover, #fff5f5) !important;
+        color: var(--brand-red-hover, #990001) !important;
+    }
+
+    /* Sidebar Styling - Width 280-320px (target 300px), full-width drawer on mobile */
+    section[data-testid="stSidebar"] {
+        width: 300px !important;
+        min-width: 280px !important;
+        max-width: 320px !important;
+        background: var(--bg-sidebar, #ffffff) !important;
+        border-right: 1.5px solid var(--border-subtle, #fee2e2) !important;
+        transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s ease !important;
+    }
+    @media (max-width: 768px) {
+        section[data-testid="stSidebar"] {
+            width: 100vw !important;
+            min-width: 100vw !important;
+            max-width: 100vw !important;
+        }
+    }
+
+    /* Sidebar Row Layouts: Keep columns aligned horizontally on mobile & desktop */
+    [data-testid="stSidebar"] div[data-testid="stHorizontalBlock"] {
+        display: flex !important;
+        flex-direction: row !important;
+        flex-wrap: nowrap !important;
+        align-items: center !important;
+    }
+    [data-testid="stSidebar"] div[data-testid="stHorizontalBlock"]:has(.brand-header),
+    [data-testid="stSidebar"] div[data-testid="stHorizontalBlock"]:has(.st-key-sb_clear_popover) {
+        display: flex !important;
+        flex-direction: row !important;
+        flex-wrap: nowrap !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+    }
+    [data-testid="stSidebar"] div[data-testid="stHorizontalBlock"]:has(.brand-header) > div:first-child {
+        flex: 1 1 auto !important;
+    }
+    [data-testid="stSidebar"] div[data-testid="stHorizontalBlock"]:has(.brand-header) > div:last-child {
+        flex: 0 0 36px !important;
+        width: 36px !important;
+    }
+    [data-testid="stSidebar"] div[data-testid="stHorizontalBlock"]:has(.chat-row-item) {
+        display: flex !important;
+        flex-direction: row !important;
+        flex-wrap: nowrap !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+    }
+    [data-testid="stSidebar"] div[data-testid="stHorizontalBlock"]:has(.chat-row-item) > div:first-child {
+        flex: 1 1 auto !important;
+        min-width: 0 !important;
+    }
+    [data-testid="stSidebar"] div[data-testid="stHorizontalBlock"]:has(.chat-row-item) > div:last-child {
+        flex: 0 0 28px !important;
+        width: 28px !important;
+        min-width: 28px !important;
+    }
+
     section[data-testid="stSidebar"] .block-container {
         background: transparent !important;
         backdrop-filter: none !important;
         box-shadow: none !important;
         border: none !important;
-        padding: 0.25rem 0.85rem 0.2rem 0.85rem !important;
+        padding: var(--space-sm, 8px) var(--space-md, 12px) var(--space-sm, 8px) var(--space-md, 12px) !important;
         margin: 0 !important;
+        display: flex !important;
+        flex-direction: column !important;
+        height: 100vh !important;
+        max-height: 100vh !important;
+        box-sizing: border-box !important;
     }
 
-    /* Sidebar Branding - Moved slightly above with clean clearance */
+    /* Profile Brand Header - Pinned at top */
     .brand-header {
         display: flex;
         align-items: center;
-        gap: 12px;
-        padding: 0 0.1rem 0.2rem 0.1rem;
-        margin-top: -2px;
-        margin-bottom: 10px;
+        gap: var(--space-md, 12px);
+        padding: 0;
+        margin-top: 0;
+        margin-bottom: var(--space-sm, 8px);
     }
     .brand-avatar-img {
         width: 44px;
         height: 44px;
+        min-width: 44px;
         border-radius: 50%;
         object-fit: contain;
         background: #ffffff !important;
         padding: 2px;
-        border: 2px solid #BA0001 !important;
+        border: 2px solid var(--brand-red, #BA0001) !important;
         box-shadow: 0 3px 10px rgba(186, 0, 1, 0.35) !important;
     }
     .brand-name {
-        font-size: 1.2rem;
+        font-size: var(--font-size-title, 16px);
         font-weight: 800;
-        letter-spacing: 0.4px;
-        color: #0f172a;
-        line-height: 1.15;
-    }
-    .brand-name span {
-        color: #BA0001;
+        letter-spacing: 0.3px;
+        color: var(--text-primary, #0f172a);
+        line-height: 1.2;
     }
     .brand-sub {
-        font-size: 0.78rem;
+        font-size: var(--font-size-meta, 12px);
         color: #991b1b;
         font-weight: 600;
         margin-top: 1px;
     }
 
-    /* Primary Sidebar Buttons */
+    /* Ghost Clear Popover Button */
+    div.st-key-sb_clear_popover {
+        display: flex !important;
+        justify-content: flex-end !important;
+        align-items: center !important;
+    }
+    div.st-key-sb_clear_popover div[data-testid="stPopover"] {
+        display: flex !important;
+        justify-content: flex-end !important;
+    }
+    div.st-key-sb_clear_popover button,
+    div.st-key-sb_clear_popover [data-testid="stPopoverButton"] {
+        background: transparent !important;
+        border: 1px solid #e2e8f0 !important;
+        border-radius: var(--radius-sm, 8px) !important;
+        color: var(--text-muted, #64748b) !important;
+        min-height: 34px !important;
+        height: 34px !important;
+        width: 34px !important;
+        padding: 0 !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        box-shadow: none !important;
+        transition: all 0.2s ease !important;
+    }
+    div.st-key-sb_clear_popover button:hover,
+    div.st-key-sb_clear_popover [data-testid="stPopoverButton"]:hover {
+        border-color: var(--brand-red-border, #fca5a5) !important;
+        color: var(--brand-red, #BA0001) !important;
+        background: var(--bg-hover, #fff5f5) !important;
+        transform: translateY(-1px) !important;
+    }
+    div.st-key-sb_clear_popover button div[aria-hidden="true"],
+    div.st-key-sb_clear_popover [data-testid="stPopoverButton"] div[aria-hidden="true"],
+    div.st-key-sb_clear_popover [data-testid="stIconMaterial"] {
+        display: none !important;
+    }
+
+    /* Primary CTA: New Chat Button (Full Width, Solid Red) */
+    div.st-key-sb_btn_new {
+        margin-bottom: var(--space-sm, 8px) !important;
+    }
     div.st-key-sb_btn_new button {
-        background: linear-gradient(135deg, #FF2E2E 0%, #E51D1D 50%, #BA0001 100%) !important;
+        background: var(--brand-gradient) !important;
         color: #ffffff !important;
         border: none !important;
         font-weight: 700 !important;
-        border-radius: 10px !important;
-        min-height: 38px !important;
-        height: 38px !important;
-        padding: 0 8px !important;
-        font-size: 0.84rem !important;
-        box-shadow: 0 3px 10px rgba(186, 0, 1, 0.3) !important;
+        border-radius: var(--radius-md, 10px) !important;
+        min-height: 42px !important;
+        height: 42px !important;
+        padding: 0 var(--space-lg, 16px) !important;
+        font-size: var(--font-size-item, 14px) !important;
+        box-shadow: 0 4px 12px rgba(186, 0, 1, 0.32) !important;
         transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        width: 100% !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 8px !important;
     }
     div.st-key-sb_btn_new button:hover {
         transform: translateY(-1px) !important;
-        box-shadow: 0 5px 15px rgba(186, 0, 1, 0.4) !important;
-        background: linear-gradient(135deg, #FF4545 0%, #F02828 50%, #C70001 100%) !important;
+        box-shadow: 0 6px 18px rgba(186, 0, 1, 0.45) !important;
+        background: var(--brand-gradient-hover) !important;
         color: #ffffff !important;
     }
-    div.st-key-sb_btn_clear button {
-        background: #ffffff !important;
-        color: #475569 !important;
-        border: 1px solid #e2e8f0 !important;
-        border-radius: 10px !important;
-        min-height: 38px !important;
-        height: 38px !important;
-        padding: 0 8px !important;
-        font-size: 0.84rem !important;
-        font-weight: 600 !important;
-        transition: all 0.2s ease !important;
-    }
-    div.st-key-sb_btn_clear button:hover {
-        border-color: #fca5a5 !important;
-        color: #BA0001 !important;
-        background: #fff5f5 !important;
-    }
 
-    /* Sidebar Navigation Buttons (3 boxes: Search, Saved, Projects) */
+    /* Sidebar Navigation List (Search, Saved, Projects - 40px rows) */
     div.st-key-nav_btn_search button,
     div.st-key-nav_btn_saved button,
     div.st-key-nav_btn_projects button {
         background: #ffffff !important;
-        border: 1px solid #fee2e2 !important;
-        border-radius: 10px !important;
-        color: #334155 !important;
+        border: 1px solid var(--border-subtle, #fee2e2) !important;
+        border-radius: var(--radius-md, 10px) !important;
+        color: var(--text-secondary, #334155) !important;
         font-weight: 600 !important;
-        min-height: 35px !important;
-        height: 35px !important;
-        padding: 0 12px !important;
-        font-size: 0.82rem !important;
-        margin-bottom: 2px !important;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.02) !important;
+        min-height: 40px !important;
+        height: 40px !important;
+        padding: 0 var(--space-md, 12px) !important;
+        font-size: var(--font-size-item, 14px) !important;
+        margin-bottom: var(--space-xs, 4px) !important;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02) !important;
+        display: flex !important;
+        justify-content: flex-start !important;
+        align-items: center !important;
+        text-align: left !important;
         transition: all 0.2s ease !important;
     }
     div.st-key-nav_btn_search button:hover,
     div.st-key-nav_btn_saved button:hover,
     div.st-key-nav_btn_projects button:hover {
-        border-color: #f87171 !important;
-        color: #BA0001 !important;
-        background: #fff5f5 !important;
+        border-color: var(--brand-red-border, #fca5a5) !important;
+        color: var(--brand-red, #BA0001) !important;
+        background: var(--bg-hover, #fff5f5) !important;
         transform: translateY(-1px) !important;
-        box-shadow: 0 4px 12px rgba(186, 0, 1, 0.1) !important;
+        box-shadow: 0 3px 8px rgba(186, 0, 1, 0.08) !important;
     }
 
-    /* 2. Recent Chats Section Header */
+    /* Scrollable Middle Container for Recent Chats */
+    .sidebar-scroll-area {
+        flex: 1 1 auto;
+        min-height: 0;
+        overflow-y: auto;
+        overflow-x: hidden;
+        padding-right: 2px;
+        margin-top: var(--space-xs, 4px);
+        scrollbar-width: thin;
+        scrollbar-color: #fca5a5 transparent;
+    }
+    .sidebar-scroll-area::-webkit-scrollbar {
+        width: 4px;
+    }
+    .sidebar-scroll-area::-webkit-scrollbar-thumb {
+        background: #fca5a5;
+        border-radius: 4px;
+    }
+
+    /* Recent Chats Section Header */
     .recent-header-container {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: 0.2rem 0.15rem 0.15rem 0.15rem;
-        margin-top: 0.1rem;
-        border-bottom: 1.5px solid #fee2e2;
-        margin-bottom: 0.2rem;
+        padding: var(--space-sm, 8px) 2px var(--space-xs, 4px) 2px;
+        margin-top: var(--space-xs, 4px);
+        border-bottom: 1.5px solid var(--border-subtle, #fee2e2);
+        margin-bottom: var(--space-xs, 4px);
     }
     .recent-header-left {
         display: flex;
         align-items: center;
-        gap: 7px;
+        gap: 8px;
     }
     .recent-header-icon {
         display: flex;
         align-items: center;
         justify-content: center;
-        color: #BA0001;
+        color: var(--brand-red, #BA0001);
     }
     .recent-header-title {
-        font-size: 0.95rem;
+        font-size: var(--font-size-item, 14px);
         font-weight: 800;
-        color: #0f172a;
+        color: var(--text-primary, #0f172a);
         letter-spacing: -0.2px;
     }
     .recent-header-clock {
         display: flex;
         align-items: center;
         justify-content: center;
-        color: #BA0001;
+        color: var(--brand-red, #BA0001);
     }
 
-    /* 3. Individual Chat Items matching Red Theme & Reduced Spacing */
+    /* Date Group Header (Today, Yesterday, Earlier) */
+    .date-group-header {
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.6px;
+        color: var(--text-muted, #64748b);
+        margin: var(--space-sm, 8px) 0 var(--space-xs, 4px) 4px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+    .date-group-header::after {
+        content: "";
+        flex: 1;
+        height: 1px;
+        background: var(--border-subtle, #fee2e2);
+    }
+
+    /* 2-Line Chat Row Items */
     div[data-testid="stVerticalBlock"]:has(.recent-chats-list) {
-        gap: 2px !important;
+        gap: 4px !important;
     }
     div[data-testid="stVerticalBlock"]:has(.recent-chats-list) > div[data-testid="stLayoutWrapper"] {
         margin: 0 !important;
@@ -309,26 +505,30 @@ st.markdown("""
     }
     div[data-testid="stHorizontalBlock"]:has(.chat-row-item) {
         align-items: center !important;
-        margin-top: -2px !important;
-        margin-bottom: -2px !important;
-        border-radius: 10px !important;
-        padding: 1px 4px !important;
-        min-height: 26px !important;
+        margin-top: 1px !important;
+        margin-bottom: 3px !important;
+        border-radius: var(--radius-md, 10px) !important;
+        padding: 0 4px !important;
+        min-height: 48px !important;
+        height: 48px !important;
         transition: all 0.18s ease !important;
+        box-sizing: border-box !important;
     }
 
-    /* Highlighted active conversation in soft red / rose background */
+    /* Active conversation styling */
     div[data-testid="stHorizontalBlock"]:has(.chat-row-active) {
-        background: #fee2e2 !important;
-        border: 1px solid #fecaca !important;
+        background: var(--brand-red-light, #FFF1F1) !important;
+        border: 1px solid var(--brand-red-border, #FCA5A5) !important;
     }
 
-    /* Clean, minimal inactive conversations without borders */
+    /* Inactive conversation styling */
     div[data-testid="stHorizontalBlock"]:has(.chat-row-inactive) {
         background: transparent !important;
+        border: 1px solid transparent !important;
     }
     div[data-testid="stHorizontalBlock"]:has(.chat-row-inactive):hover {
-        background: #fff5f5 !important;
+        background: var(--bg-hover, #fff5f5) !important;
+        border-color: #fecaca !important;
     }
 
     .chat-row-item {
@@ -336,8 +536,9 @@ st.markdown("""
         align-items: center;
         justify-content: space-between;
         width: 100%;
-        padding: 0 !important;
-        min-height: 26px !important;
+        padding: 4px 2px !important;
+        min-height: 44px !important;
+        height: 44px !important;
         box-sizing: border-box;
         user-select: none;
     }
@@ -345,16 +546,16 @@ st.markdown("""
     .chat-row-left {
         display: flex;
         align-items: center;
-        gap: 7px;
+        gap: 10px;
         overflow: hidden;
         flex: 1 1 auto;
         min-width: 0;
     }
 
     .chat-icon-badge {
-        width: 22px;
-        height: 22px;
-        border-radius: 6px;
+        width: 28px;
+        height: 28px;
+        border-radius: var(--radius-sm, 8px);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -362,23 +563,34 @@ st.markdown("""
     }
 
     .badge-active {
-        background: linear-gradient(135deg, #FF2E2E 0%, #BA0001 100%) !important;
+        background: var(--brand-gradient) !important;
         color: #ffffff !important;
         box-shadow: 0 2px 6px rgba(186, 0, 1, 0.3) !important;
     }
 
     .badge-inactive {
-        background: #fff1f1 !important;
-        color: #BA0001 !important;
-        border: 1px solid #fee2e2 !important;
+        background: var(--brand-red-light, #fff1f1) !important;
+        color: var(--brand-red, #BA0001) !important;
+        border: 1px solid var(--border-subtle, #fee2e2) !important;
+    }
+
+    .chat-row-content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        overflow: hidden;
+        min-width: 0;
+        flex: 1 1 auto;
+        gap: 2px;
     }
 
     .chat-row-title {
-        font-size: 0.83rem;
+        font-size: var(--font-size-item, 14px);
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-        max-width: 125px;
+        line-height: 1.25;
+        letter-spacing: -0.1px;
     }
 
     .title-active {
@@ -388,16 +600,14 @@ st.markdown("""
 
     .title-inactive {
         font-weight: 500;
-        color: #334155;
+        color: var(--text-secondary, #334155);
     }
 
     .chat-row-time {
-        font-size: 0.70rem;
-        color: #64748b;
+        font-size: var(--font-size-meta, 12px);
+        color: var(--text-muted, #64748b);
         font-weight: 500;
-        white-space: nowrap;
-        margin-left: 4px;
-        flex-shrink: 0;
+        line-height: 1.2;
     }
 
     /* Invisible overlay button covering the chat item column */
@@ -446,13 +656,13 @@ st.markdown("""
         background: transparent !important;
         border: none !important;
         box-shadow: none !important;
-        color: #BA0001 !important;
-        font-size: 1.2rem !important;
+        color: var(--brand-red, #BA0001) !important;
+        font-size: 1.25rem !important;
         font-weight: 700 !important;
         padding: 0 !important;
-        min-height: 22px !important;
-        height: 22px !important;
-        width: 18px !important;
+        min-height: 28px !important;
+        height: 28px !important;
+        width: 22px !important;
         line-height: 1 !important;
         cursor: pointer !important;
         display: flex !important;
@@ -462,15 +672,15 @@ st.markdown("""
     section[data-testid="stSidebar"] div[data-testid="stPopover"] button p,
     section[data-testid="stSidebar"] button[data-testid="stPopoverButton"] p {
         margin: 0 !important;
-        color: #BA0001 !important;
-        font-size: 1.2rem !important;
+        color: var(--brand-red, #BA0001) !important;
+        font-size: 1.25rem !important;
         font-weight: 800 !important;
         line-height: 1 !important;
     }
     section[data-testid="stSidebar"] div[data-testid="stPopover"] button:hover,
     section[data-testid="stSidebar"] button[data-testid="stPopoverButton"]:hover {
         background: rgba(186, 0, 1, 0.1) !important;
-        border-radius: 6px !important;
+        border-radius: var(--radius-sm, 8px) !important;
     }
 
     /* Hide the default Streamlit expand_more caret arrow */
@@ -496,71 +706,57 @@ st.markdown("""
     div[data-testid="stHorizontalBlock"]:has(.chat-row-active) div[data-testid="stPopover"] button,
     div[data-testid="stHorizontalBlock"]:has(.chat-row-active) button[data-testid="stPopoverButton"] {
         opacity: 1 !important;
-        color: #BA0001 !important;
+        color: var(--brand-red, #BA0001) !important;
     }
 
-    /* 4. View All Chats Pill Button matching Red theme */
+    /* View All Chats Subtle Text Link */
     div.st-key-btn_view_all_chats button {
-        background: #fff5f5 !important;
-        color: #BA0001 !important;
-        border: 1px solid #fee2e2 !important;
-        border-radius: 16px !important;
+        background: transparent !important;
+        color: var(--brand-red, #BA0001) !important;
+        border: 1px dashed var(--border-subtle, #fee2e2) !important;
+        border-radius: var(--radius-md, 10px) !important;
         font-weight: 600 !important;
-        font-size: 0.82rem !important;
-        min-height: 33px !important;
-        height: 33px !important;
-        padding: 0 14px !important;
+        font-size: var(--font-size-meta, 12px) !important;
+        min-height: 34px !important;
+        height: 34px !important;
+        padding: 0 var(--space-md, 12px) !important;
         display: flex !important;
         align-items: center !important;
-        justify-content: space-between !important;
+        justify-content: center !important;
         box-shadow: none !important;
-        margin-top: 3px !important;
-        margin-bottom: 2px !important;
+        margin-top: var(--space-sm, 8px) !important;
+        margin-bottom: var(--space-xs, 4px) !important;
         transition: all 0.2s ease !important;
     }
     div.st-key-btn_view_all_chats button:hover {
-        background: #fee2e2 !important;
-        color: #991b1b !important;
-        border-color: #fca5a5 !important;
+        background: var(--bg-hover, #fff5f5) !important;
+        color: var(--brand-red-hover, #990001) !important;
+        border-color: var(--brand-red-border, #fca5a5) !important;
         transform: translateY(-1px) !important;
     }
 
-    /* Sidebar Footer */
+    /* Sidebar Pinned Bottom Footer (No Wavy Banner) */
     .sidebar-footer-container {
-        margin-top: 0.35rem;
-        padding-top: 0;
+        margin-top: auto;
+        padding-top: var(--space-xs, 4px);
         text-align: center;
+        flex-shrink: 0;
     }
     .sidebar-footer-card {
-        border-top: 1px solid #fee2e2;
-        padding-top: 0.3rem;
+        border-top: 1px solid var(--border-subtle, #fee2e2);
+        padding-top: var(--space-sm, 8px);
+        padding-bottom: var(--space-xs, 4px);
         text-align: center;
-        color: #64748b;
-        font-size: 0.73rem;
+        color: var(--text-muted, #64748b);
+        font-size: var(--font-size-meta, 12px);
         display: flex;
         align-items: center;
         justify-content: center;
         gap: 6px;
         font-weight: 500;
-        margin-bottom: 0.15rem;
-    }
-        text-align: center;
-        color: #64748b;
-        font-size: 0.74rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 6px;
-        font-weight: 500;
-        margin-bottom: 0.2rem;
     }
     .sidebar-footer-card span {
-        color: #475569;
-    }
-    .sidebar-wavy-banner {
-        width: 100%;
-        overflow: hidden;
-        margin-top: 2px;
+        color: var(--text-secondary, #475569);
     }
 
     /* Sidebar Views (Search, Saved, Projects headers) */
@@ -1019,37 +1215,39 @@ if st.session_state.active_chat_id and not st.session_state.messages:
 # Sidebar Component Implementation
 # ---------------------------------------------------------
 with st.sidebar:
-    # 1. Mighty Raju Brand Header
-    brand_icon_html = f'<img src="data:image/png;base64,{mighty_raju_avatar_b64}" class="brand-avatar-img" />' if mighty_raju_avatar_b64 else '<span style="font-size: 1.8rem;">⚡</span>'
-    st.markdown(f"""
-    <div class="brand-header">
-        {brand_icon_html}
-        <div>
-            <div class="brand-name">MIGHTY RAJU</div>
-            <div class="brand-sub">AI Assistant</div>
+    # 1. Pinned Profile Header with Ghost Clear Confirmation Button
+    col_hdr, col_clr = st.columns([4.2, 0.8], vertical_alignment="center")
+    with col_hdr:
+        brand_icon_html = f'<img src="data:image/png;base64,{mighty_raju_avatar_b64}" class="brand-avatar-img" />' if mighty_raju_avatar_b64 else '<span style="font-size: 1.8rem;">⚡</span>'
+        st.markdown(f"""
+        <div class="brand-header">
+            {brand_icon_html}
+            <div>
+                <div class="brand-name">MIGHTY RAJU</div>
+                <div class="brand-sub">AI Assistant</div>
+            </div>
         </div>
-    </div>
-    """, unsafe_allow_html=True)
+        """, unsafe_allow_html=True)
+    with col_clr:
+        st.markdown('<div class="st-key-sb_clear_popover"></div>', unsafe_allow_html=True)
+        with st.popover("🗑️", help="Clear conversation"):
+            st.markdown("<div style='font-size: 0.82rem; font-weight: 700; color: #0f172a; margin-bottom: 6px;'>Clear active chat?</div>", unsafe_allow_html=True)
+            if st.button("Confirm Clear", key="sb_btn_confirm_clear", use_container_width=True):
+                if st.session_state.active_chat_id:
+                    db.clear_conversation_messages(st.session_state.active_chat_id)
+                st.session_state.messages = []
+                st.session_state.pending_prompt = None
+                st.rerun()
 
-    # 2. Primary Action Buttons: New Chat & Clear Conversation
-    col_new, col_clear = st.columns(2)
-    with col_new:
-        if st.button("➕ New Chat", key="sb_btn_new", use_container_width=True, help="Start a new conversation"):
-            st.session_state.active_chat_id = None
-            st.session_state.messages = []
-            st.session_state.pending_prompt = None
-            st.session_state.sidebar_mode = "main"
-            st.rerun()
+    # 2. Primary CTA: New Chat (Full Width, Solid Red)
+    if st.button("➕ New Chat", key="sb_btn_new", use_container_width=True, help="Start a new conversation"):
+        st.session_state.active_chat_id = None
+        st.session_state.messages = []
+        st.session_state.pending_prompt = None
+        st.session_state.sidebar_mode = "main"
+        st.rerun()
 
-    with col_clear:
-        if st.button("🗑️ Clear", key="sb_btn_clear", use_container_width=True, help="Clear the current conversation"):
-            if st.session_state.active_chat_id:
-                db.clear_conversation_messages(st.session_state.active_chat_id)
-            st.session_state.messages = []
-            st.session_state.pending_prompt = None
-            st.rerun()
-
-    st.markdown("<hr style='margin: 0.4rem 0 0.45rem 0; border: none; border-top: 1px solid #fee2e2;'>", unsafe_allow_html=True)
+    st.markdown("<hr style='margin: 0.25rem 0 0.35rem 0; border: none; border-top: 1px solid var(--border-subtle, #fee2e2);'>", unsafe_allow_html=True)
 
     # =========================================================
     # SIDEBAR MODE: SEARCH CHATS
@@ -1266,20 +1464,20 @@ with st.sidebar:
     # =========================================================
     else:
         # A. Search Chats
-        if st.button("🔍 Search Chats", key="nav_btn_search", use_container_width=True):
+        if st.button("🔍  Search Chats", key="nav_btn_search", use_container_width=True):
             st.session_state.sidebar_mode = "search"
             st.rerun()
 
         # B. Saved Chats (shows count)
         saved_count = len(db.get_saved_conversations())
-        saved_label = f"🔖 Saved Chats ({saved_count})" if saved_count > 0 else "🔖 Saved Chats"
+        saved_label = f"🔖  Saved Chats ({saved_count})" if saved_count > 0 else "🔖  Saved Chats"
         if st.button(saved_label, key="nav_btn_saved", use_container_width=True):
             st.session_state.sidebar_mode = "saved"
             st.rerun()
 
         # C. Projects (shows count)
         proj_count = len(db.get_all_projects())
-        proj_label = f"📁 Projects ({proj_count})" if proj_count > 0 else "📁 Projects"
+        proj_label = f"📁  Projects ({proj_count})" if proj_count > 0 else "📁  Projects"
         if st.button(proj_label, key="nav_btn_projects", use_container_width=True):
             st.session_state.sidebar_mode = "projects"
             st.rerun()
@@ -1291,7 +1489,7 @@ with st.sidebar:
         <div class="recent-header-container">
             <div class="recent-header-left">
                 <div class="recent-header-icon">
-                    <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#BA0001" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#BA0001" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
                         <line x1="8" y1="9" x2="16" y2="9"></line>
                         <line x1="8" y1="13" x2="13" y2="13"></line>
@@ -1300,7 +1498,7 @@ with st.sidebar:
                 <span class="recent-header-title">Recent Chats</span>
             </div>
             <div class="recent-header-clock">
-                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#BA0001" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#BA0001" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                     <circle cx="12" cy="12" r="10"></circle>
                     <polyline points="12 6 12 12 16 14"></polyline>
                 </svg>
@@ -1308,67 +1506,82 @@ with st.sidebar:
         </div>
         """, unsafe_allow_html=True)
 
-        recent_chats = db.get_recent_conversations(4)
+        recent_chats = db.get_recent_conversations(8)
 
         if recent_chats:
+            grouped_chats = {}
+            for rc in recent_chats:
+                group = get_date_group(rc.get("updated_at") or rc.get("created_at"))
+                grouped_chats.setdefault(group, []).append(rc)
+
             with st.container():
                 st.markdown('<div class="recent-chats-list"></div>', unsafe_allow_html=True)
-                for rc in recent_chats:
-                    is_active = (rc["id"] == st.session_state.active_chat_id)
-                    rel_time = format_relative_time(rc.get("updated_at") or rc.get("created_at"))
-                    active_class = "chat-row-active" if is_active else "chat-row-inactive"
-                    badge_class = "badge-active" if is_active else "badge-inactive"
-                    title_class = "title-active" if is_active else "title-inactive"
-                    
-                    col_c, col_d = st.columns([5.2, 0.8], gap="small")
-                    with col_c:
-                        st.markdown(f"""
-                        <div class="chat-row-item {active_class}">
-                            <div class="chat-row-left">
-                                <div class="chat-icon-badge {badge_class}">
-                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-                                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-                                        <line x1="8" y1="9" x2="16" y2="9"></line>
-                                        <line x1="8" y1="13" x2="13" y2="13"></line>
-                                    </svg>
+                for group_name in ["Today", "Yesterday", "Earlier"]:
+                    if group_name in grouped_chats:
+                        st.markdown(f'<div class="date-group-header">{group_name}</div>', unsafe_allow_html=True)
+                        for rc in grouped_chats[group_name]:
+                            is_active = (rc["id"] == st.session_state.active_chat_id)
+                            rel_time = format_relative_time(rc.get("updated_at") or rc.get("created_at"))
+                            active_class = "chat-row-active" if is_active else "chat-row-inactive"
+                            badge_class = "badge-active" if is_active else "badge-inactive"
+                            title_class = "title-active" if is_active else "title-inactive"
+                            escaped_title = html.escape(rc["title"], quote=True)
+                            
+                            col_c, col_d = st.columns([5.2, 0.8], gap="small")
+                            with col_c:
+                                st.markdown(f"""
+                                <div class="chat-row-item {active_class}">
+                                    <div class="chat-row-left">
+                                        <div class="chat-icon-badge {badge_class}">
+                                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+                                                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                                                <line x1="8" y1="9" x2="16" y2="9"></line>
+                                                <line x1="8" y1="13" x2="13" y2="13"></line>
+                                            </svg>
+                                        </div>
+                                        <div class="chat-row-content">
+                                            <div class="chat-row-title {title_class}" title="{escaped_title}">{escaped_title}</div>
+                                            <div class="chat-row-time">{rel_time}</div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <span class="chat-row-title {title_class}" title="{rc['title']}">{rc['title']}</span>
-                            </div>
-                            <span class="chat-row-time">{rel_time}</span>
-                        </div>
-                        """, unsafe_allow_html=True)
-                        if st.button("Open", key=f"rc_open_{rc['id']}", use_container_width=True):
-                            st.session_state.active_chat_id = rc["id"]
-                            st.session_state.messages = db.get_messages(rc["id"])
-                            st.rerun()
+                                """, unsafe_allow_html=True)
+                                if st.button("Open", key=f"rc_open_{rc['id']}", use_container_width=True):
+                                    st.session_state.active_chat_id = rc["id"]
+                                    st.session_state.messages = db.get_messages(rc["id"])
+                                    st.rerun()
 
-                    with col_d:
-                        st.markdown('<div class="chat-dots-menu"></div>', unsafe_allow_html=True)
-                        with st.popover("⋮", help="Options"):
-                            st.markdown(f"<div style='font-weight: 700; font-size: 0.82rem; color: #BA0001; margin-bottom: 6px;'>{rc['title'][:26]}</div>", unsafe_allow_html=True)
-                            is_saved = bool(rc.get("is_saved", 0))
-                            if is_saved:
-                                if st.button("⭐ Remove Bookmark", key=f"pop_unsave_{rc['id']}", use_container_width=True):
-                                    db.set_conversation_saved(rc['id'], False)
-                                    st.rerun()
-                            else:
-                                if st.button("☆ Bookmark Chat", key=f"pop_save_{rc['id']}", use_container_width=True):
-                                    db.set_conversation_saved(rc['id'], True)
-                                    st.rerun()
-                            if st.button("📁 Move to Project", key=f"pop_proj_{rc['id']}", use_container_width=True):
-                                st.session_state.sidebar_mode = "projects"
-                                st.rerun()
-                            if st.button("🗑️ Delete Chat", key=f"pop_del_{rc['id']}", use_container_width=True):
-                                db.delete_conversation(rc['id'])
-                                if st.session_state.active_chat_id == rc['id']:
-                                    st.session_state.active_chat_id = None
-                                    st.session_state.messages = []
-                                st.rerun()
-            
-            # 4. View All Chats Pill Button (Matching reference)
+                            with col_d:
+                                st.markdown('<div class="chat-dots-menu"></div>', unsafe_allow_html=True)
+                                with st.popover("⋮", help="Options"):
+                                    st.markdown(f"<div style='font-weight: 700; font-size: 0.82rem; color: #BA0001; margin-bottom: 6px;'>Options</div>", unsafe_allow_html=True)
+                                    new_rtitle = st.text_input("Rename", value=rc['title'], key=f"pop_ren_in_{rc['id']}", label_visibility="collapsed")
+                                    if st.button("💾 Save Name", key=f"pop_ren_btn_{rc['id']}", use_container_width=True):
+                                        if new_rtitle.strip() and new_rtitle.strip() != rc['title']:
+                                            db.update_conversation_title(rc['id'], new_rtitle.strip())
+                                            st.rerun()
+                                    is_saved = bool(rc.get("is_saved", 0))
+                                    if is_saved:
+                                        if st.button("⭐ Remove Bookmark", key=f"pop_unsave_{rc['id']}", use_container_width=True):
+                                            db.set_conversation_saved(rc['id'], False)
+                                            st.rerun()
+                                    else:
+                                        if st.button("☆ Bookmark Chat", key=f"pop_save_{rc['id']}", use_container_width=True):
+                                            db.set_conversation_saved(rc['id'], True)
+                                            st.rerun()
+                                    if st.button("📁 Move to Project", key=f"pop_proj_{rc['id']}", use_container_width=True):
+                                        st.session_state.sidebar_mode = "projects"
+                                        st.rerun()
+                                    if st.button("🗑️ Delete Chat", key=f"pop_del_{rc['id']}", use_container_width=True):
+                                        db.delete_conversation(rc['id'])
+                                        if st.session_state.active_chat_id == rc['id']:
+                                            st.session_state.active_chat_id = None
+                                            st.session_state.messages = []
+                                        st.rerun()
+                    
+            # 4. View All Chats subtle text link button
             all_count = len(db.get_all_conversations())
-            all_label = f"☰  View All Chats ({all_count})               ›"
-            if st.button(all_label, key="btn_view_all_chats", use_container_width=True):
+            if st.button(f"View all conversations ({all_count}) →", key="btn_view_all_chats", use_container_width=True):
                 st.session_state.sidebar_mode = "all_chats"
                 st.rerun()
         else:
@@ -1378,19 +1591,13 @@ with st.sidebar:
             </div>
             """, unsafe_allow_html=True)
 
-        # 5. Sidebar Bottom Tech Stack Footer (Red Superhero Theme)
+        # 5. Sidebar Bottom Tech Stack Footer (Red Superhero Theme, Pinned)
         st.markdown("""
         <div class="sidebar-footer-container">
             <div class="sidebar-footer-card">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="#BA0001" stroke="#BA0001" stroke-width="1"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="#BA0001" stroke="#BA0001" stroke-width="1"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
                 <span>Engine: Gemini 1.5 Flash Lite</span>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
-            </div>
-            <div class="sidebar-wavy-banner">
-                <svg viewBox="0 0 280 20" fill="none" preserveAspectRatio="none" style="width: 100%; height: 18px; display: block;">
-                    <path d="M0 10 C 60 2, 110 18, 170 8 C 220 0, 250 16, 280 6 L 280 20 L 0 20 Z" fill="#fee2e2" opacity="0.65"/>
-                    <path d="M0 14 C 70 6, 120 18, 180 10 C 230 4, 260 16, 280 10 L 280 20 L 0 20 Z" fill="#fecaca" opacity="0.55"/>
-                </svg>
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
             </div>
         </div>
         """, unsafe_allow_html=True)
