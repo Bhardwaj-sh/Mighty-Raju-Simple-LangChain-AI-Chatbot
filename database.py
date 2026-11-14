@@ -219,6 +219,21 @@ def clear_conversation_messages(conv_id):
         cursor.execute("UPDATE conversations SET updated_at = ? WHERE id = ?", (datetime.now().isoformat(), conv_id))
         conn.commit()
 
+def delete_last_assistant_message(conv_id):
+    """Remove the most recent assistant message from the conversation (for regeneration)."""
+    with get_connection() as conn:
+        cursor = conn.cursor()
+        cursor.execute("""
+            DELETE FROM messages 
+            WHERE id = (
+                SELECT id FROM messages 
+                WHERE conversation_id = ? AND role = 'assistant' 
+                ORDER BY id DESC LIMIT 1
+            )
+        """, (conv_id,))
+        cursor.execute("UPDATE conversations SET updated_at = ? WHERE id = ?", (datetime.now().isoformat(), conv_id))
+        conn.commit()
+
 # -------------------------------------------------------------------
 # Project Operations
 # -------------------------------------------------------------------
