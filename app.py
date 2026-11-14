@@ -1129,13 +1129,14 @@ st.markdown("""
     div[data-testid="stChatInput"] {
         background: #ffffff !important;
         border-radius: 9999px !important;
-        border: 1.5px solid #fee2e2 !important;
-        box-shadow: 0 8px 30px rgba(186, 0, 1, 0.12) !important;
+        border: 2px solid #BA0001 !important;
+        box-shadow: 0 4px 20px rgba(186, 0, 1, 0.15) !important;
         padding: 4px 14px !important;
+        transition: border-color 0.2s ease, box-shadow 0.2s ease !important;
     }
     div[data-testid="stChatInput"]:focus-within {
         border-color: #BA0001 !important;
-        box-shadow: 0 0 0 3px rgba(186, 0, 1, 0.18) !important;
+        box-shadow: 0 0 0 3px rgba(186, 0, 1, 0.25) !important;
     }
     div[data-testid="stChatInput"] > div,
     div[data-testid="stChatInput"] [data-baseweb="base-input"],
@@ -1145,13 +1146,25 @@ st.markdown("""
         box-shadow: none !important;
         background: transparent !important;
     }
-    div[data-testid="stChatInput"] textarea {
-        color: #0f172a !important;
+    div[data-testid="stChatInput"] textarea,
+    div[data-testid="stChatInput"] textarea[data-testid="stChatInputTextArea"] {
+        color: #000000 !important;
+        -webkit-text-fill-color: #000000 !important;
         font-size: 0.95rem !important;
+        font-weight: 500 !important;
         border: none !important;
         outline: none !important;
         box-shadow: none !important;
         background: transparent !important;
+    }
+    div[data-testid="stChatInput"] textarea::placeholder,
+    div[data-testid="stChatInput"] textarea::-webkit-input-placeholder,
+    div[data-testid="stChatInput"] textarea::-moz-placeholder,
+    div[data-testid="stChatInput"] textarea:-ms-input-placeholder {
+        color: #000000 !important;
+        -webkit-text-fill-color: #000000 !important;
+        opacity: 0.9 !important;
+        font-weight: 600 !important;
     }
     div[data-testid="stChatInput"] button {
         background: linear-gradient(135deg, #FF2E2E 0%, #E51D1D 50%, #BA0001 100%) !important;
