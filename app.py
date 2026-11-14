@@ -32,11 +32,11 @@ def get_base64_image(image_path):
             return base64.b64encode(img_file.read()).decode("utf-8")
     return ""
 
-hero_mascot_path = "assets/raju_hero_final.png" if os.path.exists("assets/raju_hero_final.png") else ("assets/mighty_raju_transparent.png" if os.path.exists("assets/mighty_raju_transparent.png") else "")
-avatar_path = "assets/raju_avatar_final.png" if os.path.exists("assets/raju_avatar_final.png") else ("assets/mighty_raju_avatar_transparent.png" if os.path.exists("assets/mighty_raju_avatar_transparent.png") else "⚡")
+hero_mascot_path = "assets/mighty_raju_transparent.png"
+avatar_path = "assets/mighty_raju_transparent.png"
 
 mighty_raju_img_b64 = get_base64_image(hero_mascot_path)
-mighty_raju_avatar_b64 = get_base64_image(avatar_path) if avatar_path != "⚡" else ""
+mighty_raju_avatar_b64 = get_base64_image(avatar_path)
 
 # ---------------------------------------------------------
 # Exact Visual Theme: Mighty Raju Approved Reference Design
@@ -69,12 +69,12 @@ footer,
     border: 1.5px solid #EADAD5 !important;
     border-radius: 24px !important;
     box-shadow: 0 10px 40px -10px rgba(188, 73, 70, 0.08), 0 0 0 1px rgba(255, 255, 255, 0.8) !important;
-    padding: 1.4rem 2.2rem 3.2rem 2.2rem !important;
+    padding: 1.2rem 2rem 2.2rem 2rem !important;
     margin-top: 0.8rem !important;
-    margin-bottom: 1.2rem !important;
+    margin-bottom: 5.5rem !important;
     max-width: 960px !important;
     position: relative !important;
-    overflow: hidden !important;
+    overflow: visible !important;
 }
 
 /* Left Sidebar: Soft Warm Ivory/Peach */
@@ -103,17 +103,25 @@ section[data-testid="stSidebar"] .block-container {
     position: relative;
     width: 48px;
     height: 48px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    flex-shrink: 0;
+}
+.brand-avatar-circle {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2px solid #BC4946;
+    box-shadow: 0 4px 12px rgba(188, 73, 70, 0.2);
+    background: #FFFFFF;
+    position: relative;
 }
 .brand-avatar-img {
     width: 48px;
     height: 48px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 2px solid #BC4946;
-    box-shadow: 0 4px 12px rgba(188, 73, 70, 0.2);
+    object-fit: contain;
+    transform: scale(2.2);
+    transform-origin: 50% 16%;
+    display: block;
 }
 .online-indicator {
     position: absolute;
@@ -404,17 +412,18 @@ div.st-key-btn_view_all_chats > button:hover {
     align-items: center;
     justify-content: center;
     z-index: 2;
-    margin-bottom: 0.3rem;
+    margin-bottom: 0.2rem;
 }
 .avatar-halo {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 240px;
-    height: 240px;
+    width: 245px;
+    height: 245px;
     border-radius: 50%;
-    background: radial-gradient(circle, rgba(254, 218, 212, 0.85) 0%, rgba(255, 236, 231, 0.45) 55%, transparent 75%);
+    background: radial-gradient(circle, #FF221E 0%, #E6120E 40%, rgba(230, 18, 14, 0.72) 65%, rgba(230, 18, 14, 0.15) 85%, transparent 100%);
+    box-shadow: 0 0 55px rgba(255, 34, 30, 0.45);
     pointer-events: none;
     z-index: 0;
 }
@@ -426,13 +435,13 @@ div.st-key-btn_view_all_chats > button:hover {
     z-index: 1;
 }
 .raju-hero-character {
-    height: 195px;
+    height: 175px;
     width: auto;
     display: block;
     object-fit: contain;
     user-select: none;
     pointer-events: none;
-    filter: drop-shadow(0 8px 16px rgba(188, 73, 70, 0.12));
+    filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.28)) drop-shadow(0 0 1.5px rgba(255, 255, 255, 0.9));
 }
 @keyframes rajuFloat {
     0%, 100% { transform: translateY(0px) rotate(0deg); }
@@ -480,10 +489,10 @@ div.st-key-btn_view_all_chats > button:hover {
 }
 
 .welcome-heading {
-    font-size: 2.3rem;
+    font-size: 2.1rem;
     font-weight: 800;
     color: #2B1E1C;
-    margin: 0.35rem 0 0.25rem 0;
+    margin: 0.2rem 0 0.15rem 0;
     letter-spacing: -0.5px;
     position: relative;
     z-index: 2;
@@ -492,10 +501,10 @@ div.st-key-btn_view_all_chats > button:hover {
     color: #BC4946;
 }
 .welcome-subtitle {
-    font-size: 1.02rem;
+    font-size: 0.98rem;
     font-weight: 500;
     color: #5C4D4A;
-    margin-bottom: 0.6rem;
+    margin-bottom: 0.75rem;
     position: relative;
     z-index: 2;
 }
@@ -503,22 +512,36 @@ div.st-key-btn_view_all_chats > button:hover {
 /* =========================================================
    FOUR INTERACTIVE SUGGESTION CARDS (SINGLE ROW 4 COLUMNS)
    ========================================================= */
+[data-testid="stHorizontalBlock"] {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    gap: 12px !important;
+    width: 100% !important;
+    position: relative !important;
+    z-index: 2 !important;
+}
+[data-testid="stHorizontalBlock"] > [data-testid="column"] {
+    flex: 1 1 0% !important;
+    min-width: 0 !important;
+}
+
 div.st-key-btn_card_1 button,
 div.st-key-btn_card_2 button,
 div.st-key-btn_card_3 button,
 div.st-key-btn_card_4 button {
-    height: 140px !important;
-    min-height: 140px !important;
+    height: 120px !important;
+    min-height: 120px !important;
     background: #FFFFFF !important;
     border: 1px solid #EADAD5 !important;
-    border-radius: 18px !important;
+    border-radius: 16px !important;
     box-shadow: 0 4px 18px rgba(188, 73, 70, 0.05) !important;
     text-align: left !important;
     display: flex !important;
     flex-direction: column !important;
     align-items: flex-start !important;
     justify-content: flex-start !important;
-    padding: 1.1rem 1rem !important;
+    padding: 0.9rem 0.85rem !important;
     position: relative !important;
     overflow: hidden !important;
     transition: all 0.22s ease-in-out !important;
@@ -530,8 +553,8 @@ div.st-key-btn_card_2 button:hover,
 div.st-key-btn_card_3 button:hover,
 div.st-key-btn_card_4 button:hover {
     border-color: #D98278 !important;
-    transform: translateY(-4px) !important;
-    box-shadow: 0 10px 24px rgba(188, 73, 70, 0.12) !important;
+    transform: translateY(-3px) !important;
+    box-shadow: 0 8px 22px rgba(188, 73, 70, 0.12) !important;
     background: #FFFFFF !important;
 }
 
@@ -542,19 +565,19 @@ div.st-key-btn_card_3 button::after,
 div.st-key-btn_card_4 button::after {
     content: "→";
     position: absolute;
-    bottom: 12px;
-    right: 12px;
-    width: 28px;
-    height: 28px;
+    bottom: 10px;
+    right: 10px;
+    width: 24px;
+    height: 24px;
     border-radius: 50%;
     background: #FCE8E3;
     color: #BC4946;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 0.95rem;
+    font-size: 0.85rem;
     font-weight: 800;
-    line-height: 28px;
+    line-height: 24px;
     text-align: center;
     transition: background 0.2s ease, color 0.2s ease;
 }
@@ -576,10 +599,10 @@ div.st-key-btn_card_4 button::before {
     bottom: 0;
     left: 0;
     right: 0;
-    height: 6px;
+    height: 5px;
     background: linear-gradient(90deg, #FBE8E3 0%, #F5D2C9 50%, #FCEAE5 100%);
-    border-bottom-left-radius: 18px;
-    border-bottom-right-radius: 18px;
+    border-bottom-left-radius: 16px;
+    border-bottom-right-radius: 16px;
 }
 
 div.st-key-btn_card_1 button *,
@@ -609,11 +632,11 @@ div.st-key-btn_card_1 button p:first-child,
 div.st-key-btn_card_2 button p:first-child,
 div.st-key-btn_card_3 button p:first-child,
 div.st-key-btn_card_4 button p:first-child {
-    font-size: 1.05rem !important;
+    font-size: 0.95rem !important;
     font-weight: 700 !important;
     color: #2B1E1C !important;
-    margin-bottom: 0.35rem !important;
-    line-height: 1.3 !important;
+    margin-bottom: 0.25rem !important;
+    line-height: 1.25 !important;
     display: block !important;
     width: 100% !important;
 }
@@ -621,11 +644,11 @@ div.st-key-btn_card_1 button p:last-child,
 div.st-key-btn_card_2 button p:last-child,
 div.st-key-btn_card_3 button p:last-child,
 div.st-key-btn_card_4 button p:last-child {
-    font-size: 0.78rem !important;
+    font-size: 0.74rem !important;
     font-weight: 500 !important;
     color: #7A6966 !important;
-    line-height: 1.35 !important;
-    padding-right: 28px !important;
+    line-height: 1.3 !important;
+    padding-right: 22px !important;
     margin-top: 0 !important;
     display: block !important;
     width: 100% !important;
@@ -683,7 +706,8 @@ div[data-testid="stChatMessage"]:has(img[src*="raju_avatar"]) span {
 div[data-testid="stChatMessage"] img {
     border-radius: 50% !important;
     object-fit: cover !important;
-    background: transparent !important;
+    object-position: center 2px !important;
+    background: #FFFFFF !important;
     border: 2px solid #BC4946 !important;
     box-shadow: 0 2px 8px rgba(188, 73, 70, 0.18) !important;
 }
@@ -827,7 +851,9 @@ with st.sidebar:
     brand_html = (
         '<div class="brand-header">'
         '<div class="brand-avatar-box">'
+        '<div class="brand-avatar-circle">'
         f'<img src="data:image/png;base64,{mighty_raju_avatar_b64}" class="brand-avatar-img" />'
+        '</div>'
         '<span class="online-indicator"></span>'
         '</div>'
         '<div>'
@@ -1199,7 +1225,7 @@ except Exception as init_err:
 # ---------------------------------------------------------
 # Welcome Screen (Displayed when current conversation is empty)
 # ---------------------------------------------------------
-if len(st.session_state.messages) == 0:
+if len(st.session_state.messages) == 0 and not st.session_state.pending_prompt:
     if mighty_raju_img_b64:
         hero_html = (
             '<div class="hero-stage">'
