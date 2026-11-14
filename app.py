@@ -160,46 +160,39 @@ st.markdown("""
         backdrop-filter: none !important;
         box-shadow: none !important;
         border: none !important;
-        padding: 0.35rem 0.8rem 0.15rem 0.8rem !important;
+        padding: 0.65rem 0.85rem 0.2rem 0.85rem !important;
         margin: 0 !important;
-    }
-    section[data-testid="stSidebar"] div[data-testid="stVerticalBlock"] {
-        gap: 0.22rem !important;
-    }
-    section[data-testid="stSidebar"] div[data-testid="stElementContainer"] {
-        margin-bottom: 0px !important;
     }
 
     /* Sidebar Branding */
     .brand-header {
         display: flex;
         align-items: center;
-        gap: 8px;
-        padding: 0 0.1rem 0.25rem 0.1rem;
-        margin-top: -0.2rem;
+        gap: 10px;
+        padding: 0 0.1rem 0.4rem 0.1rem;
     }
     .brand-avatar-img {
-        width: 32px;
-        height: 32px;
+        width: 40px;
+        height: 40px;
         border-radius: 50%;
         object-fit: contain;
         background: #ffffff !important;
         padding: 2px;
         border: 2px solid #BA0001 !important;
-        box-shadow: 0 2px 6px rgba(186, 0, 1, 0.2) !important;
+        box-shadow: 0 3px 10px rgba(186, 0, 1, 0.3) !important;
     }
     .brand-name {
-        font-size: 1.0rem;
+        font-size: 1.15rem;
         font-weight: 800;
-        letter-spacing: 0.3px;
+        letter-spacing: 0.5px;
         color: #0f172a;
-        line-height: 1.15;
+        line-height: 1.2;
     }
     .brand-name span {
         color: #BA0001;
     }
     .brand-sub {
-        font-size: 0.68rem;
+        font-size: 0.72rem;
         color: #991b1b;
         font-weight: 600;
     }
@@ -211,16 +204,17 @@ st.markdown("""
         border: none !important;
         font-weight: 700 !important;
         border-radius: 10px !important;
-        min-height: 32px !important;
-        height: 32px !important;
-        padding: 0 6px !important;
-        font-size: 0.78rem !important;
-        box-shadow: 0 2px 6px rgba(186, 0, 1, 0.2) !important;
+        min-height: 38px !important;
+        height: 38px !important;
+        padding: 0 8px !important;
+        font-size: 0.84rem !important;
+        box-shadow: 0 3px 10px rgba(186, 0, 1, 0.3) !important;
         transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
     }
     div.st-key-sb_btn_new button:hover {
         transform: translateY(-1px) !important;
-        box-shadow: 0 4px 12px rgba(186, 0, 1, 0.35) !important;
+        box-shadow: 0 5px 15px rgba(186, 0, 1, 0.4) !important;
+        background: linear-gradient(135deg, #FF4545 0%, #F02828 50%, #C70001 100%) !important;
         color: #ffffff !important;
     }
     div.st-key-sb_btn_clear button {
@@ -228,10 +222,10 @@ st.markdown("""
         color: #475569 !important;
         border: 1px solid #e2e8f0 !important;
         border-radius: 10px !important;
-        min-height: 32px !important;
-        height: 32px !important;
-        padding: 0 6px !important;
-        font-size: 0.78rem !important;
+        min-height: 38px !important;
+        height: 38px !important;
+        padding: 0 8px !important;
+        font-size: 0.84rem !important;
         font-weight: 600 !important;
         transition: all 0.2s ease !important;
     }
@@ -241,51 +235,31 @@ st.markdown("""
         background: #fff5f5 !important;
     }
 
-    /* 1. Saved Chats & Projects Buttons (Clean rounded rect with subtle pastel backgrounds) */
-    div.st-key-nav_btn_saved button {
-        background: #f4effe !important;
-        color: #1e1b4b !important;
-        border: none !important;
-        border-radius: 14px !important;
-        font-weight: 600 !important;
-        font-size: 0.86rem !important;
-        min-height: 38px !important;
-        height: 38px !important;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        gap: 8px !important;
-        box-shadow: none !important;
-        margin-bottom: 4px !important;
-        transition: all 0.18s ease !important;
-    }
-    div.st-key-nav_btn_saved button:hover {
-        background: #ede5fd !important;
-        color: #312e81 !important;
-        transform: translateY(-1px) !important;
-    }
-
+    /* Sidebar Navigation Buttons (3 boxes: Search, Saved, Projects) */
+    div.st-key-nav_btn_search button,
+    div.st-key-nav_btn_saved button,
     div.st-key-nav_btn_projects button {
-        background: #edf3fe !important;
-        color: #1e1b4b !important;
-        border: none !important;
-        border-radius: 14px !important;
+        background: #ffffff !important;
+        border: 1px solid #fee2e2 !important;
+        border-radius: 10px !important;
+        color: #334155 !important;
         font-weight: 600 !important;
-        font-size: 0.86rem !important;
-        min-height: 38px !important;
-        height: 38px !important;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: space-between !important;
-        padding: 0 14px !important;
-        box-shadow: none !important;
-        margin-bottom: 4px !important;
-        transition: all 0.18s ease !important;
+        min-height: 35px !important;
+        height: 35px !important;
+        padding: 0 12px !important;
+        font-size: 0.82rem !important;
+        margin-bottom: 2px !important;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.02) !important;
+        transition: all 0.2s ease !important;
     }
+    div.st-key-nav_btn_search button:hover,
+    div.st-key-nav_btn_saved button:hover,
     div.st-key-nav_btn_projects button:hover {
-        background: #e2edfd !important;
-        color: #1e3a8a !important;
+        border-color: #f87171 !important;
+        color: #BA0001 !important;
+        background: #fff5f5 !important;
         transform: translateY(-1px) !important;
+        box-shadow: 0 4px 12px rgba(186, 0, 1, 0.1) !important;
     }
 
     /* 2. Recent Chats Section Header */
@@ -1048,7 +1022,7 @@ with st.sidebar:
             st.session_state.pending_prompt = None
             st.rerun()
 
-    st.markdown("<div style='margin-bottom: 0.25rem;'></div>", unsafe_allow_html=True)
+    st.markdown("<hr style='margin: 0.4rem 0 0.45rem 0; border: none; border-top: 1px solid #fee2e2;'>", unsafe_allow_html=True)
 
     # =========================================================
     # SIDEBAR MODE: SEARCH CHATS
@@ -1264,16 +1238,21 @@ with st.sidebar:
     # SIDEBAR MODE: DEFAULT MAIN VIEW
     # =========================================================
     else:
-        # 1. Saved Chats & Projects Buttons (Matching reference pastel design)
+        # A. Search Chats
+        if st.button("🔍 Search Chats", key="nav_btn_search", use_container_width=True):
+            st.session_state.sidebar_mode = "search"
+            st.rerun()
+
+        # B. Saved Chats (shows count)
         saved_count = len(db.get_saved_conversations())
-        saved_label = "🔖 Saved Chats" if saved_count == 0 else f"🔖 Saved Chats ({saved_count})"
+        saved_label = f"🔖 Saved Chats ({saved_count})" if saved_count > 0 else "🔖 Saved Chats"
         if st.button(saved_label, key="nav_btn_saved", use_container_width=True):
             st.session_state.sidebar_mode = "saved"
             st.rerun()
 
-        nbsp = "\u00a0"
+        # C. Projects (shows count)
         proj_count = len(db.get_all_projects())
-        proj_label = f"📁 Projects ({proj_count}){nbsp*14}›" if proj_count > 0 else f"📁 Projects{nbsp*18}›"
+        proj_label = f"📁 Projects ({proj_count})" if proj_count > 0 else "📁 Projects"
         if st.button(proj_label, key="nav_btn_projects", use_container_width=True):
             st.session_state.sidebar_mode = "projects"
             st.rerun()
@@ -1359,7 +1338,7 @@ with st.sidebar:
             
             # 4. View All Chats Pill Button (Matching reference)
             all_count = len(db.get_all_conversations())
-            all_label = f"☰  View All Chats ({all_count}){nbsp*10}›"
+            all_label = f"☰  View All Chats ({all_count})               ›"
             if st.button(all_label, key="btn_view_all_chats", use_container_width=True):
                 st.session_state.sidebar_mode = "all_chats"
                 st.rerun()
