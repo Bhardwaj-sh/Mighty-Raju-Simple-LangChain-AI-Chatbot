@@ -418,11 +418,10 @@ def extract_text(content):
 
 @st.cache_resource(show_spinner=False)
 def load_llm():
-    """Cache high-speed LangChain Gemini 3.5 Flash chat model instance."""
+    """Cache high-speed LangChain Gemini 3.5 Flash-Lite chat model instance."""
     return ChatGoogleGenerativeAI(
-        model="gemini-3.5-flash",
+        model="gemini-3.5-flash-lite",
         google_api_key=api_key,
-        temperature=0.7,
     )
 
 def generate_title(first_prompt: str) -> str:
@@ -765,7 +764,7 @@ with st.sidebar:
     # Sidebar Bottom Tech Stack Footer
     st.markdown("""
     <div style="margin-top: 1.8rem; padding: 12px; background: #ffffff; border-radius: 12px; border: 1px solid #e2e8f0; font-size: 0.78rem; color: #64748b;">
-        <strong style="color: #334155;">⚡ Engine:</strong> Gemini 3.5 Flash<br>
+        <strong style="color: #334155;">⚡ Engine:</strong> Gemini 3.5 Flash-Lite (High Speed)<br>
         <strong style="color: #334155;">🔗 LangChain:</strong> v1.5.0<br>
         <strong style="color: #334155;">💾 Storage:</strong> SQLite (Persistent)
     </div>
@@ -798,7 +797,7 @@ with col_top_left:
             <div class="top-model-pill">
                 <span class="top-status-dot"></span>
                 <span>{status_title}</span>
-                <span style="color: #6366f1; font-weight: 700; font-size: 0.75rem;">(Gemini 3.5 Flash)</span>
+                <span style="color: #6366f1; font-weight: 700; font-size: 0.75rem;">(Gemini 3.5 Flash-Lite)</span>
             </div>
         </div>
         """, unsafe_allow_html=True)
