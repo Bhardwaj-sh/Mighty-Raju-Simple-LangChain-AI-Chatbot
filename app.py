@@ -409,7 +409,7 @@ st.markdown("""
 
     .compact-action-box {
         background: #ffffff;
-        border: 1.5px solid #fee2e2;
+        border: 1.5px solid #fca5a5;
         border-radius: 14px;
         padding: 0 15px;
         height: 46px;
@@ -418,8 +418,8 @@ st.markdown("""
         align-items: center;
         justify-content: space-between;
         gap: 8px;
-        box-shadow: 0 2px 8px rgba(186, 0, 1, 0.04);
-        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 4px 15px rgba(229, 29, 29, 0.22), 0 1px 4px rgba(186, 0, 1, 0.12);
+        transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
         cursor: pointer;
         user-select: none;
         width: 100%;
@@ -430,7 +430,7 @@ st.markdown("""
         background: #fff5f5;
         border-color: #BA0001;
         transform: translateY(-2px);
-        box-shadow: 0 6px 18px rgba(186, 0, 1, 0.16);
+        box-shadow: 0 8px 24px rgba(229, 29, 29, 0.38), 0 2px 8px rgba(186, 0, 1, 0.22);
     }
 
     .compact-left {
