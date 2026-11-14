@@ -503,9 +503,9 @@ st.markdown("""
         background: var(--border-subtle, #fee2e2);
     }
 
-    /* 2-Line Chat Row Items */
+    /* Single-Line Chat Row Items with Right-Aligned Timestamp */
     div[data-testid="stVerticalBlock"]:has(.recent-chats-list) {
-        gap: 4px !important;
+        gap: 3px !important;
     }
     div[data-testid="stVerticalBlock"]:has(.recent-chats-list) > div[data-testid="stLayoutWrapper"] {
         margin: 0 !important;
@@ -514,11 +514,11 @@ st.markdown("""
     div[data-testid="stHorizontalBlock"]:has(.chat-row-item) {
         align-items: center !important;
         margin-top: 1px !important;
-        margin-bottom: 3px !important;
+        margin-bottom: 2px !important;
         border-radius: var(--radius-md, 10px) !important;
         padding: 0 4px !important;
-        min-height: 48px !important;
-        height: 48px !important;
+        min-height: 38px !important;
+        height: 38px !important;
         transition: all 0.18s ease !important;
         box-sizing: border-box !important;
     }
@@ -544,9 +544,9 @@ st.markdown("""
         align-items: center;
         justify-content: space-between;
         width: 100%;
-        padding: 4px 2px !important;
-        min-height: 44px !important;
-        height: 44px !important;
+        padding: 0 2px !important;
+        min-height: 36px !important;
+        height: 36px !important;
         box-sizing: border-box;
         user-select: none;
     }
@@ -554,15 +554,17 @@ st.markdown("""
     .chat-row-left {
         display: flex;
         align-items: center;
-        gap: 10px;
+        gap: 8px;
         overflow: hidden;
         flex: 1 1 auto;
         min-width: 0;
+        margin-right: 6px;
     }
 
     .chat-icon-badge {
-        width: 28px;
-        height: 28px;
+        width: 26px;
+        height: 26px;
+        min-width: 26px;
         border-radius: var(--radius-sm, 8px);
         display: flex;
         align-items: center;
@@ -582,23 +584,15 @@ st.markdown("""
         border: 1px solid var(--border-subtle, #fee2e2) !important;
     }
 
-    .chat-row-content {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        overflow: hidden;
-        min-width: 0;
-        flex: 1 1 auto;
-        gap: 2px;
-    }
-
     .chat-row-title {
-        font-size: var(--font-size-item, 14px);
+        font-size: var(--font-size-item, 13px);
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-        line-height: 1.25;
+        line-height: 1.3;
         letter-spacing: -0.1px;
+        flex: 1 1 auto;
+        min-width: 0;
     }
 
     .title-active {
@@ -612,10 +606,12 @@ st.markdown("""
     }
 
     .chat-row-time {
-        font-size: var(--font-size-meta, 12px);
+        font-size: 11px;
         color: var(--text-muted, #64748b);
         font-weight: 500;
-        line-height: 1.2;
+        line-height: 1;
+        white-space: nowrap;
+        flex-shrink: 0;
     }
 
     /* Invisible overlay button covering the chat item column */
@@ -1513,78 +1509,68 @@ with st.sidebar:
         </div>
         """, unsafe_allow_html=True)
 
-        recent_chats = db.get_recent_conversations(8)
+        recent_chats = db.get_recent_conversations(5)
 
         if recent_chats:
-            grouped_chats = {}
-            for rc in recent_chats:
-                group = get_date_group(rc.get("updated_at") or rc.get("created_at"))
-                grouped_chats.setdefault(group, []).append(rc)
-
             with st.container():
                 st.markdown('<div class="recent-chats-list"></div>', unsafe_allow_html=True)
-                for group_name in ["Today", "Yesterday", "Earlier"]:
-                    if group_name in grouped_chats:
-                        st.markdown(f'<div class="date-group-header">{group_name}</div>', unsafe_allow_html=True)
-                        for rc in grouped_chats[group_name]:
-                            is_active = (rc["id"] == st.session_state.active_chat_id)
-                            rel_time = format_relative_time(rc.get("updated_at") or rc.get("created_at"))
-                            active_class = "chat-row-active" if is_active else "chat-row-inactive"
-                            badge_class = "badge-active" if is_active else "badge-inactive"
-                            title_class = "title-active" if is_active else "title-inactive"
-                            escaped_title = html.escape(rc["title"], quote=True)
-                            
-                            col_c, col_d = st.columns([5.2, 0.8], gap="small")
-                            with col_c:
-                                st.markdown(f"""
-                                <div class="chat-row-item {active_class}">
-                                    <div class="chat-row-left">
-                                        <div class="chat-icon-badge {badge_class}">
-                                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
-                                                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-                                                <line x1="8" y1="9" x2="16" y2="9"></line>
-                                                <line x1="8" y1="13" x2="13" y2="13"></line>
-                                            </svg>
-                                        </div>
-                                        <div class="chat-row-content">
-                                            <div class="chat-row-title {title_class}" title="{escaped_title}">{escaped_title}</div>
-                                            <div class="chat-row-time">{rel_time}</div>
-                                        </div>
-                                    </div>
+                for rc in recent_chats:
+                    is_active = (rc["id"] == st.session_state.active_chat_id)
+                    rel_time = format_relative_time(rc.get("updated_at") or rc.get("created_at"))
+                    active_class = "chat-row-active" if is_active else "chat-row-inactive"
+                    badge_class = "badge-active" if is_active else "badge-inactive"
+                    title_class = "title-active" if is_active else "title-inactive"
+                    escaped_title = html.escape(rc["title"], quote=True)
+                    
+                    col_c, col_d = st.columns([5.2, 0.8], gap="small")
+                    with col_c:
+                        st.markdown(f"""
+                        <div class="chat-row-item {active_class}">
+                            <div class="chat-row-left">
+                                <div class="chat-icon-badge {badge_class}">
+                                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                                        <line x1="8" y1="9" x2="16" y2="9"></line>
+                                        <line x1="8" y1="13" x2="13" y2="13"></line>
+                                    </svg>
                                 </div>
-                                """, unsafe_allow_html=True)
-                                if st.button("Open", key=f"rc_open_{rc['id']}", use_container_width=True):
-                                    st.session_state.active_chat_id = rc["id"]
-                                    st.session_state.messages = db.get_messages(rc["id"])
-                                    st.rerun()
+                                <div class="chat-row-title {title_class}" title="{escaped_title}">{escaped_title}</div>
+                            </div>
+                            <div class="chat-row-time">{rel_time}</div>
+                        </div>
+                        """, unsafe_allow_html=True)
+                        if st.button("Open", key=f"rc_open_{rc['id']}", use_container_width=True):
+                            st.session_state.active_chat_id = rc["id"]
+                            st.session_state.messages = db.get_messages(rc["id"])
+                            st.rerun()
 
-                            with col_d:
-                                st.markdown('<div class="chat-dots-menu"></div>', unsafe_allow_html=True)
-                                with st.popover("⋮", help="Options"):
-                                    st.markdown(f"<div style='font-weight: 700; font-size: 0.82rem; color: #BA0001; margin-bottom: 6px;'>Options</div>", unsafe_allow_html=True)
-                                    new_rtitle = st.text_input("Rename", value=rc['title'], key=f"pop_ren_in_{rc['id']}", label_visibility="collapsed")
-                                    if st.button("💾 Save Name", key=f"pop_ren_btn_{rc['id']}", use_container_width=True):
-                                        if new_rtitle.strip() and new_rtitle.strip() != rc['title']:
-                                            db.update_conversation_title(rc['id'], new_rtitle.strip())
-                                            st.rerun()
-                                    is_saved = bool(rc.get("is_saved", 0))
-                                    if is_saved:
-                                        if st.button("⭐ Remove Bookmark", key=f"pop_unsave_{rc['id']}", use_container_width=True):
-                                            db.set_conversation_saved(rc['id'], False)
-                                            st.rerun()
-                                    else:
-                                        if st.button("☆ Bookmark Chat", key=f"pop_save_{rc['id']}", use_container_width=True):
-                                            db.set_conversation_saved(rc['id'], True)
-                                            st.rerun()
-                                    if st.button("📁 Move to Project", key=f"pop_proj_{rc['id']}", use_container_width=True):
-                                        st.session_state.sidebar_mode = "projects"
-                                        st.rerun()
-                                    if st.button("🗑️ Delete Chat", key=f"pop_del_{rc['id']}", use_container_width=True):
-                                        db.delete_conversation(rc['id'])
-                                        if st.session_state.active_chat_id == rc['id']:
-                                            st.session_state.active_chat_id = None
-                                            st.session_state.messages = []
-                                        st.rerun()
+                    with col_d:
+                        st.markdown('<div class="chat-dots-menu"></div>', unsafe_allow_html=True)
+                        with st.popover("⋮", help="Options"):
+                            st.markdown(f"<div style='font-weight: 700; font-size: 0.82rem; color: #BA0001; margin-bottom: 6px;'>Options</div>", unsafe_allow_html=True)
+                            new_rtitle = st.text_input("Rename", value=rc['title'], key=f"pop_ren_in_{rc['id']}", label_visibility="collapsed")
+                            if st.button("💾 Save Name", key=f"pop_ren_btn_{rc['id']}", use_container_width=True):
+                                if new_rtitle.strip() and new_rtitle.strip() != rc['title']:
+                                    db.update_conversation_title(rc['id'], new_rtitle.strip())
+                                    st.rerun()
+                            is_saved = bool(rc.get("is_saved", 0))
+                            if is_saved:
+                                if st.button("⭐ Remove Bookmark", key=f"pop_unsave_{rc['id']}", use_container_width=True):
+                                    db.set_conversation_saved(rc['id'], False)
+                                    st.rerun()
+                            else:
+                                if st.button("☆ Bookmark Chat", key=f"pop_save_{rc['id']}", use_container_width=True):
+                                    db.set_conversation_saved(rc['id'], True)
+                                    st.rerun()
+                            if st.button("📁 Move to Project", key=f"pop_proj_{rc['id']}", use_container_width=True):
+                                st.session_state.sidebar_mode = "projects"
+                                st.rerun()
+                            if st.button("🗑️ Delete Chat", key=f"pop_del_{rc['id']}", use_container_width=True):
+                                db.delete_conversation(rc['id'])
+                                if st.session_state.active_chat_id == rc['id']:
+                                    st.session_state.active_chat_id = None
+                                    st.session_state.messages = []
+                                st.rerun()
                     
             # 4. View All Chats subtle text link button
             all_count = len(db.get_all_conversations())
