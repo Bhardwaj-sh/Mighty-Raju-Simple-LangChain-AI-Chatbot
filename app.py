@@ -78,17 +78,19 @@ st.markdown("""
         position: relative !important;
         display: flex !important;
         flex-direction: column !important;
+        justify-content: space-between !important;
     }
 
     .block-container {
         background: transparent !important;
         border: none !important;
         box-shadow: none !important;
-        padding: 1.2rem 2.4rem 0.5rem 2.4rem !important;
+        padding: 0.6rem 2rem 0.2rem 2rem !important;
         margin: 0 !important;
         max-width: 100% !important;
         width: 100% !important;
         flex: 1 1 auto !important;
+        min-height: 0 !important;
         overflow-y: auto !important;
         overflow-x: hidden !important;
         scrollbar-width: thin;
@@ -107,10 +109,11 @@ st.markdown("""
         position: relative !important;
         bottom: 0 !important;
         width: 100% !important;
-        padding: 0.6rem 2.4rem 1.4rem 2.4rem !important;
+        padding: 0.2rem 2rem 0.8rem 2rem !important;
         margin: 0 !important;
         box-sizing: border-box !important;
         z-index: 10 !important;
+        flex-shrink: 0 !important;
     }
 
     [data-testid="stBottomBlockContainer"] {
@@ -302,7 +305,7 @@ st.markdown("""
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        margin: 0.1rem auto 0.2rem auto;
+        margin: 0 auto !important;
         position: relative;
         background: transparent !important;
     }
@@ -317,8 +320,8 @@ st.markdown("""
     }
 
     .raju-standing-character {
-        height: 230px !important;
-        max-height: 230px !important;
+        height: 175px !important;
+        max-height: 175px !important;
         width: auto !important;
         display: block !important;
         object-fit: contain !important;
@@ -365,11 +368,11 @@ st.markdown("""
     }
 
     .avatar-ground-shadow {
-        width: 135px;
-        height: 11px;
+        width: 115px;
+        height: 9px;
         background: radial-gradient(ellipse at center, rgba(186, 0, 1, 0.28) 0%, rgba(229, 29, 29, 0.08) 55%, transparent 75%);
         border-radius: 50%;
-        margin-top: -6px;
+        margin-top: -5px;
         z-index: 1;
         animation: shadowPulse 5.5s ease-in-out infinite;
     }
@@ -380,18 +383,18 @@ st.markdown("""
 
     .center-greeting {
         text-align: center;
-        font-size: 1.85rem;
+        font-size: 1.65rem;
         font-weight: 800;
         color: #0f172a;
-        margin: 0.25rem 0 0.1rem 0;
+        margin: 0.15rem 0 0.05rem 0;
         letter-spacing: -0.5px;
     }
     .center-subgreeting {
         text-align: center;
-        font-size: 0.86rem;
+        font-size: 0.82rem;
         color: #64748b;
         font-weight: 500;
-        margin-bottom: 0.85rem;
+        margin-bottom: 0.5rem;
     }
 
     /* Four Compact Slim Horizontal Action Boxes */
@@ -400,12 +403,16 @@ st.markdown("""
         position: relative !important;
     }
 
+    div[data-testid="stHorizontalBlock"]:has(.compact-action-box) {
+        margin-bottom: 0.5rem !important;
+    }
+
     .compact-action-box {
         background: #ffffff;
         border: 1.5px solid #fee2e2;
         border-radius: 14px;
-        padding: 0 16px;
-        height: 48px;
+        padding: 0 14px;
+        height: 44px;
         box-sizing: border-box;
         display: flex;
         align-items: center;
@@ -1060,7 +1067,7 @@ with col_top_right:
                 st.session_state.messages = []
                 st.rerun()
 
-st.markdown("<hr style='margin: 0.4rem 0 1.2rem 0; border: none; border-top: 1px solid rgba(226, 232, 240, 0.8);'>", unsafe_allow_html=True)
+st.markdown("<hr style='margin: 0.15rem 0 0.35rem 0; border: none; border-top: 1px solid rgba(226, 232, 240, 0.8);'>", unsafe_allow_html=True)
 
 # ---------------------------------------------------------
 # API Key Verification
