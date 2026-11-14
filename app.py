@@ -49,7 +49,9 @@ st.markdown("""
         background: linear-gradient(135deg, #FF221E 0%, #E51D1D 32%, #BA0001 72%, #850001 100%) !important;
         background-attachment: fixed !important;
         background-size: cover !important;
-        min-height: 100vh !important;
+        height: 100vh !important;
+        max-height: 100vh !important;
+        overflow: hidden !important;
         color: #1e293b !important;
     }
 
@@ -57,26 +59,65 @@ st.markdown("""
         display: none !important;
     }
 
-    [data-testid="stBottom"],
-    [data-testid="stBottom"] > div,
-    [data-testid="stBottomBlockContainer"] {
-        background: transparent !important;
-        background-color: transparent !important;
-        box-shadow: none !important;
-    }
-
-    /* Main glassmorphic card container */
-    .block-container {
+    /* Main fixed glassmorphic card container */
+    main#stMain,
+    [data-testid="stAppScrollToBottomContainer"] {
         background: rgba(255, 255, 255, 0.96) !important;
         backdrop-filter: blur(28px) saturate(180%) !important;
         -webkit-backdrop-filter: blur(28px) saturate(180%) !important;
         border: 1.5px solid rgba(255, 255, 255, 0.95) !important;
         border-radius: 28px !important;
         box-shadow: 0 25px 65px -12px rgba(133, 0, 1, 0.38), 0 0 0 1px rgba(255, 255, 255, 0.8) !important;
-        padding: 2.2rem 2.6rem 3.5rem 2.6rem !important;
-        margin-top: 2rem !important;
-        margin-bottom: 2rem !important;
         max-width: 980px !important;
+        width: 92% !important;
+        height: calc(100vh - 2.4rem) !important;
+        max-height: calc(100vh - 2.4rem) !important;
+        margin: 1.2rem auto !important;
+        box-sizing: border-box !important;
+        overflow: hidden !important;
+        position: relative !important;
+        display: flex !important;
+        flex-direction: column !important;
+    }
+
+    .block-container {
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+        padding: 1.2rem 2.4rem 0.5rem 2.4rem !important;
+        margin: 0 !important;
+        max-width: 100% !important;
+        width: 100% !important;
+        flex: 1 1 auto !important;
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+        scrollbar-width: thin;
+        scrollbar-color: #fca5a5 transparent;
+    }
+
+    /* Fixed chat input anchored cleanly inside the bottom of the main white card container */
+    [data-testid="stBottom"],
+    [data-testid="stBottom"] > div {
+        background: transparent !important;
+        background-color: transparent !important;
+        box-shadow: none !important;
+    }
+
+    [data-testid="stBottom"] {
+        position: relative !important;
+        bottom: 0 !important;
+        width: 100% !important;
+        padding: 0.6rem 2.4rem 1.4rem 2.4rem !important;
+        margin: 0 !important;
+        box-sizing: border-box !important;
+        z-index: 10 !important;
+    }
+
+    [data-testid="stBottomBlockContainer"] {
+        max-width: 100% !important;
+        width: 100% !important;
+        padding: 0 !important;
+        margin: 0 !important;
     }
 
     /* Sidebar Styling */
@@ -261,15 +302,15 @@ st.markdown("""
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        margin: 0.5rem auto 0.4rem auto;
+        margin: 0.2rem auto 0.2rem auto;
         position: relative;
         background: transparent !important;
     }
     .avatar-stage::before {
         content: '';
         position: absolute;
-        width: 250px;
-        height: 250px;
+        width: 200px;
+        height: 200px;
         background: radial-gradient(circle, rgba(255, 46, 46, 0.18) 0%, rgba(186, 0, 1, 0.08) 50%, transparent 72%);
         border: 2px dashed rgba(229, 29, 29, 0.25);
         border-radius: 50%;
@@ -290,8 +331,8 @@ st.markdown("""
     }
 
     .raju-standing-character {
-        height: 200px;
-        max-height: 200px;
+        height: 155px;
+        max-height: 155px;
         width: auto;
         display: block;
         object-fit: contain;
@@ -338,11 +379,11 @@ st.markdown("""
     }
 
     .avatar-ground-shadow {
-        width: 130px;
-        height: 12px;
+        width: 110px;
+        height: 10px;
         background: radial-gradient(ellipse at center, rgba(186, 0, 1, 0.3) 0%, rgba(229, 29, 29, 0.1) 55%, transparent 75%);
         border-radius: 50%;
-        margin-top: -6px;
+        margin-top: -5px;
         z-index: 1;
         animation: shadowPulse 5.5s ease-in-out infinite;
     }
@@ -353,43 +394,134 @@ st.markdown("""
 
     .center-greeting {
         text-align: center;
-        font-size: 2.1rem;
+        font-size: 1.85rem;
         font-weight: 800;
         color: #0f172a;
-        margin: 0.6rem 0 0.2rem 0;
+        margin: 0.35rem 0 0.15rem 0;
         letter-spacing: -0.5px;
     }
     .center-subgreeting {
         text-align: center;
-        font-size: 0.95rem;
+        font-size: 0.88rem;
         color: #64748b;
         font-weight: 500;
-        margin-bottom: 1.5rem;
+        margin-bottom: 1rem;
     }
 
-    /* Suggestion Chips */
-    div[data-testid="stButton"] > button {
-        background: #ffffff !important;
-        border: 1px solid #fee2e2 !important;
-        color: #1e293b !important;
-        border-radius: 14px !important;
-        padding: 0.75rem 1rem !important;
-        font-size: 0.86rem !important;
-        font-weight: 600 !important;
-        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
-        box-shadow: 0 2px 8px rgba(186, 0, 1, 0.04) !important;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        gap: 6px !important;
-        width: 100% !important;
+    /* Four Suggestion Boxes matching exact reference */
+    div[data-testid="stColumn"]:has(.suggestion-card-box),
+    div[data-testid="column"]:has(.suggestion-card-box) {
+        position: relative !important;
     }
-    div[data-testid="stButton"] > button:hover {
-        background: #fff5f5 !important;
-        border-color: #BA0001 !important;
-        color: #BA0001 !important;
-        transform: translateY(-2px) !important;
-        box-shadow: 0 6px 18px rgba(186, 0, 1, 0.16) !important;
+
+    .suggestion-card-box {
+        background: linear-gradient(180deg, #ffffff 60%, #fff5f5 86%, #fee2e2 100%);
+        border: 1.5px solid #fecdd3;
+        border-radius: 18px;
+        padding: 13px 13px 14px 15px;
+        height: 130px;
+        box-sizing: border-box;
+        position: relative;
+        box-shadow: 0 4px 14px rgba(186, 0, 1, 0.05);
+        transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        cursor: pointer;
+        user-select: none;
+    }
+
+    div[data-testid="stColumn"]:has(.suggestion-card-box):hover .suggestion-card-box,
+    div[data-testid="column"]:has(.suggestion-card-box):hover .suggestion-card-box {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 24px rgba(186, 0, 1, 0.13);
+        border-color: #f87171;
+    }
+
+    .card-icon-row {
+        display: flex;
+        align-items: center;
+        margin-bottom: 5px;
+        height: 24px;
+    }
+
+    .card-code-icon {
+        font-family: monospace;
+        font-weight: 800;
+        font-size: 1.15rem;
+        color: #BA0001;
+        letter-spacing: -0.5px;
+    }
+
+    .card-emoji-icon {
+        font-size: 1.25rem;
+        line-height: 1;
+    }
+
+    .card-title {
+        font-size: 0.94rem;
+        font-weight: 700;
+        color: #0f172a;
+        margin-bottom: 3px;
+        line-height: 1.25;
+    }
+
+    .card-desc {
+        font-size: 0.77rem;
+        color: #64748b;
+        line-height: 1.35;
+        margin: 0;
+        padding-right: 20px;
+    }
+
+    .card-arrow-badge {
+        position: absolute;
+        bottom: 11px;
+        right: 12px;
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        background: #fecdd3;
+        color: #BA0001;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        font-weight: 700;
+        transition: all 0.2s ease;
+    }
+
+    div[data-testid="stColumn"]:has(.suggestion-card-box):hover .card-arrow-badge,
+    div[data-testid="column"]:has(.suggestion-card-box):hover .card-arrow-badge {
+        background: #BA0001;
+        color: #ffffff;
+        transform: scale(1.12);
+    }
+
+    /* Invisible overlay button covering each suggestion card */
+    div[data-testid="stColumn"]:has(.suggestion-card-box) div.stButton,
+    div[data-testid="column"]:has(.suggestion-card-box) div.stButton {
+        position: absolute !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+        z-index: 10 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    div[data-testid="stColumn"]:has(.suggestion-card-box) div.stButton > button,
+    div[data-testid="column"]:has(.suggestion-card-box) div.stButton > button {
+        width: 100% !important;
+        height: 100% !important;
+        opacity: 0 !important;
+        cursor: pointer !important;
+        border: none !important;
+        background: transparent !important;
+        box-shadow: none !important;
+        margin: 0 !important;
+        padding: 0 !important;
     }
 
     /* Base Chat Message */
@@ -440,7 +572,7 @@ st.markdown("""
         box-shadow: 0 2px 8px rgba(186, 0, 1, 0.25) !important;
     }
 
-    /* Chat Input Pill */
+    /* Chat Input Pill - Anchored neatly inside the white card */
     div[data-testid="stChatInput"] {
         background: #ffffff !important;
         border-radius: 9999px !important;
@@ -986,22 +1118,86 @@ if len(st.session_state.messages) == 0:
     <div class="center-subgreeting">Your AI companion. Ask me anything and let's figure it out together.</div>
     """, unsafe_allow_html=True)
 
-    # Action chips below prompt matching approved reference
+    # Action cards row matching uploaded design reference
     chip_col1, chip_col2, chip_col3, chip_col4 = st.columns(4)
     with chip_col1:
-        if st.button("</> Explain Code", key="chip_1", use_container_width=True):
+        st.markdown("""
+        <div class="suggestion-card-box">
+            <div class="card-icon-row"><span class="card-code-icon">&lt;/&gt;</span></div>
+            <div class="card-title">Explain Code</div>
+            <div class="card-desc">Understand programming concepts step by step.</div>
+            <div class="card-arrow-badge">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+        if st.button("Explain Code", key="chip_1", use_container_width=True):
             st.session_state.pending_prompt = "Explain programming concepts step by step with clear, intuitive examples."
             st.rerun()
+
     with chip_col2:
-        if st.button("💡 Brainstorm Ideas", key="chip_2", use_container_width=True):
+        st.markdown("""
+        <div class="suggestion-card-box">
+            <div class="card-icon-row"><span class="card-emoji-icon">💡</span></div>
+            <div class="card-title">Brainstorm Ideas</div>
+            <div class="card-desc">Explore creative ideas and find inspiration.</div>
+            <div class="card-arrow-badge">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+        if st.button("Brainstorm Ideas", key="chip_2", use_container_width=True):
             st.session_state.pending_prompt = "Explore creative ideas and find inspiration for an exciting project."
             st.rerun()
+
     with chip_col3:
-        if st.button("📖 Learn Something", key="chip_3", use_container_width=True):
+        st.markdown("""
+        <div class="suggestion-card-box">
+            <div class="card-icon-row">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="#BA0001">
+                    <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+                    <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+                </svg>
+            </div>
+            <div class="card-title">Learn Something</div>
+            <div class="card-desc">Discover and understand new topics.</div>
+            <div class="card-arrow-badge">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+        if st.button("Learn Something", key="chip_3", use_container_width=True):
             st.session_state.pending_prompt = "Discover and understand new topics across science, technology, and learning."
             st.rerun()
+
     with chip_col4:
-        if st.button("✏️ Writing Help", key="chip_4", use_container_width=True):
+        st.markdown("""
+        <div class="suggestion-card-box">
+            <div class="card-icon-row">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#BA0001" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path>
+                </svg>
+            </div>
+            <div class="card-title">Writing Help</div>
+            <div class="card-desc">Write, improve and refine your content.</div>
+            <div class="card-arrow-badge">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+        if st.button("Writing Help", key="chip_4", use_container_width=True):
             st.session_state.pending_prompt = "Write, improve, and refine content with creative and articulate phrasing."
             st.rerun()
 
