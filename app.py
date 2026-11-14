@@ -37,51 +37,45 @@ mighty_raju_avatar_b64 = get_base64_image("assets/mighty_raju_avatar_transparent
 avatar_path = "assets/mighty_raju_avatar_transparent.png" if os.path.exists("assets/mighty_raju_avatar_transparent.png") else "⚡"
 
 # ---------------------------------------------------------
-# ZAY-G Inspired Glassmorphic Aesthetic Styling
+# Mighty Raju Warm White + Soft Red Design System
 # ---------------------------------------------------------
 st.markdown("""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 
-    /* Global canvas with soft dreamy pastel gradient */
+    /* Global Canvas: Clean, warm off-white */
     html, body, [data-testid="stAppViewContainer"] {
-        font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif !important;
-        background: linear-gradient(135deg, #cde3fc 0%, #e0e7ff 40%, #ede9fe 75%, #fce7f3 100%) !important;
-        background-attachment: fixed !important;
-        color: #1e293b !important;
+        font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+        background-color: #FFFEFC !important;
+        color: #302C2B !important;
     }
 
     [data-testid="stHeader"] {
         background: transparent !important;
     }
 
-    /* Main glassmorphic card container */
+    /* Main Container: Crisp White with Subtle Warm Shadow */
     .block-container {
-        background: rgba(255, 255, 255, 0.85) !important;
-        backdrop-filter: blur(28px) saturate(180%) !important;
-        -webkit-backdrop-filter: blur(28px) saturate(180%) !important;
-        border: 1px solid rgba(255, 255, 255, 0.95) !important;
-        border-radius: 28px !important;
-        box-shadow: 0 25px 60px -15px rgba(99, 102, 241, 0.15), 0 0 0 1px rgba(255, 255, 255, 0.8) !important;
-        padding: 1.8rem 2.6rem 4rem 2.6rem !important;
-        margin-top: 1.5rem !important;
+        background: #FFFFFF !important;
+        border: 1px solid #EDE2DE !important;
+        border-radius: 20px !important;
+        box-shadow: 0 4px 24px rgba(48, 44, 43, 0.04) !important;
+        padding: 1.8rem 2.4rem 4rem 2.4rem !important;
+        margin-top: 1.2rem !important;
         margin-bottom: 2rem !important;
-        max-width: 980px !important;
+        max-width: 920px !important;
     }
 
-    /* Sidebar Styling */
+    /* Left Sidebar: Soft Warm Ivory/Blush */
     section[data-testid="stSidebar"] {
-        background: rgba(248, 250, 252, 0.92) !important;
-        backdrop-filter: blur(20px) !important;
-        -webkit-backdrop-filter: blur(20px) !important;
-        border-right: 1px solid rgba(226, 232, 240, 0.85) !important;
+        background-color: #F9F4F1 !important;
+        border-right: 1px solid #EDE2DE !important;
     }
     section[data-testid="stSidebar"] .block-container {
         background: transparent !important;
-        backdrop-filter: none !important;
         box-shadow: none !important;
         border: none !important;
-        padding: 1.2rem 1rem !important;
+        padding: 1.2rem 0.9rem !important;
         margin: 0 !important;
     }
 
@@ -90,99 +84,135 @@ st.markdown("""
         display: flex;
         align-items: center;
         gap: 12px;
-        padding: 0.2rem 0.2rem 1rem 0.2rem;
+        padding: 0.2rem 0.4rem 0.9rem 0.4rem;
     }
     .brand-avatar-img {
-        width: 44px;
-        height: 44px;
+        width: 42px;
+        height: 42px;
         border-radius: 50%;
         object-fit: cover;
-        background: transparent !important;
-        border: 2px solid #5b54fa;
-        box-shadow: 0 4px 12px rgba(91, 84, 250, 0.3);
+        background: #FFFFFF !important;
+        border: 2px solid #B94B48;
+        box-shadow: 0 3px 8px rgba(185, 75, 72, 0.22);
     }
     .brand-name {
-        font-size: 1.25rem;
+        font-size: 1.15rem;
         font-weight: 800;
         letter-spacing: 0.5px;
-        color: #0f172a;
+        color: #302C2B;
+        line-height: 1.2;
     }
     .brand-sub {
-        font-size: 0.75rem;
-        color: #64748b;
-        font-weight: 500;
+        font-size: 0.74rem;
+        color: #827674;
+        font-weight: 600;
+        letter-spacing: 0.3px;
     }
 
-    /* Sidebar Section Divider & Header */
+    /* Base Buttons Styling */
+    .stButton > button {
+        border-radius: 12px !important;
+        font-weight: 600 !important;
+        font-size: 0.85rem !important;
+        transition: all 0.18s ease-in-out !important;
+        border: 1px solid #EDE2DE !important;
+        color: #302C2B !important;
+        background: #FFFFFF !important;
+    }
+    .stButton > button:hover {
+        border-color: #B94B48 !important;
+        color: #B94B48 !important;
+        background: #FDF9F8 !important;
+        box-shadow: 0 3px 10px rgba(185, 75, 72, 0.1) !important;
+    }
+
+    /* Primary New Chat Button: Raju Red Accent */
+    div[data-testid="stVerticalBlock"] > div:has(button[key="sb_btn_new"]) button,
+    button[key="sb_btn_new"] {
+        background: #B94B48 !important;
+        color: #FFFFFF !important;
+        border: 1px solid #B94B48 !important;
+        box-shadow: 0 4px 12px rgba(185, 75, 72, 0.25) !important;
+    }
+    button[key="sb_btn_new"]:hover {
+        background: #A53C39 !important;
+        color: #FFFFFF !important;
+        border-color: #A53C39 !important;
+        transform: translateY(-1px) !important;
+    }
+
+    /* Clear Button */
+    button[key="sb_btn_clear_req"] {
+        background: #FFFFFF !important;
+        color: #827674 !important;
+        border: 1px solid #EDE2DE !important;
+    }
+    button[key="sb_btn_clear_req"]:hover {
+        color: #B94B48 !important;
+        border-color: #D98278 !important;
+        background: #FDF9F8 !important;
+    }
+
+    /* Sidebar Section Title */
     .sidebar-section-title {
-        font-size: 0.75rem;
+        font-size: 0.72rem;
         font-weight: 700;
         text-transform: uppercase;
         letter-spacing: 0.8px;
-        color: #64748b;
-        margin: 1.2rem 0.2rem 0.6rem 0.2rem;
+        color: #827674;
+        margin: 1.1rem 0.2rem 0.5rem 0.2rem;
         display: flex;
         justify-content: space-between;
         align-items: center;
     }
 
-    /* Sidebar View Header */
+    /* View Header */
     .view-header {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding-bottom: 0.6rem;
+        padding-bottom: 0.5rem;
         margin-bottom: 0.8rem;
-        border-bottom: 1px solid #e2e8f0;
+        border-bottom: 1px solid #EDE2DE;
     }
     .view-title {
-        font-size: 0.95rem;
+        font-size: 0.92rem;
         font-weight: 700;
-        color: #1e293b;
+        color: #302C2B;
         display: flex;
         align-items: center;
         gap: 6px;
     }
 
-    /* Sidebar Item Cards */
-    .sidebar-card {
-        background: #ffffff;
-        border: 1px solid #e2e8f0;
-        border-radius: 10px;
-        padding: 8px 10px;
-        margin-bottom: 6px;
-        font-size: 0.85rem;
-        transition: all 0.15s ease;
-    }
-    .sidebar-card:hover {
-        border-color: #c7d2fe;
-        background: #f8fafc;
-    }
-
-    /* Empty state info */
+    /* Empty state */
     .empty-state {
         text-align: center;
-        padding: 1.5rem 1rem;
-        color: #64748b;
-        font-size: 0.85rem;
+        padding: 1.4rem 1rem;
+        color: #827674;
+        font-size: 0.82rem;
         line-height: 1.5;
-        background: rgba(241, 245, 249, 0.6);
+        background: #FAF6F4;
         border-radius: 12px;
-        border: 1px dashed #cbd5e1;
-        margin: 0.6rem 0;
+        border: 1px dashed #DDD2CE;
+        margin: 0.5rem 0;
     }
 
-    /* Integrated Avatar Stage */
+    /* ---------------------------------------------------------
+       Mascot & Welcome Screen
+       --------------------------------------------------------- */
+    .welcome-container {
+        text-align: center;
+        padding: 0.6rem 0 0.4rem 0;
+    }
     .avatar-stage {
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        margin: 0.8rem auto 0.4rem auto;
+        margin: 0.4rem auto;
         position: relative;
         background: transparent !important;
     }
-
     .avatar-figure {
         position: relative;
         display: inline-block;
@@ -190,9 +220,8 @@ st.markdown("""
         transform-origin: 50% 95%;
         background: transparent !important;
     }
-
     .raju-standing-character {
-        height: 220px;
+        height: 180px;
         width: auto;
         display: block;
         object-fit: contain;
@@ -205,10 +234,10 @@ st.markdown("""
     }
 
     @keyframes rajuIdle {
-        0% { transform: translateY(0px) scale(1, 1) rotate(0deg); }
-        38% { transform: translateY(-2.8px) scale(1.008, 1.014) rotate(0.35deg); }
-        65% { transform: translateY(-1.5px) scale(1.004, 1.008) rotate(-0.25deg); }
-        100% { transform: translateY(0px) scale(1, 1) rotate(0deg); }
+        0% { transform: translateY(0px) scale(1, 1); }
+        38% { transform: translateY(-2.2px) scale(1.006, 1.01); }
+        65% { transform: translateY(-1.2px) scale(1.003, 1.006); }
+        100% { transform: translateY(0px) scale(1, 1); }
     }
 
     .eyelid {
@@ -239,111 +268,135 @@ st.markdown("""
     }
 
     .avatar-ground-shadow {
-        width: 120px;
-        height: 12px;
-        background: radial-gradient(ellipse at center, rgba(67, 56, 202, 0.22) 0%, rgba(99, 102, 241, 0.07) 55%, transparent 75%);
+        width: 100px;
+        height: 10px;
+        background: radial-gradient(ellipse at center, rgba(185, 75, 72, 0.18) 0%, rgba(217, 130, 120, 0.05) 55%, transparent 75%);
         border-radius: 50%;
-        margin-top: -8px;
-        animation: shadowPulse 5.5s ease-in-out infinite;
-    }
-    @keyframes shadowPulse {
-        0%, 100% { transform: scale(1); opacity: 0.8; }
-        38%, 65% { transform: scale(0.92, 0.88); opacity: 0.6; }
+        margin-top: -6px;
     }
 
-    .center-greeting {
-        text-align: center;
+    .welcome-heading {
         font-size: 2.1rem;
         font-weight: 800;
-        color: #0f172a;
-        margin: 0.6rem 0 1.5rem 0;
+        color: #302C2B;
         letter-spacing: -0.5px;
+        margin-top: 0.6rem;
+        margin-bottom: 0.3rem;
+    }
+    .welcome-heading-accent {
+        color: #B94B48;
+    }
+    .welcome-subheading {
+        font-size: 0.98rem;
+        color: #827674;
+        font-weight: 400;
+        margin-bottom: 2rem;
     }
 
-    /* Suggestion Chips */
-    div[data-testid="stButton"] > button {
-        background: #ffffff !important;
-        border: 1px solid #e2e8f0 !important;
-        color: #334155 !important;
-        border-radius: 9999px !important;
-        padding: 0.55rem 1rem !important;
-        font-size: 0.82rem !important;
-        font-weight: 600 !important;
+    /* ---------------------------------------------------------
+       Suggestion Cards (2x2 Grid)
+       --------------------------------------------------------- */
+    .card-col button {
+        background: #FFFFFF !important;
+        border: 1px solid #EDE2DE !important;
+        border-radius: 14px !important;
+        padding: 1.1rem 1.25rem !important;
+        text-align: left !important;
+        color: #302C2B !important;
+        box-shadow: 0 2px 6px rgba(48, 44, 43, 0.02) !important;
         transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.03) !important;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        gap: 6px !important;
+        height: auto !important;
+        min-height: 84px !important;
+        display: block !important;
         width: 100% !important;
+        margin-bottom: 0.6rem !important;
     }
-    div[data-testid="stButton"] > button:hover {
-        background: #f8fafc !important;
-        border-color: #6366f1 !important;
-        color: #4f46e5 !important;
-        transform: translateY(-2px);
-        box-shadow: 0 5px 14px rgba(99, 102, 241, 0.16) !important;
+    .card-col button:hover {
+        border-color: #B94B48 !important;
+        background: #FCF7F5 !important;
+        transform: translateY(-2px) !important;
+        box-shadow: 0 6px 18px rgba(185, 75, 72, 0.1) !important;
+        color: #B94B48 !important;
     }
 
-    /* Base Chat Message */
+    /* ---------------------------------------------------------
+       Chat Messages Styling
+       --------------------------------------------------------- */
     div[data-testid="stChatMessage"] {
         padding: 1.1rem 1.3rem !important;
-        border-radius: 18px !important;
-        margin-bottom: 1rem !important;
+        border-radius: 16px !important;
+        margin-bottom: 0.9rem !important;
         font-size: 0.95rem !important;
-        line-height: 1.6 !important;
+        line-height: 1.65 !important;
     }
 
-    /* User Message Bubble: Vibrant Purple/Blue Gradient */
+    /* User Message: Warm Blush Tint */
     div[data-testid="stChatMessage"][aria-label*="user"],
     div[data-testid="stChatMessage"]:has(div[data-testid="chatAvatarIcon-user"]) {
-        background: linear-gradient(135deg, #5b54fa 0%, #4338ca 100%) !important;
-        border: none !important;
+        background: #F8EAE7 !important;
+        border: 1px solid #F0DCD7 !important;
+        color: #302C2B !important;
         border-bottom-right-radius: 4px !important;
-        box-shadow: 0 6px 20px rgba(91, 84, 250, 0.25) !important;
+        box-shadow: 0 2px 8px rgba(185, 75, 72, 0.05) !important;
     }
     div[data-testid="stChatMessage"][aria-label*="user"] p,
-    div[data-testid="stChatMessage"][aria-label*="user"] span,
-    div[data-testid="stChatMessage"]:has(div[data-testid="chatAvatarIcon-user"]) p,
-    div[data-testid="stChatMessage"]:has(div[data-testid="chatAvatarIcon-user"]) span {
-        color: #ffffff !important;
+    div[data-testid="stChatMessage"][aria-label*="user"] span {
+        color: #302C2B !important;
     }
 
-    /* Assistant Message Bubble: Crisp White with Soft Shadow */
+    /* Assistant Message: Clean White with Warm Border */
     div[data-testid="stChatMessage"][aria-label*="assistant"],
     div[data-testid="stChatMessage"]:has(img[src*="mighty_raju_avatar"]) {
-        background: #ffffff !important;
-        border: 1px solid #e2e8f0 !important;
+        background: #FFFFFF !important;
+        border: 1px solid #EDE2DE !important;
         border-bottom-left-radius: 4px !important;
-        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05) !important;
+        box-shadow: 0 2px 10px rgba(48, 44, 43, 0.03) !important;
+        color: #302C2B !important;
     }
     div[data-testid="stChatMessage"][aria-label*="assistant"] p,
-    div[data-testid="stChatMessage"][aria-label*="assistant"] span,
-    div[data-testid="stChatMessage"]:has(img[src*="mighty_raju_avatar"]) p,
-    div[data-testid="stChatMessage"]:has(img[src*="mighty_raju_avatar"]) span {
-        color: #1e293b !important;
+    div[data-testid="stChatMessage"][aria-label*="assistant"] span {
+        color: #302C2B !important;
     }
 
     /* Chat Avatar Image */
     div[data-testid="stChatMessage"] img {
         border-radius: 50% !important;
         object-fit: cover !important;
-        background: transparent !important;
-        border: 2px solid #5b54fa !important;
-        box-shadow: 0 2px 8px rgba(91, 84, 250, 0.2) !important;
+        background: #FFFFFF !important;
+        border: 1.5px solid #B94B48 !important;
+        box-shadow: 0 2px 6px rgba(185, 75, 72, 0.2) !important;
     }
 
-    /* Chat Input Pill */
+    /* Message Action Buttons */
+    .action-pill-btn button {
+        padding: 3px 10px !important;
+        font-size: 0.74rem !important;
+        border-radius: 8px !important;
+        color: #827674 !important;
+        border: 1px solid #EDE2DE !important;
+        background: #FFFFFF !important;
+        min-height: auto !important;
+        height: 28px !important;
+    }
+    .action-pill-btn button:hover {
+        color: #B94B48 !important;
+        border-color: #B94B48 !important;
+        background: #FDF9F8 !important;
+    }
+
+    /* ---------------------------------------------------------
+       Chat Input: Modern Warm-White Container
+       --------------------------------------------------------- */
     div[data-testid="stChatInput"] {
-        background: #ffffff !important;
-        border-radius: 9999px !important;
-        border: 1px solid #e2e8f0 !important;
-        box-shadow: 0 8px 30px rgba(91, 84, 250, 0.12) !important;
-        padding: 4px 14px !important;
+        background: #FFFFFF !important;
+        border-radius: 16px !important;
+        border: 1px solid #EDE2DE !important;
+        box-shadow: 0 4px 20px rgba(48, 44, 43, 0.05) !important;
+        padding: 4px 12px !important;
     }
     div[data-testid="stChatInput"]:focus-within {
-        border-color: #5b54fa !important;
-        box-shadow: 0 0 0 3px rgba(91, 84, 250, 0.2) !important;
+        border-color: #B94B48 !important;
+        box-shadow: 0 0 0 3px rgba(185, 75, 72, 0.15) !important;
     }
     div[data-testid="stChatInput"] > div,
     div[data-testid="stChatInput"] [data-baseweb="base-input"],
@@ -354,8 +407,8 @@ st.markdown("""
         background: transparent !important;
     }
     div[data-testid="stChatInput"] textarea {
-        color: #0f172a !important;
-        font-size: 0.95rem !important;
+        color: #302C2B !important;
+        font-size: 0.94rem !important;
         border: none !important;
         outline: none !important;
         box-shadow: none !important;
@@ -364,33 +417,36 @@ st.markdown("""
     div[data-testid="stChatInput"] button {
         border: none !important;
         outline: none !important;
+        background: #B94B48 !important;
+        color: #FFFFFF !important;
+        border-radius: 10px !important;
+        padding: 4px 8px !important;
+    }
+    div[data-testid="stChatInput"] button:hover {
+        background: #A53C39 !important;
     }
 
-    /* Top Navigation bar */
-    .top-nav {
+    /* Top Navigation Toolbar */
+    .top-toolbar {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding-bottom: 0.9rem;
-        margin-bottom: 1.2rem;
-        border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+        padding-bottom: 0.8rem;
+        margin-bottom: 1rem;
+        border-bottom: 1px solid #EDE2DE;
     }
-    .top-model-pill {
+    .top-title-pill {
         display: flex;
         align-items: center;
-        gap: 6px;
-        background: #ffffff;
-        border: 1px solid #e2e8f0;
-        padding: 5px 12px;
-        border-radius: 9999px;
-        font-size: 0.82rem;
+        gap: 8px;
+        font-size: 0.88rem;
         font-weight: 600;
-        color: #334155;
+        color: #302C2B;
     }
     .top-status-dot {
         width: 8px;
         height: 8px;
-        background-color: #10b981;
+        background-color: #10B981;
         border-radius: 50%;
         display: inline-block;
     }
@@ -445,13 +501,13 @@ if "pending_prompt" not in st.session_state:
     st.session_state.pending_prompt = None
 
 if "sidebar_mode" not in st.session_state:
-    st.session_state.sidebar_mode = "main"  # Options: 'main', 'search', 'saved', 'projects', 'all_chats'
+    st.session_state.sidebar_mode = "main"
 
 if "search_term" not in st.session_state:
     st.session_state.search_term = ""
 
-if "selected_project_id" not in st.session_state:
-    st.session_state.selected_project_id = None
+if "confirm_clear" not in st.session_state:
+    st.session_state.confirm_clear = False
 
 # If an active chat exists but messages are empty in session, load from SQLite
 if st.session_state.active_chat_id and not st.session_state.messages:
@@ -459,11 +515,11 @@ if st.session_state.active_chat_id and not st.session_state.messages:
     st.session_state.messages = stored_msgs
 
 # ---------------------------------------------------------
-# Sidebar Component Implementation
+# Left Sidebar Implementation
 # ---------------------------------------------------------
 with st.sidebar:
-    # 1. Mighty Raju Brand Header
-    brand_icon_html = f'<img src="data:image/png;base64,{mighty_raju_avatar_b64}" class="brand-avatar-img" />' if mighty_raju_avatar_b64 else '<span style="font-size: 1.8rem;">⚡</span>'
+    # A. Branding Section
+    brand_icon_html = f'<img src="data:image/png;base64,{mighty_raju_avatar_b64}" class="brand-avatar-img" />' if mighty_raju_avatar_b64 else '<span style="font-size: 1.6rem;">⚡</span>'
     st.markdown(f"""
     <div class="brand-header">
         {brand_icon_html}
@@ -474,34 +530,51 @@ with st.sidebar:
     </div>
     """, unsafe_allow_html=True)
 
-    # 2. Primary Action Buttons: New Chat & Clear Conversation
-    col_new, col_clear = st.columns(2)
+    # B. New Chat & Clear Buttons
+    col_new, col_clear = st.columns([1.8, 1])
     with col_new:
         if st.button("➕ New Chat", key="sb_btn_new", use_container_width=True, help="Start a new conversation"):
             st.session_state.active_chat_id = None
             st.session_state.messages = []
             st.session_state.pending_prompt = None
             st.session_state.sidebar_mode = "main"
+            st.session_state.confirm_clear = False
             st.rerun()
 
     with col_clear:
-        if st.button("🗑️ Clear", key="sb_btn_clear", use_container_width=True, help="Clear the current conversation"):
-            if st.session_state.active_chat_id:
-                db.clear_conversation_messages(st.session_state.active_chat_id)
-            st.session_state.messages = []
-            st.session_state.pending_prompt = None
-            st.rerun()
+        if not st.session_state.confirm_clear:
+            if st.button("🗑️ Clear", key="sb_btn_clear_req", use_container_width=True, help="Clear the current conversation"):
+                st.session_state.confirm_clear = True
+                st.rerun()
+        else:
+            if st.button("✕ Cancel", key="sb_btn_clear_cancel", use_container_width=True):
+                st.session_state.confirm_clear = False
+                st.rerun()
 
-    st.markdown("<hr style='margin: 0.8rem 0; border: none; border-top: 1px solid #e2e8f0;'>", unsafe_allow_html=True)
+    # Clear Confirmation Step
+    if st.session_state.confirm_clear:
+        st.markdown("<div style='font-size: 0.8rem; color: #B94B48; padding: 4px 6px; font-weight: 600;'>Clear current chat messages?</div>", unsafe_allow_html=True)
+        col_c_yes, col_c_no = st.columns(2)
+        with col_c_yes:
+            if st.button("Yes, Clear", key="sb_btn_clear_confirm", use_container_width=True):
+                if st.session_state.active_chat_id:
+                    db.clear_conversation_messages(st.session_state.active_chat_id)
+                st.session_state.messages = []
+                st.session_state.confirm_clear = False
+                st.rerun()
+        with col_c_no:
+            if st.button("Keep", key="sb_btn_clear_no", use_container_width=True):
+                st.session_state.confirm_clear = False
+                st.rerun()
 
-    # =========================================================
-    # SIDEBAR MODE: SEARCH CHATS
-    # =========================================================
+    st.markdown("<hr style='margin: 0.7rem 0 0.9rem 0; border: none; border-top: 1px solid #EDE2DE;'>", unsafe_allow_html=True)
+
+    # C. Main Navigation Options
     if st.session_state.sidebar_mode == "search":
-        col_title, col_back = st.columns([3, 1])
-        with col_title:
+        col_stitle, col_sback = st.columns([3, 1])
+        with col_stitle:
             st.markdown("<div class='view-title'>🔍 Search Chats</div>", unsafe_allow_html=True)
-        with col_back:
+        with col_sback:
             if st.button("✕", key="btn_close_search", help="Back to menu", use_container_width=True):
                 st.session_state.sidebar_mode = "main"
                 st.session_state.search_term = ""
@@ -517,7 +590,7 @@ with st.sidebar:
 
         if search_input.strip():
             results = db.search_conversations(search_input.strip())
-            st.markdown(f"<div style='font-size: 0.78rem; color: #64748b; margin-bottom: 0.4rem;'>Found {len(results)} match{'es' if len(results) != 1 else ''}:</div>", unsafe_allow_html=True)
+            st.markdown(f"<div style='font-size: 0.75rem; color: #827674; margin-bottom: 0.4rem;'>Found {len(results)} match{'es' if len(results) != 1 else ''}:</div>", unsafe_allow_html=True)
 
             if results:
                 for r in results:
@@ -537,21 +610,18 @@ with st.sidebar:
         else:
             st.markdown("<div class='empty-state'>Type a topic or word to search across all your previous conversation titles and messages.</div>", unsafe_allow_html=True)
 
-    # =========================================================
-    # SIDEBAR MODE: SAVED CHATS (BOOKMARKS)
-    # =========================================================
     elif st.session_state.sidebar_mode == "saved":
-        col_title, col_back = st.columns([3, 1])
-        with col_title:
+        col_stitle, col_sback = st.columns([3, 1])
+        with col_stitle:
             st.markdown("<div class='view-title'>🔖 Saved Chats</div>", unsafe_allow_html=True)
-        with col_back:
+        with col_sback:
             if st.button("✕", key="btn_close_saved", help="Back to menu", use_container_width=True):
                 st.session_state.sidebar_mode = "main"
                 st.rerun()
 
         saved_chats = db.get_saved_conversations()
         if saved_chats:
-            st.markdown(f"<div style='font-size: 0.78rem; color: #64748b; margin-bottom: 0.4rem;'>{len(saved_chats)} bookmarked conversation{'s' if len(saved_chats) != 1 else ''}:</div>", unsafe_allow_html=True)
+            st.markdown(f"<div style='font-size: 0.75rem; color: #827674; margin-bottom: 0.4rem;'>{len(saved_chats)} bookmarked conversation{'s' if len(saved_chats) != 1 else ''}:</div>", unsafe_allow_html=True)
             for sc in saved_chats:
                 col_c1, col_c2 = st.columns([4, 1])
                 with col_c1:
@@ -570,35 +640,27 @@ with st.sidebar:
             st.markdown("""
             <div class='empty-state'>
                 <strong>No saved chats yet.</strong><br>
-                Click the ⭐️ Bookmark icon at the top of any active chat to pin it here!
+                Click the ⭐️ Bookmark icon on any chat to save it here!
             </div>
             """, unsafe_allow_html=True)
 
-    # =========================================================
-    # SIDEBAR MODE: PROJECTS
-    # =========================================================
     elif st.session_state.sidebar_mode == "projects":
-        col_title, col_back = st.columns([3, 1])
-        with col_title:
+        col_stitle, col_sback = st.columns([3, 1])
+        with col_stitle:
             st.markdown("<div class='view-title'>📁 Projects</div>", unsafe_allow_html=True)
-        with col_back:
+        with col_sback:
             if st.button("✕", key="btn_close_proj", help="Back to menu", use_container_width=True):
                 st.session_state.sidebar_mode = "main"
-                st.session_state.selected_project_id = None
                 st.rerun()
 
-        # Create New Project
-        with st.expander("➕ Create New Project", expanded=False):
-            new_pname = st.text_input("Project Name", placeholder="e.g. Python Study, Vacation Plan...", key="inp_new_project")
-            if st.button("Create Project", key="btn_create_proj_submit", use_container_width=True):
+        with st.expander("➕ New Project", expanded=False):
+            new_pname = st.text_input("Project Name", placeholder="e.g. Python Study, Vacation...", key="inp_new_project")
+            if st.button("Create", key="btn_create_proj_submit", use_container_width=True):
                 if new_pname.strip():
-                    created_id = db.create_project(new_pname.strip())
-                    st.success(f"Project '{new_pname}' created!")
+                    db.create_project(new_pname.strip())
+                    st.success(f"Project created!")
                     st.rerun()
-                else:
-                    st.warning("Please enter a valid project name.")
 
-        # Assign Active Chat to a Project
         if st.session_state.active_chat_id:
             active_conv = db.get_conversation(st.session_state.active_chat_id)
             current_pname = active_conv.get("project_name") if active_conv else None
@@ -609,28 +671,25 @@ with st.sidebar:
                 for p in all_p:
                     p_options[p["name"]] = p["id"]
                 
-                current_selection_idx = 0
+                curr_idx = 0
                 if current_pname and current_pname in p_options:
-                    current_selection_idx = list(p_options.keys()).index(current_pname)
+                    curr_idx = list(p_options.keys()).index(current_pname)
 
                 selected_p_label = st.selectbox(
-                    "Project folder for current chat:",
+                    "Select project:",
                     options=list(p_options.keys()),
-                    index=current_selection_idx,
+                    index=curr_idx,
                     key="sb_assign_proj_select"
                 )
-                if st.button("Update Chat Project", key="btn_assign_proj_submit", use_container_width=True):
+                if st.button("Assign", key="btn_assign_proj_submit", use_container_width=True):
                     db.set_conversation_project(st.session_state.active_chat_id, p_options[selected_p_label])
-                    st.success(f"Assigned to {selected_p_label}!")
                     st.rerun()
 
-        # List Existing Projects
         projects = db.get_all_projects()
         if projects:
-            st.markdown(f"<div style='font-size: 0.78rem; color: #64748b; margin: 0.6rem 0 0.4rem 0;'>{len(projects)} Project Folder{'s' if len(projects) != 1 else ''}:</div>", unsafe_allow_html=True)
+            st.markdown(f"<div style='font-size: 0.75rem; color: #827674; margin: 0.5rem 0 0.3rem 0;'>{len(projects)} Project Folder{'s' if len(projects) != 1 else ''}:</div>", unsafe_allow_html=True)
             for p in projects:
-                with st.expander(f"📁 {p['name']} ({p['chat_count']})", expanded=(st.session_state.selected_project_id == p["id"])):
-                    # Chats in this project
+                with st.expander(f"📁 {p['name']} ({p['chat_count']})"):
                     p_chats = db.get_project_conversations(p["id"])
                     if p_chats:
                         for pc in p_chats:
@@ -648,7 +707,7 @@ with st.sidebar:
                     else:
                         st.caption("No conversations in this project yet.")
 
-                    st.markdown("<hr style='margin: 0.4rem 0;'>", unsafe_allow_html=True)
+                    st.markdown("<hr style='margin: 0.3rem 0;'>", unsafe_allow_html=True)
                     col_ren, col_del = st.columns(2)
                     with col_ren:
                         new_rname = st.text_input("Rename", value=p["name"], key=f"ren_input_{p['id']}", label_visibility="collapsed")
@@ -661,28 +720,20 @@ with st.sidebar:
                             db.delete_project(p["id"])
                             st.rerun()
         else:
-            st.markdown("""
-            <div class='empty-state'>
-                <strong>No projects created yet.</strong><br>
-                Use the box above to create project folders and organize your chats!
-            </div>
-            """, unsafe_allow_html=True)
+            st.markdown("<div class='empty-state'>No projects created yet.</div>", unsafe_allow_html=True)
 
-    # =========================================================
-    # SIDEBAR MODE: VIEW ALL CHATS
-    # =========================================================
     elif st.session_state.sidebar_mode == "all_chats":
-        col_title, col_back = st.columns([3, 1])
-        with col_title:
+        col_stitle, col_sback = st.columns([3, 1])
+        with col_stitle:
             st.markdown("<div class='view-title'>📜 All Conversations</div>", unsafe_allow_html=True)
-        with col_back:
+        with col_sback:
             if st.button("✕", key="btn_close_all_chats", help="Back to menu", use_container_width=True):
                 st.session_state.sidebar_mode = "main"
                 st.rerun()
 
         all_chats = db.get_all_conversations()
         if all_chats:
-            st.markdown(f"<div style='font-size: 0.78rem; color: #64748b; margin-bottom: 0.4rem;'>{len(all_chats)} total conversation{'s' if len(all_chats) != 1 else ''}:</div>", unsafe_allow_html=True)
+            st.markdown(f"<div style='font-size: 0.75rem; color: #827674; margin-bottom: 0.4rem;'>{len(all_chats)} total conversation{'s' if len(all_chats) != 1 else ''}:</div>", unsafe_allow_html=True)
             for c in all_chats:
                 col_ac1, col_ac2 = st.columns([4, 1])
                 with col_ac1:
@@ -704,36 +755,29 @@ with st.sidebar:
         else:
             st.markdown("<div class='empty-state'>No conversations stored yet.</div>", unsafe_allow_html=True)
 
-    # =========================================================
-    # SIDEBAR MODE: DEFAULT MAIN VIEW
-    # =========================================================
     else:
-        # A. Search Chats
-        if st.button("🔍 Search Chats", key="nav_btn_search", use_container_width=True):
+        # Default Main Sidebar View
+        if st.button("🔍  Search Chats", key="nav_btn_search", use_container_width=True):
             st.session_state.sidebar_mode = "search"
             st.rerun()
 
-        # B. Saved Chats (shows count)
         saved_count = len(db.get_saved_conversations())
-        saved_label = f"🔖 Saved Chats ({saved_count})" if saved_count > 0 else "🔖 Saved Chats"
+        saved_label = f"🔖  Saved Chats ({saved_count})" if saved_count > 0 else "🔖  Saved Chats"
         if st.button(saved_label, key="nav_btn_saved", use_container_width=True):
             st.session_state.sidebar_mode = "saved"
             st.rerun()
 
-        # C. Projects (shows count)
         proj_count = len(db.get_all_projects())
-        proj_label = f"📁 Projects ({proj_count})" if proj_count > 0 else "📁 Projects"
+        proj_label = f"📁  Projects ({proj_count})" if proj_count > 0 else "📁  Projects"
         if st.button(proj_label, key="nav_btn_projects", use_container_width=True):
             st.session_state.sidebar_mode = "projects"
             st.rerun()
 
-        # -----------------------------------------------------
-        # RECENT CHATS (Real, Functional History)
-        # -----------------------------------------------------
+        # D. RECENT CHATS Section
         st.markdown("""
         <div class="sidebar-section-title">
             <span>Recent Chats</span>
-            <span style="font-size: 0.9rem;">🕒</span>
+            <span style="font-size: 0.85rem;">🕒</span>
         </div>
         """, unsafe_allow_html=True)
 
@@ -743,14 +787,14 @@ with st.sidebar:
             for rc in recent_chats:
                 is_active = (rc["id"] == st.session_state.active_chat_id)
                 star = "⭐ " if rc["is_saved"] else ""
-                display_title = f"{'👉 ' if is_active else ''}{star}{rc['title']}"
+                display_title = f"{'👉 ' if is_active else '💬 '}{star}{rc['title']}"
                 
                 if st.button(display_title, key=f"rc_btn_{rc['id']}", use_container_width=True):
                     st.session_state.active_chat_id = rc["id"]
                     st.session_state.messages = db.get_messages(rc["id"])
                     st.rerun()
             
-            # View All Chats Button
+            # View All Chats Option
             all_count = len(db.get_all_conversations())
             if st.button(f"📜 View All Chats ({all_count})", key="btn_view_all_chats", use_container_width=True):
                 st.session_state.sidebar_mode = "all_chats"
@@ -762,55 +806,53 @@ with st.sidebar:
             </div>
             """, unsafe_allow_html=True)
 
-    # Sidebar Bottom Tech Stack Footer
+    # E. Bottom Sidebar Engine / Model Info
     st.markdown("""
-    <div style="margin-top: 1.8rem; padding: 12px; background: #ffffff; border-radius: 12px; border: 1px solid #e2e8f0; font-size: 0.78rem; color: #64748b;">
-        <strong style="color: #334155;">⚡ Engine:</strong> Gemini 3.5 Flash<br>
-        <strong style="color: #334155;">🔗 LangChain:</strong> v1.5.0<br>
-        <strong style="color: #334155;">💾 Storage:</strong> SQLite (Persistent)
+    <div style="margin-top: 1.8rem; padding: 10px 12px; background: #FFFFFF; border-radius: 12px; border: 1px solid #EDE2DE; font-size: 0.74rem; color: #827674; line-height: 1.5;">
+        <strong style="color: #302C2B;">⚡ Engine:</strong> Gemini 3.5 Flash<br>
+        <strong style="color: #302C2B;">🔗 LangChain:</strong> v1.5.0<br>
+        <strong style="color: #302C2B;">💾 Database:</strong> SQLite Local
     </div>
     """, unsafe_allow_html=True)
 
 # ---------------------------------------------------------
-# Top Navigation Toolbar (Inside Main Glass Card)
+# Top Navigation Toolbar (Inside Main Card)
 # ---------------------------------------------------------
 current_conv = None
 if st.session_state.active_chat_id:
     current_conv = db.get_conversation(st.session_state.active_chat_id)
 
-col_top_left, col_top_right = st.columns([3, 2])
+col_top_left, col_top_right = st.columns([3, 1.8])
 
 with col_top_left:
-    status_title = "⚡ Mighty Raju Digital Assistant"
     if current_conv:
-        proj_badge = f" • 📁 {current_conv['project_name']}" if current_conv.get("project_name") else ""
+        proj_badge = f" • <span style='color: #B94B48;'>📁 {current_conv['project_name']}</span>" if current_conv.get("project_name") else ""
         st.markdown(f"""
-        <div class="top-nav" style="border: none; margin: 0; padding: 0;">
-            <div class="top-model-pill">
+        <div class="top-toolbar" style="border: none; margin: 0; padding: 0;">
+            <div class="top-title-pill">
                 <span class="top-status-dot"></span>
-                <strong>{current_conv['title']}</strong>{proj_badge}
+                <span>{current_conv['title']}</span>{proj_badge}
             </div>
         </div>
         """, unsafe_allow_html=True)
     else:
         st.markdown(f"""
-        <div class="top-nav" style="border: none; margin: 0; padding: 0;">
-            <div class="top-model-pill">
+        <div class="top-toolbar" style="border: none; margin: 0; padding: 0;">
+            <div class="top-title-pill">
                 <span class="top-status-dot"></span>
-                <span>{status_title}</span>
-                <span style="color: #6366f1; font-weight: 700; font-size: 0.75rem;">(Gemini 3.5 Flash)</span>
+                <span>Mighty Raju AI Assistant</span>
+                <span style="color: #827674; font-size: 0.75rem; font-weight: 500;">(Gemini 3.5 Flash)</span>
             </div>
         </div>
         """, unsafe_allow_html=True)
 
 with col_top_right:
-    # Active Conversation Controls: Bookmark, Project, and Delete
     if st.session_state.active_chat_id and current_conv:
-        col_bm, col_del = st.columns([2, 1])
+        col_bm, col_del = st.columns([1.5, 1])
         with col_bm:
             is_saved = bool(current_conv.get("is_saved", 0))
             bm_label = "⭐ Saved" if is_saved else "☆ Bookmark"
-            if st.button(bm_label, key="btn_top_bookmark", use_container_width=True, help="Toggle bookmark status for this chat"):
+            if st.button(bm_label, key="btn_top_bookmark", use_container_width=True, help="Toggle bookmark for this chat"):
                 db.toggle_save_conversation(st.session_state.active_chat_id)
                 st.rerun()
         with col_del:
@@ -820,7 +862,7 @@ with col_top_right:
                 st.session_state.messages = []
                 st.rerun()
 
-st.markdown("<hr style='margin: 0.4rem 0 1.2rem 0; border: none; border-top: 1px solid rgba(226, 232, 240, 0.8);'>", unsafe_allow_html=True)
+st.markdown("<hr style='margin: 0.4rem 0 1.2rem 0; border: none; border-top: 1px solid #EDE2DE;'>", unsafe_allow_html=True)
 
 # ---------------------------------------------------------
 # API Key Verification
@@ -836,7 +878,7 @@ except Exception as init_err:
     st.stop()
 
 # ---------------------------------------------------------
-# Welcome Screen (Displayed when current conversation is empty)
+# Main Welcome Screen (4 Brand-Inspired Interactive Cards)
 # ---------------------------------------------------------
 if len(st.session_state.messages) == 0:
     if mighty_raju_img_b64:
@@ -851,45 +893,109 @@ if len(st.session_state.messages) == 0:
         </div>
         """
     else:
-        mascot_html = '<div style="text-align: center; font-size: 3rem;">⚡</div>'
+        mascot_html = '<div style="text-align: center; font-size: 2.5rem;">⚡</div>'
 
     st.markdown(f"""
-    {mascot_html}
-    <div class="center-greeting">How can I help you today?</div>
+    <div class="welcome-container">
+        {mascot_html}
+        <div class="welcome-heading">Hey, I'm <span class="welcome-heading-accent">Mighty Raju</span>! 👋</div>
+        <div class="welcome-subheading">Your AI companion. Ask me anything and let's figure it out together.</div>
+    </div>
     """, unsafe_allow_html=True)
 
-    # Action chips below prompt
-    chip_col1, chip_col2, chip_col3, chip_col4 = st.columns(4)
-    with chip_col1:
-        if st.button("💡 Concept Explainer", key="chip_1", use_container_width=True):
-            st.session_state.pending_prompt = "Explain an important programming or computer science concept in simple terms with an example."
-            st.rerun()
-    with chip_col2:
-        if st.button("🐍 Python Helper", key="chip_2", use_container_width=True):
-            st.session_state.pending_prompt = "Help me write clean, well-commented Python code for a practical task."
-            st.rerun()
-    with chip_col3:
-        if st.button("🤖 Explain AI", key="chip_3", use_container_width=True):
-            st.session_state.pending_prompt = "Explain artificial intelligence, machine learning, and LLMs in an intuitive, engaging way."
-            st.rerun()
-    with chip_col4:
-        if st.button("🚀 Brainstorm Ideas", key="chip_4", use_container_width=True):
-            st.session_state.pending_prompt = "Brainstorm 3 creative, high-impact AI project ideas that solve real-world problems."
+    # Four Minimalist Suggested Prompt Cards (2x2 Grid)
+    card_col1, card_col2 = st.columns(2)
+    
+    with card_col1:
+        st.markdown('<div class="card-col">', unsafe_allow_html=True)
+        if st.button(
+            "💻  Explain Code\n\nUnderstand programming concepts step by step.",
+            key="card_btn_code",
+            use_container_width=True
+        ):
+            st.session_state.pending_prompt = "Explain this programming concept step by step with clear code examples: "
             st.rerun()
 
+        if st.button(
+            "💡  Brainstorm Ideas\n\nExplore creative ideas and find inspiration.",
+            key="card_btn_ideas",
+            use_container_width=True
+        ):
+            st.session_state.pending_prompt = "Help me brainstorm 3 creative and practical ideas for: "
+            st.rerun()
+        st.markdown('</div>', unsafe_allow_html=True)
+
+    with card_col2:
+        st.markdown('<div class="card-col">', unsafe_allow_html=True)
+        if st.button(
+            "📖  Learn Something\n\nDiscover and understand new topics.",
+            key="card_btn_learn",
+            use_container_width=True
+        ):
+            st.session_state.pending_prompt = "Teach me something fascinating and new about science or technology: "
+            st.rerun()
+
+        if st.button(
+            "✍️  Writing Help\n\nWrite, improve and refine your content.",
+            key="card_btn_write",
+            use_container_width=True
+        ):
+            st.session_state.pending_prompt = "Help me write and refine clear, engaging content about: "
+            st.rerun()
+        st.markdown('</div>', unsafe_allow_html=True)
+
 # ---------------------------------------------------------
-# Render Chat History
+# Render Chat Conversation History & Action Buttons
 # ---------------------------------------------------------
-for msg in st.session_state.messages:
+num_messages = len(st.session_state.messages)
+
+for idx, msg in enumerate(st.session_state.messages):
     role = msg["role"]
     current_avatar = "👤" if role == "user" else avatar_path
+    
     with st.chat_message(role, avatar=current_avatar):
         st.markdown(msg["content"])
+        
+    # AI Response Action Toolbar (Copy, Regenerate, Bookmark)
+    if role == "assistant":
+        col_act1, col_act2, col_act3, _ = st.columns([1, 1.2, 1.2, 3.5])
+        
+        with col_act1:
+            st.markdown('<div class="action-pill-btn">', unsafe_allow_html=True)
+            if st.button("📋 Copy", key=f"btn_copy_{idx}", help="Copy response to clipboard"):
+                st.toast("✅ Response copied to clipboard!")
+            st.markdown('</div>', unsafe_allow_html=True)
+            
+        with col_act2:
+            # Only enable regenerate on the latest assistant message
+            if idx == num_messages - 1:
+                st.markdown('<div class="action-pill-btn">', unsafe_allow_html=True)
+                if st.button("🔄 Regenerate", key=f"btn_regen_{idx}", help="Regenerate this response"):
+                    if st.session_state.active_chat_id:
+                        db.delete_last_assistant_message(st.session_state.active_chat_id)
+                    st.session_state.messages.pop()
+                    if st.session_state.messages and st.session_state.messages[-1]["role"] == "user":
+                        last_user_prompt = st.session_state.messages[-1]["content"]
+                        st.session_state.pending_prompt = last_user_prompt
+                        st.session_state.messages.pop()
+                    st.rerun()
+                st.markdown('</div>', unsafe_allow_html=True)
+
+        with col_act3:
+            if st.session_state.active_chat_id:
+                st.markdown('<div class="action-pill-btn">', unsafe_allow_html=True)
+                is_bm = bool(current_conv.get("is_saved", 0)) if current_conv else False
+                bm_text = "⭐ Saved" if is_bm else "☆ Bookmark"
+                if st.button(bm_text, key=f"btn_bm_{idx}", help="Bookmark this conversation"):
+                    new_val = db.toggle_save_conversation(st.session_state.active_chat_id)
+                    st.toast("⭐ Saved to Bookmarks!" if new_val else "Removed from Bookmarks!")
+                    st.rerun()
+                st.markdown('</div>', unsafe_allow_html=True)
 
 # ---------------------------------------------------------
 # Chat Input & Prompt Handling
 # ---------------------------------------------------------
-user_input = st.chat_input("Chat here...")
+user_input = st.chat_input("Ask Mighty Raju anything...")
 
 # Determine Active Prompt
 active_prompt = None
@@ -900,7 +1006,7 @@ elif user_input and user_input.strip():
     active_prompt = user_input.strip()
 
 if active_prompt:
-    # 1. If starting a new conversation, create record in SQLite database
+    # 1. Create conversation record in SQLite if new
     if not st.session_state.active_chat_id:
         new_title = generate_title(active_prompt)
         new_id = db.create_conversation(title=new_title)
@@ -915,11 +1021,11 @@ if active_prompt:
 
     # 3. Assemble multi-turn LangChain message history
     system_instruction = (
-        "You are Mighty Raju, a highly intelligent, supercharged, friendly, and respectful AI assistant. "
+        "You are Mighty Raju, a highly intelligent, friendly, and respectful AI assistant. "
         "You are powered by LangChain and Google Gemini. "
         "Provide thorough, clear, accurate, and insightful responses. "
-        "Use clear markdown formatting, bullet points, and code blocks where helpful. "
-        "Always embody the helpful, sharp, and fearless spirit of Mighty Raju."
+        "Use clean markdown formatting, headers, bullet points, and code blocks where helpful. "
+        "Always maintain your identity as Mighty Raju."
     )
     langchain_messages = [SystemMessage(content=system_instruction)]
 
@@ -963,6 +1069,6 @@ if active_prompt:
                 err_msg = err_msg.replace(api_key, "[PROTECTED_API_KEY]")
             message_placeholder.markdown(f"⚠️ **Error encountered:** {err_msg}")
 
-    # Rerun to update the top toolbar with the newly created chat title if it was the first message
+    # Rerun to update top toolbar and active status
     st.rerun()
 
