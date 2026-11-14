@@ -160,31 +160,33 @@ st.markdown("""
         backdrop-filter: none !important;
         box-shadow: none !important;
         border: none !important;
-        padding: 0.65rem 0.85rem 0.2rem 0.85rem !important;
+        padding: 0.25rem 0.85rem 0.2rem 0.85rem !important;
         margin: 0 !important;
     }
 
-    /* Sidebar Branding - Bigger & More Prominent */
+    /* Sidebar Branding - Moved slightly above with clean clearance */
     .brand-header {
         display: flex;
         align-items: center;
         gap: 12px;
-        padding: 0.1rem 0.1rem 0.45rem 0.1rem;
+        padding: 0 0.1rem 0.2rem 0.1rem;
+        margin-top: -2px;
+        margin-bottom: 10px;
     }
     .brand-avatar-img {
-        width: 48px;
-        height: 48px;
+        width: 44px;
+        height: 44px;
         border-radius: 50%;
         object-fit: contain;
         background: #ffffff !important;
-        padding: 2.5px;
-        border: 2.5px solid #BA0001 !important;
+        padding: 2px;
+        border: 2px solid #BA0001 !important;
         box-shadow: 0 3px 10px rgba(186, 0, 1, 0.35) !important;
     }
     .brand-name {
-        font-size: 1.25rem;
+        font-size: 1.2rem;
         font-weight: 800;
-        letter-spacing: 0.5px;
+        letter-spacing: 0.4px;
         color: #0f172a;
         line-height: 1.15;
     }
