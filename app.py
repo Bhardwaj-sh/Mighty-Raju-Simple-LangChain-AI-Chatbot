@@ -85,7 +85,7 @@ st.markdown("""
         background: transparent !important;
         border: none !important;
         box-shadow: none !important;
-        padding: 0.35rem 2rem 0.1rem 2rem !important;
+        padding: 0.5rem 2rem 0.1rem 2rem !important;
         margin: 0 !important;
         max-width: 100% !important;
         width: 100% !important;
@@ -305,7 +305,7 @@ st.markdown("""
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        margin: -0.5rem auto 0 auto !important;
+        margin: -0.15rem auto 0.1rem auto !important;
         position: relative;
         background: transparent !important;
     }
@@ -320,8 +320,8 @@ st.markdown("""
     }
 
     .raju-standing-character {
-        height: 225px !important;
-        max-height: 225px !important;
+        height: 236px !important;
+        max-height: 236px !important;
         width: auto !important;
         display: block !important;
         object-fit: contain !important;
@@ -368,7 +368,7 @@ st.markdown("""
     }
 
     .avatar-ground-shadow {
-        width: 130px;
+        width: 136px;
         height: 11px;
         background: radial-gradient(ellipse at center, rgba(186, 0, 1, 0.28) 0%, rgba(229, 29, 29, 0.08) 55%, transparent 75%);
         border-radius: 50%;
