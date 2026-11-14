@@ -103,40 +103,8 @@ st.markdown("""
         color: #1e293b !important;
     }
 
-    /* Clean Streamlit header while keeping the sidebar expand button accessible */
-    [data-testid="stHeader"] {
-        background: transparent !important;
-        border: none !important;
-        box-shadow: none !important;
-        height: 0 !important;
-        min-height: 0 !important;
-        overflow: visible !important;
-        z-index: 999999 !important;
-    }
-    [data-testid="stToolbar"],
-    [data-testid="stAppDeployButton"],
-    #MainMenu,
-    footer {
+    [data-testid="stHeader"], footer {
         display: none !important;
-    }
-    /* Expand sidebar control (prominent and easily clickable when sidebar is closed) */
-    [data-testid="stSidebarCollapsedControl"],
-    [data-testid="collapsedControl"] {
-        display: flex !important;
-        visibility: visible !important;
-        position: fixed !important;
-        top: 14px !important;
-        left: 14px !important;
-        z-index: 9999999 !important;
-        background: #ffffff !important;
-        border-radius: 10px !important;
-        border: 2px solid #BA0001 !important;
-        box-shadow: 0 4px 14px rgba(186, 0, 1, 0.35) !important;
-        cursor: pointer !important;
-    }
-    [data-testid="stSidebarCollapsedControl"] button,
-    [data-testid="collapsedControl"] button {
-        color: #BA0001 !important;
     }
 
     /* Main fixed glassmorphic card container */
@@ -252,21 +220,36 @@ st.markdown("""
         color: var(--brand-red-hover, #990001) !important;
     }
 
-    /* Sidebar Styling - Width 280-320px (target 300px), full-width drawer on mobile */
-    section[data-testid="stSidebar"]:not([aria-expanded="false"]) {
+    /* Always keep the sidebar visible, open and pinned at 300px width */
+    section[data-testid="stSidebar"] {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        transform: none !important;
+        margin-left: 0 !important;
+        left: 0 !important;
         width: 300px !important;
-        min-width: 280px !important;
-        max-width: 320px !important;
+        min-width: 300px !important;
+        max-width: 300px !important;
         background: var(--bg-sidebar, #ffffff) !important;
         border-right: 1.5px solid var(--border-subtle, #fee2e2) !important;
-        transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s ease !important;
+        box-shadow: 2px 0 12px rgba(186, 0, 1, 0.06) !important;
+        z-index: 99 !important;
+        position: relative !important;
+        transition: none !important;
     }
-    section[data-testid="stSidebar"][aria-expanded="false"] {
-        min-width: 0 !important;
-        width: 0 !important;
+    section[data-testid="stSidebar"] > div {
+        transform: none !important;
+        margin-left: 0 !important;
+        visibility: visible !important;
+        display: block !important;
+    }
+    /* Hide the collapse chevron so the sidebar never accidentally closes */
+    [data-testid="stSidebarCollapseButton"] {
+        display: none !important;
     }
     @media (max-width: 768px) {
-        section[data-testid="stSidebar"]:not([aria-expanded="false"]) {
+        section[data-testid="stSidebar"] {
             width: 100vw !important;
             min-width: 100vw !important;
             max-width: 100vw !important;
@@ -1186,30 +1169,6 @@ st.markdown("""
     }
 </style>
 """, unsafe_allow_html=True)
-
-# Auto-expand sidebar if collapsed by browser cache
-import streamlit.components.v1 as components
-components.html("""
-<script>
-    (function() {
-        function checkAndOpen() {
-            try {
-                const doc = window.parent ? window.parent.document : document;
-                const sidebar = doc.querySelector('section[data-testid="stSidebar"]');
-                if (sidebar && sidebar.getAttribute('aria-expanded') === 'false') {
-                    const btn = doc.querySelector('[data-testid="stSidebarCollapsedControl"] button, [data-testid="collapsedControl"] button, button[aria-label="Expand sidebar"]');
-                    if (btn) {
-                        btn.click();
-                    }
-                }
-            } catch (e) {}
-        }
-        setTimeout(checkAndOpen, 100);
-        setTimeout(checkAndOpen, 400);
-        setTimeout(checkAndOpen, 1000);
-    })();
-</script>
-""", height=0, width=0)
 
 # ---------------------------------------------------------
 # Helper Functions
