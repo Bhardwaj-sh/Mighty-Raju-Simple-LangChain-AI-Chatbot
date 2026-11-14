@@ -268,7 +268,8 @@ st.markdown("""
         flex-direction: row !important;
         flex-wrap: nowrap !important;
         gap: 8px !important;
-        margin-bottom: 4px !important;
+        margin-top: 0 !important;
+        margin-bottom: 6px !important;
     }
     [data-testid="stSidebar"] div[data-testid="stHorizontalBlock"]:has(.st-key-sb_btn_new) > div {
         flex: 1 1 50% !important;
@@ -316,38 +317,43 @@ st.markdown("""
         padding-top: 0.65rem !important;
     }
 
-    /* Profile Brand Header - Moved up cleanly */
+    /* Profile Brand Header - Kept high at top with prominent logo and clean space */
     .brand-header {
         display: flex;
         align-items: center;
-        gap: var(--space-md, 12px);
-        padding: 0 2px;
+        gap: 14px;
+        padding: 2px 2px 0 2px;
         margin-top: 0 !important;
-        margin-bottom: 8px !important;
+        margin-bottom: 26px !important;
     }
     .brand-avatar-img {
-        width: 44px;
-        height: 44px;
-        min-width: 44px;
+        width: 58px;
+        height: 58px;
+        min-width: 58px;
         border-radius: 50%;
         object-fit: contain;
         background: #ffffff !important;
         padding: 2px;
-        border: 2px solid var(--brand-red, #BA0001) !important;
-        box-shadow: 0 3px 10px rgba(186, 0, 1, 0.35) !important;
+        border: 2.5px solid var(--brand-red, #BA0001) !important;
+        box-shadow: 0 4px 14px rgba(186, 0, 1, 0.35) !important;
     }
     .brand-name {
-        font-size: var(--font-size-title, 16px);
+        font-size: 19px;
         font-weight: 800;
-        letter-spacing: 0.3px;
+        letter-spacing: 0.4px;
         color: var(--text-primary, #0f172a);
         line-height: 1.2;
     }
     .brand-sub {
-        font-size: var(--font-size-meta, 12px);
+        font-size: 13px;
         color: #991b1b;
         font-weight: 600;
-        margin-top: 1px;
+        margin-top: 2px;
+    }
+    .brand-header-spacer {
+        height: 24px;
+        width: 100%;
+        display: block;
     }
 
     /* Primary Sidebar Buttons: New Chat & Clear (Previous side-by-side style) */
@@ -1227,6 +1233,7 @@ with st.sidebar:
             <div class="brand-sub">AI Assistant</div>
         </div>
     </div>
+    <div style="height: 20px; line-height: 20px; font-size: 1px;">&nbsp;</div>
     """, unsafe_allow_html=True)
 
     # 2. Primary Action Buttons: New Chat & Clear Conversation (Previous side-by-side style)
