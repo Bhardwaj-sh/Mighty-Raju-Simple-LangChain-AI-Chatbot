@@ -281,15 +281,16 @@ st.markdown("""
         flex-wrap: nowrap !important;
         justify-content: space-between !important;
         align-items: center !important;
+        gap: 2px !important;
     }
     [data-testid="stSidebar"] div[data-testid="stHorizontalBlock"]:has(.chat-row-item) > div:first-child {
         flex: 1 1 auto !important;
         min-width: 0 !important;
     }
     [data-testid="stSidebar"] div[data-testid="stHorizontalBlock"]:has(.chat-row-item) > div:last-child {
-        flex: 0 0 28px !important;
-        width: 28px !important;
-        min-width: 28px !important;
+        flex: 0 0 14px !important;
+        width: 14px !important;
+        min-width: 14px !important;
     }
 
     section[data-testid="stSidebar"] .block-container {
@@ -704,7 +705,7 @@ st.markdown("""
         padding: 0 !important;
         min-height: 28px !important;
         height: 28px !important;
-        width: 22px !important;
+        width: 18px !important;
         line-height: 1 !important;
         cursor: pointer !important;
         display: flex !important;
@@ -1585,7 +1586,7 @@ with st.sidebar:
                     title_class = "title-active" if is_active else "title-inactive"
                     escaped_title = html.escape(rc["title"], quote=True)
                     
-                    col_c, col_d = st.columns([5.2, 0.8], gap="small")
+                    col_c, col_d = st.columns([5.6, 0.4], gap="small")
                     with col_c:
                         st.markdown(f"""
                         <div class="chat-row-item {active_class}">
