@@ -263,20 +263,16 @@ st.markdown("""
         flex-wrap: nowrap !important;
         align-items: center !important;
     }
-    [data-testid="stSidebar"] div[data-testid="stHorizontalBlock"]:has(.brand-header),
-    [data-testid="stSidebar"] div[data-testid="stHorizontalBlock"]:has(.st-key-sb_clear_popover) {
+    [data-testid="stSidebar"] div[data-testid="stHorizontalBlock"]:has(.st-key-sb_btn_new) {
         display: flex !important;
         flex-direction: row !important;
         flex-wrap: nowrap !important;
-        justify-content: space-between !important;
-        align-items: center !important;
+        gap: 8px !important;
+        margin-bottom: 4px !important;
     }
-    [data-testid="stSidebar"] div[data-testid="stHorizontalBlock"]:has(.brand-header) > div:first-child {
-        flex: 1 1 auto !important;
-    }
-    [data-testid="stSidebar"] div[data-testid="stHorizontalBlock"]:has(.brand-header) > div:last-child {
-        flex: 0 0 36px !important;
-        width: 36px !important;
+    [data-testid="stSidebar"] div[data-testid="stHorizontalBlock"]:has(.st-key-sb_btn_new) > div {
+        flex: 1 1 50% !important;
+        width: 50% !important;
     }
     [data-testid="stSidebar"] div[data-testid="stHorizontalBlock"]:has(.chat-row-item) {
         display: flex !important;
@@ -343,72 +339,48 @@ st.markdown("""
         margin-top: 1px;
     }
 
-    /* Ghost Clear Popover Button */
-    div.st-key-sb_clear_popover {
-        display: flex !important;
-        justify-content: flex-end !important;
-        align-items: center !important;
-    }
-    div.st-key-sb_clear_popover div[data-testid="stPopover"] {
-        display: flex !important;
-        justify-content: flex-end !important;
-    }
-    div.st-key-sb_clear_popover button,
-    div.st-key-sb_clear_popover [data-testid="stPopoverButton"] {
-        background: transparent !important;
-        border: 1px solid #e2e8f0 !important;
-        border-radius: var(--radius-sm, 8px) !important;
-        color: var(--text-muted, #64748b) !important;
-        min-height: 34px !important;
-        height: 34px !important;
-        width: 34px !important;
-        padding: 0 !important;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        box-shadow: none !important;
-        transition: all 0.2s ease !important;
-    }
-    div.st-key-sb_clear_popover button:hover,
-    div.st-key-sb_clear_popover [data-testid="stPopoverButton"]:hover {
-        border-color: var(--brand-red-border, #fca5a5) !important;
-        color: var(--brand-red, #BA0001) !important;
-        background: var(--bg-hover, #fff5f5) !important;
-        transform: translateY(-1px) !important;
-    }
-    div.st-key-sb_clear_popover button div[aria-hidden="true"],
-    div.st-key-sb_clear_popover [data-testid="stPopoverButton"] div[aria-hidden="true"],
-    div.st-key-sb_clear_popover [data-testid="stIconMaterial"] {
-        display: none !important;
-    }
-
-    /* Primary CTA: New Chat Button (Full Width, Solid Red) */
-    div.st-key-sb_btn_new {
-        margin-bottom: var(--space-sm, 8px) !important;
+    /* Primary Sidebar Buttons: New Chat & Clear (Previous side-by-side style) */
+    div.st-key-sb_btn_new,
+    div.st-key-sb_btn_clear {
+        margin-bottom: var(--space-xs, 4px) !important;
     }
     div.st-key-sb_btn_new button {
-        background: var(--brand-gradient) !important;
+        background: linear-gradient(135deg, #FF2E2E 0%, #E51D1D 50%, #BA0001 100%) !important;
         color: #ffffff !important;
         border: none !important;
         font-weight: 700 !important;
-        border-radius: var(--radius-md, 10px) !important;
-        min-height: 42px !important;
-        height: 42px !important;
-        padding: 0 var(--space-lg, 16px) !important;
-        font-size: var(--font-size-item, 14px) !important;
-        box-shadow: 0 4px 12px rgba(186, 0, 1, 0.32) !important;
+        border-radius: 10px !important;
+        min-height: 38px !important;
+        height: 38px !important;
+        padding: 0 8px !important;
+        font-size: 0.84rem !important;
+        box-shadow: 0 3px 10px rgba(186, 0, 1, 0.3) !important;
         transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
         width: 100% !important;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        gap: 8px !important;
     }
     div.st-key-sb_btn_new button:hover {
         transform: translateY(-1px) !important;
-        box-shadow: 0 6px 18px rgba(186, 0, 1, 0.45) !important;
-        background: var(--brand-gradient-hover) !important;
+        box-shadow: 0 5px 15px rgba(186, 0, 1, 0.4) !important;
+        background: linear-gradient(135deg, #FF4545 0%, #F02828 50%, #C70001 100%) !important;
         color: #ffffff !important;
+    }
+    div.st-key-sb_btn_clear button {
+        background: #ffffff !important;
+        color: #475569 !important;
+        border: 1px solid #e2e8f0 !important;
+        border-radius: 10px !important;
+        min-height: 38px !important;
+        height: 38px !important;
+        padding: 0 8px !important;
+        font-size: 0.84rem !important;
+        font-weight: 600 !important;
+        transition: all 0.2s ease !important;
+        width: 100% !important;
+    }
+    div.st-key-sb_btn_clear button:hover {
+        border-color: #fca5a5 !important;
+        color: #BA0001 !important;
+        background: #fff5f5 !important;
     }
 
     /* Sidebar Navigation List (Search, Saved, Projects - 40px rows) */
@@ -1234,39 +1206,37 @@ if st.session_state.active_chat_id and not st.session_state.messages:
 # Sidebar Component Implementation
 # ---------------------------------------------------------
 with st.sidebar:
-    # 1. Pinned Profile Header with Ghost Clear Confirmation Button
-    col_hdr, col_clr = st.columns([4.2, 0.8], vertical_alignment="center")
-    with col_hdr:
-        brand_icon_html = f'<img src="data:image/png;base64,{mighty_raju_avatar_b64}" class="brand-avatar-img" />' if mighty_raju_avatar_b64 else '<span style="font-size: 1.8rem;">⚡</span>'
-        st.markdown(f"""
-        <div class="brand-header">
-            {brand_icon_html}
-            <div>
-                <div class="brand-name">MIGHTY RAJU</div>
-                <div class="brand-sub">AI Assistant</div>
-            </div>
+    # 1. Mighty Raju Brand Header
+    brand_icon_html = f'<img src="data:image/png;base64,{mighty_raju_avatar_b64}" class="brand-avatar-img" />' if mighty_raju_avatar_b64 else '<span style="font-size: 1.8rem;">⚡</span>'
+    st.markdown(f"""
+    <div class="brand-header">
+        {brand_icon_html}
+        <div>
+            <div class="brand-name">MIGHTY RAJU</div>
+            <div class="brand-sub">AI Assistant</div>
         </div>
-        """, unsafe_allow_html=True)
-    with col_clr:
-        st.markdown('<div class="st-key-sb_clear_popover"></div>', unsafe_allow_html=True)
-        with st.popover("🗑️", help="Clear conversation"):
-            st.markdown("<div style='font-size: 0.82rem; font-weight: 700; color: #0f172a; margin-bottom: 6px;'>Clear active chat?</div>", unsafe_allow_html=True)
-            if st.button("Confirm Clear", key="sb_btn_confirm_clear", use_container_width=True):
-                if st.session_state.active_chat_id:
-                    db.clear_conversation_messages(st.session_state.active_chat_id)
-                st.session_state.messages = []
-                st.session_state.pending_prompt = None
-                st.rerun()
+    </div>
+    """, unsafe_allow_html=True)
 
-    # 2. Primary CTA: New Chat (Full Width, Solid Red)
-    if st.button("➕ New Chat", key="sb_btn_new", use_container_width=True, help="Start a new conversation"):
-        st.session_state.active_chat_id = None
-        st.session_state.messages = []
-        st.session_state.pending_prompt = None
-        st.session_state.sidebar_mode = "main"
-        st.rerun()
+    # 2. Primary Action Buttons: New Chat & Clear Conversation (Previous side-by-side style)
+    col_new, col_clear = st.columns(2)
+    with col_new:
+        if st.button("➕ New Chat", key="sb_btn_new", use_container_width=True, help="Start a new conversation"):
+            st.session_state.active_chat_id = None
+            st.session_state.messages = []
+            st.session_state.pending_prompt = None
+            st.session_state.sidebar_mode = "main"
+            st.rerun()
 
-    st.markdown("<hr style='margin: 0.25rem 0 0.35rem 0; border: none; border-top: 1px solid var(--border-subtle, #fee2e2);'>", unsafe_allow_html=True)
+    with col_clear:
+        if st.button("🗑️ Clear", key="sb_btn_clear", use_container_width=True, help="Clear the current conversation"):
+            if st.session_state.active_chat_id:
+                db.clear_conversation_messages(st.session_state.active_chat_id)
+            st.session_state.messages = []
+            st.session_state.pending_prompt = None
+            st.rerun()
+
+    st.markdown("<hr style='margin: 0.35rem 0 0.45rem 0; border: none; border-top: 1px solid #fee2e2;'>", unsafe_allow_html=True)
 
     # =========================================================
     # SIDEBAR MODE: SEARCH CHATS
