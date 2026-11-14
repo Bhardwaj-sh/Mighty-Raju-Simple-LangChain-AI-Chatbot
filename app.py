@@ -450,15 +450,15 @@ st.markdown("""
         border-radius: 4px;
     }
 
-    /* Recent Chats Section Header */
+    /* Recent Chats Section Header with Darker Underline and Space Below */
     .recent-header-container {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: var(--space-sm, 8px) 2px var(--space-xs, 4px) 2px;
+        padding: var(--space-sm, 8px) 2px 6px 2px;
         margin-top: var(--space-xs, 4px);
-        border-bottom: 1.5px solid var(--border-subtle, #fee2e2);
-        margin-bottom: var(--space-xs, 4px);
+        border-bottom: 2px solid #f87171 !important;
+        margin-bottom: 10px !important;
     }
     .recent-header-left {
         display: flex;
@@ -503,11 +503,19 @@ st.markdown("""
         background: var(--border-subtle, #fee2e2);
     }
 
-    /* Single-Line Chat Row Items with Right-Aligned Timestamp */
-    div[data-testid="stVerticalBlock"]:has(.recent-chats-list) {
-        gap: 3px !important;
+    /* Single-Line Chat Row Items with Right-Aligned Timestamp & Tight Spacing */
+    section[data-testid="stSidebar"] div[data-testid="stVerticalBlock"]:has(.recent-chats-list),
+    section[data-testid="stSidebar"] div[data-testid="stVerticalBlock"]:has(.chat-row-item) {
+        gap: 4px !important;
     }
-    div[data-testid="stVerticalBlock"]:has(.recent-chats-list) > div[data-testid="stLayoutWrapper"] {
+    div[data-testid="stElementContainer"]:has(.recent-chats-list) {
+        display: none !important;
+        height: 0 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+    section[data-testid="stSidebar"] div[data-testid="stVerticalBlock"]:has(.recent-chats-list) > div[data-testid="stLayoutWrapper"],
+    section[data-testid="stSidebar"] div[data-testid="stVerticalBlock"]:has(.chat-row-item) > div[data-testid="stLayoutWrapper"] {
         margin: 0 !important;
         padding: 0 !important;
     }
@@ -517,8 +525,8 @@ st.markdown("""
         margin-bottom: 2px !important;
         border-radius: var(--radius-md, 10px) !important;
         padding: 0 4px !important;
-        min-height: 38px !important;
-        height: 38px !important;
+        min-height: 34px !important;
+        height: 34px !important;
         transition: all 0.18s ease !important;
         box-sizing: border-box !important;
     }
@@ -545,8 +553,8 @@ st.markdown("""
         justify-content: space-between;
         width: 100%;
         padding: 0 2px !important;
-        min-height: 36px !important;
-        height: 36px !important;
+        min-height: 32px !important;
+        height: 32px !important;
         box-sizing: border-box;
         user-select: none;
     }
@@ -562,9 +570,9 @@ st.markdown("""
     }
 
     .chat-icon-badge {
-        width: 26px;
-        height: 26px;
-        min-width: 26px;
+        width: 24px;
+        height: 24px;
+        min-width: 24px;
         border-radius: var(--radius-sm, 8px);
         display: flex;
         align-items: center;
@@ -619,6 +627,26 @@ st.markdown("""
     div[data-testid="column"]:has(.chat-row-item) {
         position: relative !important;
     }
+    div[data-testid="stColumn"]:has(.chat-row-item) div[data-testid="stVerticalBlock"],
+    div[data-testid="stColumn"]:has(.chat-dots-menu) div[data-testid="stVerticalBlock"] {
+        gap: 0 !important;
+        min-height: 0 !important;
+        height: 100% !important;
+    }
+    div[data-testid="stColumn"]:has(.chat-row-item) div[data-testid="stElementContainer"]:has(div[data-testid="stButton"]),
+    div[data-testid="column"]:has(.chat-row-item) div[data-testid="stElementContainer"]:has(div[data-testid="stButton"]),
+    div[data-testid="stElementContainer"]:has(div[data-testid="stButton"][class*="rc_open"]),
+    div[data-testid="stElementContainer"][class*="st-key-rc_open"] {
+        position: absolute !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        z-index: 5 !important;
+        pointer-events: auto !important;
+    }
     div[data-testid="stColumn"]:has(.chat-row-item) div[data-testid="stButton"],
     div[data-testid="column"]:has(.chat-row-item) div[data-testid="stButton"] {
         position: absolute !important;
@@ -638,6 +666,15 @@ st.markdown("""
         cursor: pointer !important;
         border: none !important;
         background: transparent !important;
+    }
+
+    /* Three-dot popover menu styling in Red */
+    div[data-testid="stElementContainer"]:has(.chat-dots-menu) {
+        display: none !important;
+        height: 0 !important;
+        min-height: 0 !important;
+        margin: 0 !important;
+        padding: 0 !important;
     }
 
     /* Three-dot popover menu styling in Red */
