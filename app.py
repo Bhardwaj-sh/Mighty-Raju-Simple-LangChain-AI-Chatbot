@@ -150,10 +150,10 @@ st.markdown("""
         margin: 0 !important;
     }
 
-    /* Sidebar Styling - Soft Lavender, Light Purple & Clean White Palette matching Reference */
+    /* Sidebar Styling - Clean White & Mighty Raju Superhero Red Palette */
     section[data-testid="stSidebar"] {
-        background: #faf9fe !important;
-        border-right: 1.5px solid #ede9fe !important;
+        background: #ffffff !important;
+        border-right: 1.5px solid #fee2e2 !important;
     }
     section[data-testid="stSidebar"] .block-container {
         background: transparent !important;
@@ -164,37 +164,38 @@ st.markdown("""
         margin: 0 !important;
     }
 
-    /* Sidebar Branding */
+    /* Sidebar Branding - Bigger & More Prominent */
     .brand-header {
         display: flex;
         align-items: center;
-        gap: 10px;
-        padding: 0 0.1rem 0.4rem 0.1rem;
+        gap: 12px;
+        padding: 0.1rem 0.1rem 0.45rem 0.1rem;
     }
     .brand-avatar-img {
-        width: 40px;
-        height: 40px;
+        width: 48px;
+        height: 48px;
         border-radius: 50%;
         object-fit: contain;
         background: #ffffff !important;
-        padding: 2px;
-        border: 2px solid #BA0001 !important;
-        box-shadow: 0 3px 10px rgba(186, 0, 1, 0.3) !important;
+        padding: 2.5px;
+        border: 2.5px solid #BA0001 !important;
+        box-shadow: 0 3px 10px rgba(186, 0, 1, 0.35) !important;
     }
     .brand-name {
-        font-size: 1.15rem;
+        font-size: 1.25rem;
         font-weight: 800;
         letter-spacing: 0.5px;
         color: #0f172a;
-        line-height: 1.2;
+        line-height: 1.15;
     }
     .brand-name span {
         color: #BA0001;
     }
     .brand-sub {
-        font-size: 0.72rem;
+        font-size: 0.78rem;
         color: #991b1b;
         font-weight: 600;
+        margin-top: 1px;
     }
 
     /* Primary Sidebar Buttons */
@@ -267,24 +268,24 @@ st.markdown("""
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: 0.4rem 0.2rem 0.35rem 0.2rem;
-        margin-top: 0.2rem;
-        border-bottom: 1.5px solid #f3f4f6;
-        margin-bottom: 0.4rem;
+        padding: 0.2rem 0.15rem 0.15rem 0.15rem;
+        margin-top: 0.1rem;
+        border-bottom: 1.5px solid #fee2e2;
+        margin-bottom: 0.2rem;
     }
     .recent-header-left {
         display: flex;
         align-items: center;
-        gap: 8px;
+        gap: 7px;
     }
     .recent-header-icon {
         display: flex;
         align-items: center;
         justify-content: center;
-        color: #6366f1;
+        color: #BA0001;
     }
     .recent-header-title {
-        font-size: 0.98rem;
+        font-size: 0.95rem;
         font-weight: 800;
         color: #0f172a;
         letter-spacing: -0.2px;
@@ -293,21 +294,22 @@ st.markdown("""
         display: flex;
         align-items: center;
         justify-content: center;
-        color: #0f172a;
+        color: #BA0001;
     }
 
-    /* 3. Individual Chat Items matching reference image */
+    /* 3. Individual Chat Items matching Red Theme & Compact Spacing */
     div[data-testid="stHorizontalBlock"]:has(.chat-row-item) {
         align-items: center !important;
-        margin-bottom: 2px !important;
-        border-radius: 14px !important;
-        padding: 2px 6px !important;
+        margin-bottom: 0px !important;
+        border-radius: 12px !important;
+        padding: 1px 6px !important;
         transition: all 0.18s ease !important;
     }
 
-    /* Highlighted active conversation in soft lavender/purple background */
+    /* Highlighted active conversation in soft red / rose background */
     div[data-testid="stHorizontalBlock"]:has(.chat-row-active) {
-        background: #ede9fe !important;
+        background: #fee2e2 !important;
+        border: 1px solid #fecaca !important;
     }
 
     /* Clean, minimal inactive conversations without borders */
@@ -315,7 +317,7 @@ st.markdown("""
         background: transparent !important;
     }
     div[data-testid="stHorizontalBlock"]:has(.chat-row-inactive):hover {
-        background: #f1f0f8 !important;
+        background: #fff5f5 !important;
     }
 
     .chat-row-item {
@@ -323,7 +325,7 @@ st.markdown("""
         align-items: center;
         justify-content: space-between;
         width: 100%;
-        padding: 3px 0;
+        padding: 2px 0;
         box-sizing: border-box;
         user-select: none;
     }
@@ -331,15 +333,15 @@ st.markdown("""
     .chat-row-left {
         display: flex;
         align-items: center;
-        gap: 8px;
+        gap: 7px;
         overflow: hidden;
         flex: 1 1 auto;
         min-width: 0;
     }
 
     .chat-icon-badge {
-        width: 24px;
-        height: 24px;
+        width: 22px;
+        height: 22px;
         border-radius: 6px;
         display: flex;
         align-items: center;
@@ -348,17 +350,17 @@ st.markdown("""
     }
 
     .badge-active {
-        background: #6366f1;
-        color: #ffffff;
+        background: linear-gradient(135deg, #FF2E2E 0%, #BA0001 100%) !important;
+        color: #ffffff !important;
     }
 
     .badge-inactive {
-        background: #e2e8f0;
+        background: #f1f5f9;
         color: #64748b;
     }
 
     .chat-row-title {
-        font-size: 0.84rem;
+        font-size: 0.83rem;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -367,7 +369,7 @@ st.markdown("""
 
     .title-active {
         font-weight: 700;
-        color: #1e1b4b;
+        color: #7f1d1d;
     }
 
     .title-inactive {
@@ -376,7 +378,7 @@ st.markdown("""
     }
 
     .chat-row-time {
-        font-size: 0.72rem;
+        font-size: 0.70rem;
         color: #64748b;
         font-weight: 500;
         white-space: nowrap;
@@ -410,7 +412,7 @@ st.markdown("""
         background: transparent !important;
     }
 
-    /* Three-dot popover menu styling matching reference */
+    /* Three-dot popover menu styling in Red */
     div[data-testid="stColumn"]:has(.chat-dots-menu),
     div[data-testid="column"]:has(.chat-dots-menu) {
         position: relative !important;
@@ -430,13 +432,13 @@ st.markdown("""
         background: transparent !important;
         border: none !important;
         box-shadow: none !important;
-        color: #7c3aed !important;
+        color: #BA0001 !important;
         font-size: 1.2rem !important;
         font-weight: 700 !important;
         padding: 0 !important;
-        min-height: 24px !important;
-        height: 24px !important;
-        width: 20px !important;
+        min-height: 22px !important;
+        height: 22px !important;
+        width: 18px !important;
         line-height: 1 !important;
         cursor: pointer !important;
         display: flex !important;
@@ -446,14 +448,14 @@ st.markdown("""
     section[data-testid="stSidebar"] div[data-testid="stPopover"] button p,
     section[data-testid="stSidebar"] button[data-testid="stPopoverButton"] p {
         margin: 0 !important;
-        color: #7c3aed !important;
+        color: #BA0001 !important;
         font-size: 1.2rem !important;
         font-weight: 800 !important;
         line-height: 1 !important;
     }
     section[data-testid="stSidebar"] div[data-testid="stPopover"] button:hover,
     section[data-testid="stSidebar"] button[data-testid="stPopoverButton"]:hover {
-        background: rgba(124, 58, 237, 0.12) !important;
+        background: rgba(186, 0, 1, 0.1) !important;
         border-radius: 6px !important;
     }
 
@@ -476,47 +478,58 @@ st.markdown("""
         opacity: 0.8 !important;
     }
 
-    /* Active chat item: always show 3-dot button in purple */
+    /* Active chat item: always show 3-dot button in red */
     div[data-testid="stHorizontalBlock"]:has(.chat-row-active) div[data-testid="stPopover"] button,
     div[data-testid="stHorizontalBlock"]:has(.chat-row-active) button[data-testid="stPopoverButton"] {
         opacity: 1 !important;
-        color: #7c3aed !important;
+        color: #BA0001 !important;
     }
 
-    /* 4. View All Chats Pill Button matching reference image */
+    /* 4. View All Chats Pill Button matching Red theme */
     div.st-key-btn_view_all_chats button {
-        background: #f1edfe !important;
-        color: #4338ca !important;
-        border: none !important;
+        background: #fff5f5 !important;
+        color: #BA0001 !important;
+        border: 1px solid #fee2e2 !important;
         border-radius: 16px !important;
         font-weight: 600 !important;
         font-size: 0.82rem !important;
-        min-height: 35px !important;
-        height: 35px !important;
+        min-height: 33px !important;
+        height: 33px !important;
         padding: 0 14px !important;
         display: flex !important;
         align-items: center !important;
         justify-content: space-between !important;
         box-shadow: none !important;
-        margin-top: 6px !important;
-        margin-bottom: 4px !important;
+        margin-top: 3px !important;
+        margin-bottom: 2px !important;
         transition: all 0.2s ease !important;
     }
     div.st-key-btn_view_all_chats button:hover {
-        background: #e7defd !important;
-        color: #3730a3 !important;
+        background: #fee2e2 !important;
+        color: #991b1b !important;
+        border-color: #fca5a5 !important;
         transform: translateY(-1px) !important;
     }
 
-    /* Sidebar Footer matching reference */
+    /* Sidebar Footer */
     .sidebar-footer-container {
-        margin-top: 0.5rem;
+        margin-top: 0.35rem;
         padding-top: 0;
         text-align: center;
     }
     .sidebar-footer-card {
-        border-top: 1px solid #f1f5f9;
-        padding-top: 0.4rem;
+        border-top: 1px solid #fee2e2;
+        padding-top: 0.3rem;
+        text-align: center;
+        color: #64748b;
+        font-size: 0.73rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        font-weight: 500;
+        margin-bottom: 0.15rem;
+    }
         text-align: center;
         color: #64748b;
         font-size: 0.74rem;
@@ -1258,13 +1271,13 @@ with st.sidebar:
             st.rerun()
 
         # -----------------------------------------------------
-        # 2. RECENT CHATS SECTION HEADER (Matching Reference)
+        # 2. RECENT CHATS SECTION HEADER (Matching Red Theme)
         # -----------------------------------------------------
         st.markdown("""
         <div class="recent-header-container">
             <div class="recent-header-left">
                 <div class="recent-header-icon">
-                    <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#6366f1" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+                    <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#BA0001" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
                         <line x1="8" y1="9" x2="16" y2="9"></line>
                         <line x1="8" y1="13" x2="13" y2="13"></line>
@@ -1273,7 +1286,7 @@ with st.sidebar:
                 <span class="recent-header-title">Recent Chats</span>
             </div>
             <div class="recent-header-clock">
-                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#BA0001" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                     <circle cx="12" cy="12" r="10"></circle>
                     <polyline points="12 6 12 12 16 14"></polyline>
                 </svg>
@@ -1349,18 +1362,18 @@ with st.sidebar:
             </div>
             """, unsafe_allow_html=True)
 
-        # 5. Sidebar Bottom Tech Stack Footer (Matching reference)
+        # 5. Sidebar Bottom Tech Stack Footer (Red Superhero Theme)
         st.markdown("""
         <div class="sidebar-footer-container">
             <div class="sidebar-footer-card">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="#7c3aed" stroke="#7c3aed" stroke-width="1"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="#BA0001" stroke="#BA0001" stroke-width="1"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
                 <span>Engine: Gemini 1.5 Flash Lite</span>
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
             </div>
             <div class="sidebar-wavy-banner">
                 <svg viewBox="0 0 280 20" fill="none" preserveAspectRatio="none" style="width: 100%; height: 18px; display: block;">
-                    <path d="M0 10 C 60 2, 110 18, 170 8 C 220 0, 250 16, 280 6 L 280 20 L 0 20 Z" fill="#ede9fe" opacity="0.6"/>
-                    <path d="M0 14 C 70 6, 120 18, 180 10 C 230 4, 260 16, 280 10 L 280 20 L 0 20 Z" fill="#ddd6fe" opacity="0.5"/>
+                    <path d="M0 10 C 60 2, 110 18, 170 8 C 220 0, 250 16, 280 6 L 280 20 L 0 20 Z" fill="#fee2e2" opacity="0.65"/>
+                    <path d="M0 14 C 70 6, 120 18, 180 10 C 230 4, 260 16, 280 10 L 280 20 L 0 20 Z" fill="#fecaca" opacity="0.55"/>
                 </svg>
             </div>
         </div>
