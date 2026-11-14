@@ -296,29 +296,15 @@ st.markdown("""
         margin: 0.6rem 0;
     }
 
-    /* Integrated Avatar Stage with Superhero Red Halo */
+    /* Integrated Avatar Stage without decorative circle */
     .avatar-stage {
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        margin: 0.2rem auto 0.2rem auto;
+        margin: 0.1rem auto 0.2rem auto;
         position: relative;
         background: transparent !important;
-    }
-    .avatar-stage::before {
-        content: '';
-        position: absolute;
-        width: 200px;
-        height: 200px;
-        background: radial-gradient(circle, rgba(255, 46, 46, 0.18) 0%, rgba(186, 0, 1, 0.08) 50%, transparent 72%);
-        border: 2px dashed rgba(229, 29, 29, 0.25);
-        border-radius: 50%;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -54%);
-        z-index: 0;
-        pointer-events: none;
     }
 
     .avatar-figure {
@@ -331,11 +317,11 @@ st.markdown("""
     }
 
     .raju-standing-character {
-        height: 155px;
-        max-height: 155px;
-        width: auto;
-        display: block;
-        object-fit: contain;
+        height: 230px !important;
+        max-height: 230px !important;
+        width: auto !important;
+        display: block !important;
+        object-fit: contain !important;
         background: transparent !important;
         border: none !important;
         outline: none !important;
@@ -379,11 +365,11 @@ st.markdown("""
     }
 
     .avatar-ground-shadow {
-        width: 110px;
-        height: 10px;
-        background: radial-gradient(ellipse at center, rgba(186, 0, 1, 0.3) 0%, rgba(229, 29, 29, 0.1) 55%, transparent 75%);
+        width: 135px;
+        height: 11px;
+        background: radial-gradient(ellipse at center, rgba(186, 0, 1, 0.28) 0%, rgba(229, 29, 29, 0.08) 55%, transparent 75%);
         border-radius: 50%;
-        margin-top: -5px;
+        margin-top: -6px;
         z-index: 1;
         animation: shadowPulse 5.5s ease-in-out infinite;
     }
@@ -397,110 +383,103 @@ st.markdown("""
         font-size: 1.85rem;
         font-weight: 800;
         color: #0f172a;
-        margin: 0.35rem 0 0.15rem 0;
+        margin: 0.25rem 0 0.1rem 0;
         letter-spacing: -0.5px;
     }
     .center-subgreeting {
         text-align: center;
-        font-size: 0.88rem;
+        font-size: 0.86rem;
         color: #64748b;
         font-weight: 500;
-        margin-bottom: 1rem;
+        margin-bottom: 0.85rem;
     }
 
-    /* Four Suggestion Boxes matching exact reference */
-    div[data-testid="stColumn"]:has(.suggestion-card-box),
-    div[data-testid="column"]:has(.suggestion-card-box) {
+    /* Four Compact Slim Horizontal Action Boxes */
+    div[data-testid="stColumn"]:has(.compact-action-box),
+    div[data-testid="column"]:has(.compact-action-box) {
         position: relative !important;
     }
 
-    .suggestion-card-box {
-        background: linear-gradient(180deg, #ffffff 60%, #fff5f5 86%, #fee2e2 100%);
-        border: 1.5px solid #fecdd3;
-        border-radius: 18px;
-        padding: 13px 13px 14px 15px;
-        height: 130px;
+    .compact-action-box {
+        background: #ffffff;
+        border: 1.5px solid #fee2e2;
+        border-radius: 14px;
+        padding: 0 16px;
+        height: 48px;
         box-sizing: border-box;
-        position: relative;
-        box-shadow: 0 4px 14px rgba(186, 0, 1, 0.05);
-        transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        cursor: pointer;
-        user-select: none;
-    }
-
-    div[data-testid="stColumn"]:has(.suggestion-card-box):hover .suggestion-card-box,
-    div[data-testid="column"]:has(.suggestion-card-box):hover .suggestion-card-box {
-        transform: translateY(-3px);
-        box-shadow: 0 10px 24px rgba(186, 0, 1, 0.13);
-        border-color: #f87171;
-    }
-
-    .card-icon-row {
         display: flex;
         align-items: center;
-        margin-bottom: 5px;
-        height: 24px;
+        justify-content: space-between;
+        gap: 8px;
+        box-shadow: 0 2px 8px rgba(186, 0, 1, 0.04);
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        cursor: pointer;
+        user-select: none;
+        width: 100%;
     }
 
-    .card-code-icon {
-        font-family: monospace;
-        font-weight: 800;
+    div[data-testid="stColumn"]:has(.compact-action-box):hover .compact-action-box,
+    div[data-testid="column"]:has(.compact-action-box):hover .compact-action-box {
+        background: #fff5f5;
+        border-color: #BA0001;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 18px rgba(186, 0, 1, 0.16);
+    }
+
+    .compact-left {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        overflow: hidden;
+    }
+
+    .compact-card-icon {
         font-size: 1.15rem;
-        color: #BA0001;
-        letter-spacing: -0.5px;
-    }
-
-    .card-emoji-icon {
-        font-size: 1.25rem;
-        line-height: 1;
-    }
-
-    .card-title {
-        font-size: 0.94rem;
-        font-weight: 700;
-        color: #0f172a;
-        margin-bottom: 3px;
-        line-height: 1.25;
-    }
-
-    .card-desc {
-        font-size: 0.77rem;
-        color: #64748b;
-        line-height: 1.35;
-        margin: 0;
-        padding-right: 20px;
-    }
-
-    .card-arrow-badge {
-        position: absolute;
-        bottom: 11px;
-        right: 12px;
-        width: 22px;
-        height: 22px;
-        border-radius: 50%;
-        background: #fecdd3;
-        color: #BA0001;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 12px;
+        flex-shrink: 0;
+    }
+
+    .red-code-icon {
+        font-family: monospace;
+        font-weight: 800;
+        color: #BA0001;
+        font-size: 1.05rem;
+    }
+
+    .compact-card-title {
+        font-size: 0.88rem;
         font-weight: 700;
+        color: #1e293b;
+        white-space: nowrap;
+        transition: color 0.2s ease;
+    }
+
+    div[data-testid="stColumn"]:has(.compact-action-box):hover .compact-card-title,
+    div[data-testid="column"]:has(.compact-action-box):hover .compact-card-title {
+        color: #BA0001;
+    }
+
+    .compact-card-arrow {
+        color: #fca5a5;
+        font-weight: 700;
+        font-size: 14px;
+        flex-shrink: 0;
         transition: all 0.2s ease;
     }
 
-    div[data-testid="stColumn"]:has(.suggestion-card-box):hover .card-arrow-badge,
-    div[data-testid="column"]:has(.suggestion-card-box):hover .card-arrow-badge {
-        background: #BA0001;
-        color: #ffffff;
-        transform: scale(1.12);
+    div[data-testid="stColumn"]:has(.compact-action-box):hover .compact-card-arrow,
+    div[data-testid="column"]:has(.compact-action-box):hover .compact-card-arrow {
+        color: #BA0001;
+        transform: translateX(2px);
     }
 
-    /* Invisible overlay button covering each suggestion card */
-    div[data-testid="stColumn"]:has(.suggestion-card-box) div.stButton,
-    div[data-testid="column"]:has(.suggestion-card-box) div.stButton {
+    /* Invisible overlay button covering each compact action box */
+    div[data-testid="stColumn"]:has(.compact-action-box) div.stButton,
+    div[data-testid="column"]:has(.compact-action-box) div.stButton,
+    div[data-testid="stColumn"]:has(.compact-action-box) div[data-testid="stButton"],
+    div[data-testid="column"]:has(.compact-action-box) div[data-testid="stButton"] {
         position: absolute !important;
         top: 0 !important;
         left: 0 !important;
@@ -511,8 +490,10 @@ st.markdown("""
         padding: 0 !important;
     }
 
-    div[data-testid="stColumn"]:has(.suggestion-card-box) div.stButton > button,
-    div[data-testid="column"]:has(.suggestion-card-box) div.stButton > button {
+    div[data-testid="stColumn"]:has(.compact-action-box) div.stButton > button,
+    div[data-testid="column"]:has(.compact-action-box) div.stButton > button,
+    div[data-testid="stColumn"]:has(.compact-action-box) div[data-testid="stButton"] > button,
+    div[data-testid="column"]:has(.compact-action-box) div[data-testid="stButton"] > button {
         width: 100% !important;
         height: 100% !important;
         opacity: 0 !important;
@@ -1098,6 +1079,15 @@ except Exception as init_err:
 # Welcome Screen (Displayed when current conversation is empty)
 # ---------------------------------------------------------
 if len(st.session_state.messages) == 0:
+    st.markdown("""
+    <style>
+        /* Landing page layout: strictly 100% fixed with zero scrolling */
+        .block-container {
+            overflow: hidden !important;
+        }
+    </style>
+    """, unsafe_allow_html=True)
+
     if mighty_raju_img_b64:
         mascot_html = f"""
         <div class="avatar-stage">
@@ -1122,16 +1112,12 @@ if len(st.session_state.messages) == 0:
     chip_col1, chip_col2, chip_col3, chip_col4 = st.columns(4)
     with chip_col1:
         st.markdown("""
-        <div class="suggestion-card-box">
-            <div class="card-icon-row"><span class="card-code-icon">&lt;/&gt;</span></div>
-            <div class="card-title">Explain Code</div>
-            <div class="card-desc">Understand programming concepts step by step.</div>
-            <div class="card-arrow-badge">
-                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                    <polyline points="12 5 19 12 12 19"></polyline>
-                </svg>
+        <div class="compact-action-box">
+            <div class="compact-left">
+                <span class="compact-card-icon red-code-icon">&lt;/&gt;</span>
+                <span class="compact-card-title">Explain Code</span>
             </div>
+            <span class="compact-card-arrow">→</span>
         </div>
         """, unsafe_allow_html=True)
         if st.button("Explain Code", key="chip_1", use_container_width=True):
@@ -1140,16 +1126,12 @@ if len(st.session_state.messages) == 0:
 
     with chip_col2:
         st.markdown("""
-        <div class="suggestion-card-box">
-            <div class="card-icon-row"><span class="card-emoji-icon">💡</span></div>
-            <div class="card-title">Brainstorm Ideas</div>
-            <div class="card-desc">Explore creative ideas and find inspiration.</div>
-            <div class="card-arrow-badge">
-                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                    <polyline points="12 5 19 12 12 19"></polyline>
-                </svg>
+        <div class="compact-action-box">
+            <div class="compact-left">
+                <span class="compact-card-icon">💡</span>
+                <span class="compact-card-title">Brainstorm Ideas</span>
             </div>
+            <span class="compact-card-arrow">→</span>
         </div>
         """, unsafe_allow_html=True)
         if st.button("Brainstorm Ideas", key="chip_2", use_container_width=True):
@@ -1158,21 +1140,17 @@ if len(st.session_state.messages) == 0:
 
     with chip_col3:
         st.markdown("""
-        <div class="suggestion-card-box">
-            <div class="card-icon-row">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="#BA0001">
-                    <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
-                    <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
-                </svg>
+        <div class="compact-action-box">
+            <div class="compact-left">
+                <span class="compact-card-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="#BA0001">
+                        <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+                        <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+                    </svg>
+                </span>
+                <span class="compact-card-title">Learn Something</span>
             </div>
-            <div class="card-title">Learn Something</div>
-            <div class="card-desc">Discover and understand new topics.</div>
-            <div class="card-arrow-badge">
-                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                    <polyline points="12 5 19 12 12 19"></polyline>
-                </svg>
-            </div>
+            <span class="compact-card-arrow">→</span>
         </div>
         """, unsafe_allow_html=True)
         if st.button("Learn Something", key="chip_3", use_container_width=True):
@@ -1181,20 +1159,16 @@ if len(st.session_state.messages) == 0:
 
     with chip_col4:
         st.markdown("""
-        <div class="suggestion-card-box">
-            <div class="card-icon-row">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#BA0001" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path>
-                </svg>
+        <div class="compact-action-box">
+            <div class="compact-left">
+                <span class="compact-card-icon">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#BA0001" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path>
+                    </svg>
+                </span>
+                <span class="compact-card-title">Writing Help</span>
             </div>
-            <div class="card-title">Writing Help</div>
-            <div class="card-desc">Write, improve and refine your content.</div>
-            <div class="card-arrow-badge">
-                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                    <polyline points="12 5 19 12 12 19"></polyline>
-                </svg>
-            </div>
+            <span class="compact-card-arrow">→</span>
         </div>
         """, unsafe_allow_html=True)
         if st.button("Writing Help", key="chip_4", use_container_width=True):
