@@ -35,31 +35,16 @@ def format_relative_time(timestamp_str):
     except Exception:
         return "recently"
 
-def get_date_group(timestamp_str):
-    """Group conversations into 'Today', 'Yesterday', or 'Earlier'."""
-    if not timestamp_str:
-        return "Earlier"
-    try:
-        clean = timestamp_str.replace("Z", "")
-        if "T" in clean:
-            dt = datetime.fromisoformat(clean)
-        else:
-            dt = datetime.strptime(clean, "%Y-%m-%d %H:%M:%S")
-        now = datetime.now()
-        if dt.date() == now.date():
-            return "Today"
-        elif dt.date() == (now - timedelta(days=1)).date():
-            return "Yesterday"
-        else:
-            return "Earlier"
-    except Exception:
-        return "Earlier"
-
 # ---------------------------------------------------------
-# Environment & Configuration
+# Environment & Configuration (Local .env + Streamlit Secrets)
 # ---------------------------------------------------------
 load_dotenv()
 api_key = os.getenv("GOOGLE_API_KEY") or os.getenv("GEMINI_API_KEY")
+if not api_key:
+    try:
+        api_key = st.secrets.get("GOOGLE_API_KEY") or st.secrets.get("GEMINI_API_KEY")
+    except Exception:
+        pass
 
 # ---------------------------------------------------------
 # Page Setup
@@ -74,15 +59,21 @@ st.set_page_config(
 # ---------------------------------------------------------
 # Image Encoding Helpers (Transparent PNG Assets)
 # ---------------------------------------------------------
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+ASSETS_DIR = os.path.join(BASE_DIR, "assets")
+
 def get_base64_image(image_path):
     if os.path.exists(image_path):
         with open(image_path, "rb") as img_file:
             return base64.b64encode(img_file.read()).decode("utf-8")
     return ""
 
-mighty_raju_img_b64 = get_base64_image("assets/mighty_raju_transparent.png")
-mighty_raju_avatar_b64 = get_base64_image("assets/mighty_raju_avatar_transparent.png")
-avatar_path = "assets/mighty_raju_avatar_transparent.png" if os.path.exists("assets/mighty_raju_avatar_transparent.png") else "⚡"
+MIGHTY_LOGO_PATH = os.path.join(ASSETS_DIR, "mighty_raju_transparent.png")
+MIGHTY_AVATAR_PATH = os.path.join(ASSETS_DIR, "mighty_raju_avatar_transparent.png")
+
+mighty_raju_img_b64 = get_base64_image(MIGHTY_LOGO_PATH)
+mighty_raju_avatar_b64 = get_base64_image(MIGHTY_AVATAR_PATH)
+avatar_path = MIGHTY_AVATAR_PATH if os.path.exists(MIGHTY_AVATAR_PATH) else "⚡"
 
 # ---------------------------------------------------------
 # Mighty Raju Superhero Theme Styling

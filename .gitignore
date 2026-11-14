@@ -1,18 +1,24 @@
-# Virtual Environment
+# Virtual Environments
 .venv/
 venv/
 ENV/
 env/
+ENV*/
 
-# Environment Variables
+# Environment Variables & Secrets
 .env
-.env.local
+.env.*
+!.env.example
+.streamlit/secrets.toml
+.streamlit/
 
-# Database
+# Local SQLite Database (Contains private user conversation history)
 *.db
+*.sqlite
 *.sqlite3
+mighty_raju_chats.db
 
-# Python Cache
+# Python Bytecode & Cache
 __pycache__/
 *.py[cod]
 *$py.class
@@ -20,11 +26,15 @@ __pycache__/
 .pytest_cache/
 .mypy_cache/
 
-# IDE & Editor files
+# IDE & Editor Configuration
 .vscode/
 .idea/
 *.swp
+*.swo
 
-# OS Specific
+# Operating System Temporary & Metadata Files
 .DS_Store
 Thumbs.db
+desktop.ini
+*.tmp
+*.bak
