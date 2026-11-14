@@ -315,6 +315,7 @@ st.markdown("""
     }
     [data-testid="stSidebarUserContent"] {
         padding-top: 0.65rem !important;
+        padding-bottom: 75px !important;
     }
 
     /* Profile Brand Header - Kept high at top with prominent logo and clean space */
@@ -776,28 +777,53 @@ st.markdown("""
         transform: translateY(-1px) !important;
     }
 
-    /* Sidebar Pinned Bottom Footer (No Wavy Banner) */
+    /* Sidebar Pinned Bottom Footer - Fixed to the very bottom of the sidebar */
     .sidebar-footer-container {
-        margin-top: auto;
-        padding-top: var(--space-xs, 4px);
-        text-align: center;
-        flex-shrink: 0;
+        position: fixed !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        width: 300px !important;
+        padding: 8px 12px 10px 12px !important;
+        background: #ffffff !important;
+        border-top: 1.5px solid var(--border-subtle, #fee2e2) !important;
+        box-sizing: border-box !important;
+        z-index: 999 !important;
+    }
+    @media (max-width: 768px) {
+        .sidebar-footer-container {
+            width: 100vw !important;
+        }
     }
     .sidebar-footer-card {
-        border-top: 1px solid var(--border-subtle, #fee2e2);
-        padding-top: var(--space-sm, 8px);
-        padding-bottom: var(--space-xs, 4px);
+        padding: 7px 10px;
         text-align: center;
-        color: var(--text-muted, #64748b);
-        font-size: var(--font-size-meta, 12px);
+        color: var(--text-secondary, #334155);
+        font-size: 12.5px;
         display: flex;
         align-items: center;
         justify-content: center;
         gap: 6px;
-        font-weight: 500;
+        font-weight: 600;
+        background: #fff8f8;
+        border: 1px solid #fee2e2;
+        border-radius: 10px;
+        box-shadow: 0 1px 4px rgba(186, 0, 1, 0.04);
+        white-space: nowrap;
     }
     .sidebar-footer-card span {
-        color: var(--text-secondary, #475569);
+        color: var(--text-primary, #0f172a);
+        font-weight: 700;
+        font-size: 12.5px;
+        letter-spacing: -0.1px;
+        white-space: nowrap;
+    }
+    .engine-lightning-icon {
+        flex-shrink: 0;
+        filter: drop-shadow(0 1px 2px rgba(234, 179, 8, 0.5));
+    }
+    .engine-info-icon {
+        flex-shrink: 0;
+        cursor: pointer;
     }
 
     /* Sidebar Views (Search, Saved, Projects headers) */
@@ -1621,13 +1647,19 @@ with st.sidebar:
             </div>
             """, unsafe_allow_html=True)
 
-        # 5. Sidebar Bottom Tech Stack Footer (Red Superhero Theme, Pinned)
+        # 5. Sidebar Bottom Tech Stack Footer (Pinned at Bottom, Bigger Size, Golden Yellow Lightning)
         st.markdown("""
         <div class="sidebar-footer-container">
             <div class="sidebar-footer-card">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="#BA0001" stroke="#BA0001" stroke-width="1"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+                <svg class="engine-lightning-icon" width="20" height="20" viewBox="0 0 24 24" fill="#FACC15" stroke="#EAB308" stroke-width="1.2">
+                    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                </svg>
                 <span>Engine: Gemini 1.5 Flash Lite</span>
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                <svg class="engine-info-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="16" x2="12" y2="12"></line>
+                    <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                </svg>
             </div>
         </div>
         """, unsafe_allow_html=True)
