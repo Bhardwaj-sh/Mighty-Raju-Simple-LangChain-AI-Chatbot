@@ -135,7 +135,7 @@ st.markdown("""
         backdrop-filter: none !important;
         box-shadow: none !important;
         border: none !important;
-        padding: 1.5rem 1rem !important;
+        padding: 0.75rem 0.85rem !important;
         margin: 0 !important;
     }
 
@@ -143,30 +143,31 @@ st.markdown("""
     .brand-header {
         display: flex;
         align-items: center;
-        gap: 12px;
-        padding: 0.2rem 0.2rem 1rem 0.2rem;
+        gap: 10px;
+        padding: 0 0.1rem 0.4rem 0.1rem;
     }
     .brand-avatar-img {
-        width: 46px;
-        height: 46px;
+        width: 40px;
+        height: 40px;
         border-radius: 50%;
         object-fit: contain;
         background: #ffffff !important;
         padding: 2px;
-        border: 2.5px solid #BA0001 !important;
-        box-shadow: 0 4px 14px rgba(186, 0, 1, 0.35) !important;
+        border: 2px solid #BA0001 !important;
+        box-shadow: 0 3px 10px rgba(186, 0, 1, 0.3) !important;
     }
     .brand-name {
-        font-size: 1.25rem;
+        font-size: 1.15rem;
         font-weight: 800;
         letter-spacing: 0.5px;
         color: #0f172a;
+        line-height: 1.2;
     }
     .brand-name span {
         color: #BA0001;
     }
     .brand-sub {
-        font-size: 0.75rem;
+        font-size: 0.72rem;
         color: #991b1b;
         font-weight: 600;
     }
@@ -177,13 +178,17 @@ st.markdown("""
         color: #ffffff !important;
         border: none !important;
         font-weight: 700 !important;
-        border-radius: 12px !important;
-        box-shadow: 0 4px 14px rgba(186, 0, 1, 0.35) !important;
+        border-radius: 10px !important;
+        min-height: 38px !important;
+        height: 38px !important;
+        padding: 0 8px !important;
+        font-size: 0.84rem !important;
+        box-shadow: 0 3px 10px rgba(186, 0, 1, 0.3) !important;
         transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
     }
     div.st-key-sb_btn_new button:hover {
-        transform: translateY(-2px) !important;
-        box-shadow: 0 6px 20px rgba(186, 0, 1, 0.45) !important;
+        transform: translateY(-1px) !important;
+        box-shadow: 0 5px 15px rgba(186, 0, 1, 0.4) !important;
         background: linear-gradient(135deg, #FF4545 0%, #F02828 50%, #C70001 100%) !important;
         color: #ffffff !important;
     }
@@ -191,7 +196,11 @@ st.markdown("""
         background: #ffffff !important;
         color: #475569 !important;
         border: 1px solid #e2e8f0 !important;
-        border-radius: 12px !important;
+        border-radius: 10px !important;
+        min-height: 38px !important;
+        height: 38px !important;
+        padding: 0 8px !important;
+        font-size: 0.84rem !important;
         font-weight: 600 !important;
         transition: all 0.2s ease !important;
     }
@@ -204,13 +213,31 @@ st.markdown("""
     /* Sidebar Navigation Buttons */
     div.st-key-nav_btn_search button,
     div.st-key-nav_btn_saved button,
-    div.st-key-nav_btn_projects button,
+    div.st-key-nav_btn_projects button {
+        background: #ffffff !important;
+        border: 1px solid #fee2e2 !important;
+        border-radius: 10px !important;
+        color: #334155 !important;
+        font-weight: 600 !important;
+        min-height: 35px !important;
+        height: 35px !important;
+        padding: 0 12px !important;
+        font-size: 0.82rem !important;
+        margin-bottom: 2px !important;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.02) !important;
+        transition: all 0.2s ease !important;
+    }
     div.st-key-btn_view_all_chats button {
         background: #ffffff !important;
         border: 1px solid #fee2e2 !important;
-        border-radius: 12px !important;
+        border-radius: 10px !important;
         color: #334155 !important;
         font-weight: 600 !important;
+        min-height: 30px !important;
+        height: 30px !important;
+        padding: 0 10px !important;
+        font-size: 0.76rem !important;
+        margin-top: 2px !important;
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.02) !important;
         transition: all 0.2s ease !important;
     }
@@ -227,12 +254,12 @@ st.markdown("""
 
     /* Sidebar Section Divider & Header */
     .sidebar-section-title {
-        font-size: 0.75rem;
+        font-size: 0.7rem;
         font-weight: 700;
         text-transform: uppercase;
         letter-spacing: 0.8px;
         color: #991b1b;
-        margin: 1.2rem 0.2rem 0.6rem 0.2rem;
+        margin: 0.6rem 0.2rem 0.3rem 0.2rem;
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -243,12 +270,12 @@ st.markdown("""
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding-bottom: 0.6rem;
-        margin-bottom: 0.8rem;
+        padding-bottom: 0.5rem;
+        margin-bottom: 0.6rem;
         border-bottom: 1px solid #fee2e2;
     }
     .view-title {
-        font-size: 0.95rem;
+        font-size: 0.9rem;
         font-weight: 700;
         color: #1e293b;
         display: flex;
@@ -260,10 +287,10 @@ st.markdown("""
     .sidebar-card {
         background: #ffffff;
         border: 1px solid #fee2e2;
-        border-radius: 10px;
-        padding: 8px 10px;
-        margin-bottom: 6px;
-        font-size: 0.85rem;
+        border-radius: 8px;
+        padding: 6px 8px;
+        margin-bottom: 4px;
+        font-size: 0.8rem;
         transition: all 0.15s ease;
     }
     .sidebar-card:hover {
@@ -271,14 +298,20 @@ st.markdown("""
         background: #fff5f5;
     }
 
-    /* Recent chat buttons */
+    /* Recent chat buttons - more compact and smaller */
     div[class*="st-key-rc_btn_"] button {
-        border-radius: 10px !important;
-        border: 1px solid #f8fafc !important;
+        border-radius: 8px !important;
+        border: 1px solid #f1f5f9 !important;
         background: #ffffff !important;
         color: #334155 !important;
-        font-size: 0.85rem !important;
+        font-size: 0.78rem !important;
+        min-height: 32px !important;
+        height: 32px !important;
+        padding: 0 10px !important;
+        margin-bottom: 2px !important;
         transition: all 0.15s ease !important;
+        text-align: left !important;
+        justify-content: flex-start !important;
     }
     div[class*="st-key-rc_btn_"] button:hover {
         border-color: #fca5a5 !important;
@@ -739,7 +772,7 @@ with st.sidebar:
             st.session_state.pending_prompt = None
             st.rerun()
 
-    st.markdown("<hr style='margin: 0.8rem 0; border: none; border-top: 1px solid #e2e8f0;'>", unsafe_allow_html=True)
+    st.markdown("<hr style='margin: 0.4rem 0 0.45rem 0; border: none; border-top: 1px solid #fee2e2;'>", unsafe_allow_html=True)
 
     # =========================================================
     # SIDEBAR MODE: SEARCH CHATS
@@ -1011,10 +1044,9 @@ with st.sidebar:
 
     # Sidebar Bottom Tech Stack Footer
     st.markdown("""
-    <div style="margin-top: 1.8rem; padding: 12px; background: #ffffff; border-radius: 12px; border: 1px solid #e2e8f0; font-size: 0.78rem; color: #64748b;">
-        <strong style="color: #334155;">⚡ Engine:</strong> Gemini 3.5 Flash-Lite (High Speed)<br>
-        <strong style="color: #334155;">🔗 LangChain:</strong> v1.5.0<br>
-        <strong style="color: #334155;">💾 Storage:</strong> SQLite (Persistent)
+    <div style="margin-top: 0.8rem; padding: 8px 10px; background: #ffffff; border-radius: 10px; border: 1px solid #fee2e2; font-size: 0.72rem; color: #64748b; line-height: 1.45;">
+        <strong style="color: #334155;">⚡ Engine:</strong> Gemini 3.5 Flash-Lite<br>
+        <strong style="color: #334155;">🔗 LangChain:</strong> v1.5.0 • <strong style="color: #334155;">💾 Storage:</strong> SQLite
     </div>
     """, unsafe_allow_html=True)
 
