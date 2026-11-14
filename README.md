@@ -1,12 +1,15 @@
 # ⚡ MightyRaju AI Chatbot
 
-[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://streamlit.io)
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://mighty-raju-chatbot.streamlit.app/)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
 [![LangChain](https://img.shields.io/badge/LangChain-Orchestration-orange.svg)](https://www.langchain.com/)
 [![Google Gemini](https://img.shields.io/badge/Google%20Gemini-AI%20Engine-8E75C4.svg)](https://aistudio.google.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
 An intelligent, superhero-themed conversational AI web application built with **Streamlit**, **LangChain**, and the **Google Gemini API**, featuring persistent chat history powered by **SQLite**. Designed with a modern, glassmorphic UI and character identity inspired by *Mighty Raju*.
+
+> 🚀 **Live Demo**: Experience MightyRaju AI Chatbot live in your browser:  
+> 👉 **[https://mighty-raju-chatbot.streamlit.app/](https://mighty-raju-chatbot.streamlit.app/)**
 
 ---
 
