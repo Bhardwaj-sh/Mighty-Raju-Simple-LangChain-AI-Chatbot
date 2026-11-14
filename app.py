@@ -37,51 +37,61 @@ mighty_raju_avatar_b64 = get_base64_image("assets/mighty_raju_avatar_transparent
 avatar_path = "assets/mighty_raju_avatar_transparent.png" if os.path.exists("assets/mighty_raju_avatar_transparent.png") else "⚡"
 
 # ---------------------------------------------------------
-# ZAY-G Inspired Glassmorphic Aesthetic Styling
+# Mighty Raju Superhero Theme Styling
 # ---------------------------------------------------------
 st.markdown("""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 
-    /* Global canvas with soft dreamy pastel gradient */
-    html, body, [data-testid="stAppViewContainer"] {
+    /* Global canvas in bright Mighty Raju superhero red matching avatar */
+    html, body, .stApp, [data-testid="stAppViewContainer"] {
         font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif !important;
-        background: linear-gradient(135deg, #cde3fc 0%, #e0e7ff 40%, #ede9fe 75%, #fce7f3 100%) !important;
+        background: linear-gradient(135deg, #FF221E 0%, #E51D1D 32%, #BA0001 72%, #850001 100%) !important;
         background-attachment: fixed !important;
+        background-size: cover !important;
+        min-height: 100vh !important;
         color: #1e293b !important;
     }
 
-    [data-testid="stHeader"] {
+    [data-testid="stHeader"], footer {
+        display: none !important;
+    }
+
+    [data-testid="stBottom"],
+    [data-testid="stBottom"] > div,
+    [data-testid="stBottomBlockContainer"] {
         background: transparent !important;
+        background-color: transparent !important;
+        box-shadow: none !important;
     }
 
     /* Main glassmorphic card container */
     .block-container {
-        background: rgba(255, 255, 255, 0.85) !important;
+        background: rgba(255, 255, 255, 0.96) !important;
         backdrop-filter: blur(28px) saturate(180%) !important;
         -webkit-backdrop-filter: blur(28px) saturate(180%) !important;
-        border: 1px solid rgba(255, 255, 255, 0.95) !important;
+        border: 1.5px solid rgba(255, 255, 255, 0.95) !important;
         border-radius: 28px !important;
-        box-shadow: 0 25px 60px -15px rgba(99, 102, 241, 0.15), 0 0 0 1px rgba(255, 255, 255, 0.8) !important;
-        padding: 1.8rem 2.6rem 4rem 2.6rem !important;
-        margin-top: 1.5rem !important;
+        box-shadow: 0 25px 65px -12px rgba(133, 0, 1, 0.38), 0 0 0 1px rgba(255, 255, 255, 0.8) !important;
+        padding: 2.2rem 2.6rem 3.5rem 2.6rem !important;
+        margin-top: 2rem !important;
         margin-bottom: 2rem !important;
         max-width: 980px !important;
     }
 
     /* Sidebar Styling */
     section[data-testid="stSidebar"] {
-        background: rgba(248, 250, 252, 0.92) !important;
+        background: rgba(255, 252, 252, 0.96) !important;
         backdrop-filter: blur(20px) !important;
         -webkit-backdrop-filter: blur(20px) !important;
-        border-right: 1px solid rgba(226, 232, 240, 0.85) !important;
+        border-right: 1.5px solid rgba(254, 226, 226, 0.85) !important;
     }
     section[data-testid="stSidebar"] .block-container {
         background: transparent !important;
         backdrop-filter: none !important;
         box-shadow: none !important;
         border: none !important;
-        padding: 1.2rem 1rem !important;
+        padding: 1.5rem 1rem !important;
         margin: 0 !important;
     }
 
@@ -93,13 +103,14 @@ st.markdown("""
         padding: 0.2rem 0.2rem 1rem 0.2rem;
     }
     .brand-avatar-img {
-        width: 44px;
-        height: 44px;
+        width: 46px;
+        height: 46px;
         border-radius: 50%;
-        object-fit: cover;
-        background: transparent !important;
-        border: 2px solid #5b54fa;
-        box-shadow: 0 4px 12px rgba(91, 84, 250, 0.3);
+        object-fit: contain;
+        background: #ffffff !important;
+        padding: 2px;
+        border: 2.5px solid #BA0001 !important;
+        box-shadow: 0 4px 14px rgba(186, 0, 1, 0.35) !important;
     }
     .brand-name {
         font-size: 1.25rem;
@@ -107,10 +118,67 @@ st.markdown("""
         letter-spacing: 0.5px;
         color: #0f172a;
     }
+    .brand-name span {
+        color: #BA0001;
+    }
     .brand-sub {
         font-size: 0.75rem;
-        color: #64748b;
-        font-weight: 500;
+        color: #991b1b;
+        font-weight: 600;
+    }
+
+    /* Primary Sidebar Buttons */
+    div.st-key-sb_btn_new button {
+        background: linear-gradient(135deg, #FF2E2E 0%, #E51D1D 50%, #BA0001 100%) !important;
+        color: #ffffff !important;
+        border: none !important;
+        font-weight: 700 !important;
+        border-radius: 12px !important;
+        box-shadow: 0 4px 14px rgba(186, 0, 1, 0.35) !important;
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    }
+    div.st-key-sb_btn_new button:hover {
+        transform: translateY(-2px) !important;
+        box-shadow: 0 6px 20px rgba(186, 0, 1, 0.45) !important;
+        background: linear-gradient(135deg, #FF4545 0%, #F02828 50%, #C70001 100%) !important;
+        color: #ffffff !important;
+    }
+    div.st-key-sb_btn_clear button {
+        background: #ffffff !important;
+        color: #475569 !important;
+        border: 1px solid #e2e8f0 !important;
+        border-radius: 12px !important;
+        font-weight: 600 !important;
+        transition: all 0.2s ease !important;
+    }
+    div.st-key-sb_btn_clear button:hover {
+        border-color: #fca5a5 !important;
+        color: #BA0001 !important;
+        background: #fff5f5 !important;
+    }
+
+    /* Sidebar Navigation Buttons */
+    div.st-key-nav_btn_search button,
+    div.st-key-nav_btn_saved button,
+    div.st-key-nav_btn_projects button,
+    div.st-key-btn_view_all_chats button {
+        background: #ffffff !important;
+        border: 1px solid #fee2e2 !important;
+        border-radius: 12px !important;
+        color: #334155 !important;
+        font-weight: 600 !important;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.02) !important;
+        transition: all 0.2s ease !important;
+    }
+    div.st-key-nav_btn_search button:hover,
+    div.st-key-nav_btn_saved button:hover,
+    div.st-key-nav_btn_projects button:hover,
+    div.st-key-btn_view_all_chats button:hover {
+        border-color: #f87171 !important;
+        color: #BA0001 !important;
+        background: #fff5f5 !important;
+        transform: translateY(-1px) !important;
+        box-shadow: 0 4px 12px rgba(186, 0, 1, 0.1) !important;
     }
 
     /* Sidebar Section Divider & Header */
@@ -119,7 +187,7 @@ st.markdown("""
         font-weight: 700;
         text-transform: uppercase;
         letter-spacing: 0.8px;
-        color: #64748b;
+        color: #991b1b;
         margin: 1.2rem 0.2rem 0.6rem 0.2rem;
         display: flex;
         justify-content: space-between;
@@ -133,7 +201,7 @@ st.markdown("""
         justify-content: space-between;
         padding-bottom: 0.6rem;
         margin-bottom: 0.8rem;
-        border-bottom: 1px solid #e2e8f0;
+        border-bottom: 1px solid #fee2e2;
     }
     .view-title {
         font-size: 0.95rem;
@@ -147,7 +215,7 @@ st.markdown("""
     /* Sidebar Item Cards */
     .sidebar-card {
         background: #ffffff;
-        border: 1px solid #e2e8f0;
+        border: 1px solid #fee2e2;
         border-radius: 10px;
         padding: 8px 10px;
         margin-bottom: 6px;
@@ -155,8 +223,23 @@ st.markdown("""
         transition: all 0.15s ease;
     }
     .sidebar-card:hover {
-        border-color: #c7d2fe;
-        background: #f8fafc;
+        border-color: #fca5a5;
+        background: #fff5f5;
+    }
+
+    /* Recent chat buttons */
+    div[class*="st-key-rc_btn_"] button {
+        border-radius: 10px !important;
+        border: 1px solid #f8fafc !important;
+        background: #ffffff !important;
+        color: #334155 !important;
+        font-size: 0.85rem !important;
+        transition: all 0.15s ease !important;
+    }
+    div[class*="st-key-rc_btn_"] button:hover {
+        border-color: #fca5a5 !important;
+        color: #BA0001 !important;
+        background: #fff5f5 !important;
     }
 
     /* Empty state info */
@@ -166,21 +249,35 @@ st.markdown("""
         color: #64748b;
         font-size: 0.85rem;
         line-height: 1.5;
-        background: rgba(241, 245, 249, 0.6);
+        background: rgba(254, 242, 242, 0.6);
         border-radius: 12px;
-        border: 1px dashed #cbd5e1;
+        border: 1px dashed #fca5a5;
         margin: 0.6rem 0;
     }
 
-    /* Integrated Avatar Stage */
+    /* Integrated Avatar Stage with Superhero Red Halo */
     .avatar-stage {
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        margin: 0.8rem auto 0.4rem auto;
+        margin: 0.5rem auto 0.4rem auto;
         position: relative;
         background: transparent !important;
+    }
+    .avatar-stage::before {
+        content: '';
+        position: absolute;
+        width: 250px;
+        height: 250px;
+        background: radial-gradient(circle, rgba(255, 46, 46, 0.18) 0%, rgba(186, 0, 1, 0.08) 50%, transparent 72%);
+        border: 2px dashed rgba(229, 29, 29, 0.25);
+        border-radius: 50%;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -54%);
+        z-index: 0;
+        pointer-events: none;
     }
 
     .avatar-figure {
@@ -189,10 +286,12 @@ st.markdown("""
         animation: rajuIdle 5.5s ease-in-out infinite;
         transform-origin: 50% 95%;
         background: transparent !important;
+        z-index: 1;
     }
 
     .raju-standing-character {
-        height: 220px;
+        height: 200px;
+        max-height: 200px;
         width: auto;
         display: block;
         object-fit: contain;
@@ -239,11 +338,12 @@ st.markdown("""
     }
 
     .avatar-ground-shadow {
-        width: 120px;
+        width: 130px;
         height: 12px;
-        background: radial-gradient(ellipse at center, rgba(67, 56, 202, 0.22) 0%, rgba(99, 102, 241, 0.07) 55%, transparent 75%);
+        background: radial-gradient(ellipse at center, rgba(186, 0, 1, 0.3) 0%, rgba(229, 29, 29, 0.1) 55%, transparent 75%);
         border-radius: 50%;
-        margin-top: -8px;
+        margin-top: -6px;
+        z-index: 1;
         animation: shadowPulse 5.5s ease-in-out infinite;
     }
     @keyframes shadowPulse {
@@ -256,21 +356,28 @@ st.markdown("""
         font-size: 2.1rem;
         font-weight: 800;
         color: #0f172a;
-        margin: 0.6rem 0 1.5rem 0;
+        margin: 0.6rem 0 0.2rem 0;
         letter-spacing: -0.5px;
+    }
+    .center-subgreeting {
+        text-align: center;
+        font-size: 0.95rem;
+        color: #64748b;
+        font-weight: 500;
+        margin-bottom: 1.5rem;
     }
 
     /* Suggestion Chips */
     div[data-testid="stButton"] > button {
         background: #ffffff !important;
-        border: 1px solid #e2e8f0 !important;
-        color: #334155 !important;
-        border-radius: 9999px !important;
-        padding: 0.55rem 1rem !important;
-        font-size: 0.82rem !important;
+        border: 1px solid #fee2e2 !important;
+        color: #1e293b !important;
+        border-radius: 14px !important;
+        padding: 0.75rem 1rem !important;
+        font-size: 0.86rem !important;
         font-weight: 600 !important;
         transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.03) !important;
+        box-shadow: 0 2px 8px rgba(186, 0, 1, 0.04) !important;
         display: flex !important;
         align-items: center !important;
         justify-content: center !important;
@@ -278,11 +385,11 @@ st.markdown("""
         width: 100% !important;
     }
     div[data-testid="stButton"] > button:hover {
-        background: #f8fafc !important;
-        border-color: #6366f1 !important;
-        color: #4f46e5 !important;
-        transform: translateY(-2px);
-        box-shadow: 0 5px 14px rgba(99, 102, 241, 0.16) !important;
+        background: #fff5f5 !important;
+        border-color: #BA0001 !important;
+        color: #BA0001 !important;
+        transform: translateY(-2px) !important;
+        box-shadow: 0 6px 18px rgba(186, 0, 1, 0.16) !important;
     }
 
     /* Base Chat Message */
@@ -294,13 +401,13 @@ st.markdown("""
         line-height: 1.6 !important;
     }
 
-    /* User Message Bubble: Vibrant Purple/Blue Gradient */
+    /* User Message Bubble: Superhero Red Gradient */
     div[data-testid="stChatMessage"][aria-label*="user"],
     div[data-testid="stChatMessage"]:has(div[data-testid="chatAvatarIcon-user"]) {
-        background: linear-gradient(135deg, #5b54fa 0%, #4338ca 100%) !important;
+        background: linear-gradient(135deg, #FF2E2E 0%, #E51D1D 45%, #BA0001 100%) !important;
         border: none !important;
         border-bottom-right-radius: 4px !important;
-        box-shadow: 0 6px 20px rgba(91, 84, 250, 0.25) !important;
+        box-shadow: 0 6px 20px rgba(186, 0, 1, 0.25) !important;
     }
     div[data-testid="stChatMessage"][aria-label*="user"] p,
     div[data-testid="stChatMessage"][aria-label*="user"] span,
@@ -309,13 +416,13 @@ st.markdown("""
         color: #ffffff !important;
     }
 
-    /* Assistant Message Bubble: Crisp White with Soft Shadow */
+    /* Assistant Message Bubble: Crisp White with Soft Red Accent */
     div[data-testid="stChatMessage"][aria-label*="assistant"],
     div[data-testid="stChatMessage"]:has(img[src*="mighty_raju_avatar"]) {
         background: #ffffff !important;
-        border: 1px solid #e2e8f0 !important;
+        border: 1px solid #fee2e2 !important;
         border-bottom-left-radius: 4px !important;
-        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05) !important;
+        box-shadow: 0 4px 16px rgba(186, 0, 1, 0.06) !important;
     }
     div[data-testid="stChatMessage"][aria-label*="assistant"] p,
     div[data-testid="stChatMessage"][aria-label*="assistant"] span,
@@ -328,22 +435,22 @@ st.markdown("""
     div[data-testid="stChatMessage"] img {
         border-radius: 50% !important;
         object-fit: cover !important;
-        background: transparent !important;
-        border: 2px solid #5b54fa !important;
-        box-shadow: 0 2px 8px rgba(91, 84, 250, 0.2) !important;
+        background: #ffffff !important;
+        border: 2px solid #BA0001 !important;
+        box-shadow: 0 2px 8px rgba(186, 0, 1, 0.25) !important;
     }
 
     /* Chat Input Pill */
     div[data-testid="stChatInput"] {
         background: #ffffff !important;
         border-radius: 9999px !important;
-        border: 1px solid #e2e8f0 !important;
-        box-shadow: 0 8px 30px rgba(91, 84, 250, 0.12) !important;
+        border: 1.5px solid #fee2e2 !important;
+        box-shadow: 0 8px 30px rgba(186, 0, 1, 0.12) !important;
         padding: 4px 14px !important;
     }
     div[data-testid="stChatInput"]:focus-within {
-        border-color: #5b54fa !important;
-        box-shadow: 0 0 0 3px rgba(91, 84, 250, 0.2) !important;
+        border-color: #BA0001 !important;
+        box-shadow: 0 0 0 3px rgba(186, 0, 1, 0.18) !important;
     }
     div[data-testid="stChatInput"] > div,
     div[data-testid="stChatInput"] [data-baseweb="base-input"],
@@ -362,8 +469,28 @@ st.markdown("""
         background: transparent !important;
     }
     div[data-testid="stChatInput"] button {
+        background: linear-gradient(135deg, #FF2E2E 0%, #E51D1D 50%, #BA0001 100%) !important;
+        border-radius: 50% !important;
+        color: #ffffff !important;
         border: none !important;
-        outline: none !important;
+        width: 38px !important;
+        height: 38px !important;
+        min-height: 38px !important;
+        padding: 0 !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        box-shadow: 0 3px 10px rgba(186, 0, 1, 0.35) !important;
+        transition: all 0.2s ease !important;
+    }
+    div[data-testid="stChatInput"] button:hover {
+        transform: scale(1.06) !important;
+        box-shadow: 0 5px 16px rgba(186, 0, 1, 0.5) !important;
+        background: linear-gradient(135deg, #FF4545 0%, #F02828 50%, #C70001 100%) !important;
+    }
+    div[data-testid="stChatInput"] button svg {
+        fill: #ffffff !important;
+        color: #ffffff !important;
     }
 
     /* Top Navigation bar */
@@ -373,19 +500,20 @@ st.markdown("""
         align-items: center;
         padding-bottom: 0.9rem;
         margin-bottom: 1.2rem;
-        border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+        border-bottom: 1px solid rgba(254, 226, 226, 0.8);
     }
     .top-model-pill {
         display: flex;
         align-items: center;
         gap: 6px;
         background: #ffffff;
-        border: 1px solid #e2e8f0;
-        padding: 5px 12px;
+        border: 1px solid #fee2e2;
+        padding: 5px 14px;
         border-radius: 9999px;
         font-size: 0.82rem;
         font-weight: 600;
         color: #334155;
+        box-shadow: 0 2px 6px rgba(186, 0, 1, 0.05);
     }
     .top-status-dot {
         width: 8px;
@@ -854,26 +982,27 @@ if len(st.session_state.messages) == 0:
 
     st.markdown(f"""
     {mascot_html}
-    <div class="center-greeting">How can I help you today?</div>
+    <div class="center-greeting">Hey, I'm <span style="color: #BA0001; font-weight: 800;">Mighty Raju</span>! 👋</div>
+    <div class="center-subgreeting">Your AI companion. Ask me anything and let's figure it out together.</div>
     """, unsafe_allow_html=True)
 
-    # Action chips below prompt
+    # Action chips below prompt matching approved reference
     chip_col1, chip_col2, chip_col3, chip_col4 = st.columns(4)
     with chip_col1:
-        if st.button("💡 Concept Explainer", key="chip_1", use_container_width=True):
-            st.session_state.pending_prompt = "Explain an important programming or computer science concept in simple terms with an example."
+        if st.button("</> Explain Code", key="chip_1", use_container_width=True):
+            st.session_state.pending_prompt = "Explain programming concepts step by step with clear, intuitive examples."
             st.rerun()
     with chip_col2:
-        if st.button("🐍 Python Helper", key="chip_2", use_container_width=True):
-            st.session_state.pending_prompt = "Help me write clean, well-commented Python code for a practical task."
+        if st.button("💡 Brainstorm Ideas", key="chip_2", use_container_width=True):
+            st.session_state.pending_prompt = "Explore creative ideas and find inspiration for an exciting project."
             st.rerun()
     with chip_col3:
-        if st.button("🤖 Explain AI", key="chip_3", use_container_width=True):
-            st.session_state.pending_prompt = "Explain artificial intelligence, machine learning, and LLMs in an intuitive, engaging way."
+        if st.button("📖 Learn Something", key="chip_3", use_container_width=True):
+            st.session_state.pending_prompt = "Discover and understand new topics across science, technology, and learning."
             st.rerun()
     with chip_col4:
-        if st.button("🚀 Brainstorm Ideas", key="chip_4", use_container_width=True):
-            st.session_state.pending_prompt = "Brainstorm 3 creative, high-impact AI project ideas that solve real-world problems."
+        if st.button("✏️ Writing Help", key="chip_4", use_container_width=True):
+            st.session_state.pending_prompt = "Write, improve, and refine content with creative and articulate phrasing."
             st.rerun()
 
 # ---------------------------------------------------------
